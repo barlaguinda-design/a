@@ -1,0 +1,33 @@
+1. Simulador de Yu-Gi-Oh! (HTML/CSS/JS nativo)
+arthastheking113/yugioh-simulator
+🔗 https://github.com/arthastheking113/yugioh-simulator
+Simulador limpio sin frameworks pesados. Ideal para ver la lógica de fases de juego, zonas del campo y movimiento básico de cartas. 
+2. Framework para juegos de mesa (React / JS)
+boardgame.io
+🔗 Repo: https://github.com/boardgameio/boardgame.io
+🔗 Web oficial: https://boardgame.io/
+Framework open-source para gestionar estado de juegos por turnos. Soporta React, React Native y vanilla JS. 
+3. Extensión de animaciones para boardgame.io
+bgio-effects
+🔗 Repo: https://github.com/delucis/bgio-effects (inferido de la web)
+🔗 Documentación: https://delucis.github.io/bgio-effects/
+Resuelve el problema de las actualizaciones bruscas en React: permite lanzar efectos secuenciales (animaciones) y pausar la actualización visual hasta que terminen. 
+4. Librería de animaciones para React
+Framer Motion (ahora llamado Motion)
+🔗 Repo: https://github.com/motiondivision/motion
+🔗 Web oficial: https://motion.dev/
+Perfecta para drag & drop de cartas, card flip, escalado al hover y transiciones de layout. Ahora se instala como npm install motion. 
+5. Animaciones complejas y timelines
+GSAP (GreenSock Animation Platform)
+🔗 Repo: https://github.com/greensock/gsap
+🔗 Web oficial: https://gsap.com/
+Librería gratuita para animaciones encadenadas complejas (brillo → movimiento → explosión). Incluye plugin Flip para animaciones de cambio de layout. Desde 2024 es 100% gratis incluyendo todos los plugins. 
+6. Renderizado 3D en React (para tablero con shaders)
+@react-three/fiber
+🔗 Repo: https://github.com/pmndrs/react-three-fiber
+🔗 Documentación: https://r3f.docs.pmnd.rs/
+React renderer para Three.js. Útil si quieres hacer el tablero con perspectiva 3D, shaders WebGL para efectos de oleaje/tormenta según la facción, etc. 
+Bonus: helpers 3D para R3F
+@react-three/drei
+🔗 https://github.com/pmndrs/drei
+Colección de helpers listos para usar: controles de cámara, luces, sombras, efectos de post-procesado, etc. 

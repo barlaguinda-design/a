@@ -1,0 +1,1540 @@
+/* Estilos de Mythos Guerra Dioses — Fase 1 y 2 (sin frameworks) */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+@keyframes girar { to { transform: rotate(360deg); } }
+@keyframes forjarAltar {
+  0% { transform: scale(.3) rotateY(90deg); opacity: 0; }
+  55% { transform: scale(1.15) rotateY(0deg); opacity: 1; }
+  100% { transform: scale(1); }
+}
+/* Misma forja para las piezas que se centran con translateX(-50%): hay que repetir el
+   desplazamiento en cada fotograma o la animación lo borra y la pieza salta a la derecha
+   mientras dura. */
+@keyframes forjarAltarCentrado {
+  0% { transform: translateX(-50%) scale(.3) rotateY(90deg); opacity: 0; }
+  55% { transform: translateX(-50%) scale(1.15) rotateY(0deg); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1); }
+}
+@keyframes corazonRoto {
+  0% { transform: scale(.5); opacity: 1; }
+  16% { transform: scale(1.35); }
+  30% { transform: scale(1) rotate(-9deg); }
+  44% { transform: scale(1.28) rotate(8deg); }
+  58% { transform: scale(1.05) rotate(-5deg); filter: brightness(1.6); }
+  72% { transform: scale(1.55); opacity: 1; filter: brightness(2.3); }
+  100% { transform: scale(2.5); opacity: 0; filter: brightness(3); }
+}
+
+body {
+  margin: 0;
+  /* Cielo estrellado profundo: negro azulado y estrellas lejanas de tres tamaños.
+     Se quitaron a propósito las nebulosas de color que había antes (una violeta y
+     otra azul): el fondo tiene que ser sobrio para no competir con las cartas. El
+     color de cada Dios lo aporta la capa .mg-tinte, que va por encima de esto. */
+  background:
+    /* estrellas pequeñas, las más lejanas */
+    radial-gradient(1px 1px at 6% 17%, rgba(255, 255, 255, .70), transparent 2px),
+    radial-gradient(1px 1px at 17% 61%, rgba(255, 255, 255, .48), transparent 2px),
+    radial-gradient(1px 1px at 27% 29%, rgba(214, 232, 255, .60), transparent 2px),
+    radial-gradient(1px 1px at 34% 88%, rgba(255, 255, 255, .42), transparent 2px),
+    radial-gradient(1px 1px at 46% 12%, rgba(255, 255, 255, .55), transparent 2px),
+    radial-gradient(1px 1px at 53% 74%, rgba(214, 232, 255, .45), transparent 2px),
+    radial-gradient(1px 1px at 61% 40%, rgba(255, 255, 255, .38), transparent 2px),
+    radial-gradient(1px 1px at 69% 92%, rgba(255, 255, 255, .52), transparent 2px),
+    radial-gradient(1px 1px at 76% 23%, rgba(214, 232, 255, .58), transparent 2px),
+    radial-gradient(1px 1px at 84% 66%, rgba(255, 255, 255, .44), transparent 2px),
+    radial-gradient(1px 1px at 92% 35%, rgba(255, 255, 255, .62), transparent 2px),
+    radial-gradient(1px 1px at 97% 80%, rgba(214, 232, 255, .40), transparent 2px),
+    radial-gradient(1px 1px at 12% 45%, rgba(255, 255, 255, .35), transparent 2px),
+    radial-gradient(1px 1px at 40% 55%, rgba(255, 255, 255, .30), transparent 2px),
+    /* estrellas medianas, ligeramente más cálidas */
+    radial-gradient(1.6px 1.6px at 22% 79%, rgba(255, 243, 219, .85), transparent 3px),
+    radial-gradient(1.6px 1.6px at 58% 21%, rgba(255, 255, 255, .80), transparent 3px),
+    radial-gradient(1.6px 1.6px at 88% 50%, rgba(255, 243, 219, .72), transparent 3px),
+    /* dos brillantes, para que el cielo tenga puntos de anclaje */
+    radial-gradient(2.2px 2.2px at 31% 37%, rgba(255, 255, 255, .95), transparent 4px),
+    radial-gradient(2.2px 2.2px at 72% 68%, rgba(226, 240, 255, .88), transparent 4px),
+    /* velo frío muy tenue: evita que el negro quede plano */
+    radial-gradient(ellipse 72% 52% at 50% 38%, rgba(26, 40, 72, .20), transparent 74%),
+    /* base: negro azulado */
+    radial-gradient(ellipse at 50% 45%, #0e131f 0%, #05060b 78%);
+  color: #e8e2d4;
+  font-family: Marcellus, Georgia, serif;
+  min-height: 100vh;
+  overflow: hidden; /* el lienzo se escala para caber: nunca hay scroll */
+}
+
+/* Lienzo de tamaño fijo (1600x1040, ver LIENZO_W/LIENZO_H en js/app.js).
+   El juego se dibuja siempre a este tamaño y el JS lo escala en bloque para
+   encajarlo en la ventana, centrado. Solo escritorio. */
+#juego {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1600px;
+  height: 1040px;
+  transform-origin: 0 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Dos columnas: panel fijo a la izquierda y campo de juego en el centro. */
+.mg-screen {
+  height: 100%;
+  padding: 0 0 258px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.mg-panel {
+  width: 372px;
+  flex: none;
+  /* 110 px arriba: a medio camino entre pegado al borde (28) y centrado (193).
+     El bloque título + carta mide unos 653 px sobre un lienzo de 1040. */
+  padding: 110px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mg-campo {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  /* El tablero de 3 filas es bajo, así que el bloque mano-IA + campo se centra en
+     el alto disponible en vez de quedarse pegado arriba con un hueco debajo. */
+  justify-content: center;
+}
+/* Columna derecha: la botonera. Mide lo mismo que el panel izquierdo a propósito,
+   para que el campo del centro quede centrado respecto a la pantalla. */
+.mg-lateral {
+  width: 372px;
+  flex: none;
+  align-self: stretch; /* ocupa todo el alto para poder centrar la botonera */
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.mg-panel-visor {
+  display: flex;
+  justify-content: center;
+}
+.mg-panel-vacio {
+  width: 100%;
+  text-align: center;
+  color: #6c7385;
+}
+.mg-panel-vacio-marco {
+  /* Mismo tamaño exacto que una carta puesta, para que el panel no salte. */
+  width: 300px;
+  height: 485px;
+  margin: 0 auto;
+  border: 1.5px dashed #333a4a;
+  border-radius: 14px;
+  background: rgba(10, 12, 18, .5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.mg-panel-vacio-txt { font-size: 13px; line-height: 1.6; }
+
+/* mano de la IA: dorsos en fila recta e inclinados, al estilo Yu-Gi-Oh.
+   La perspectiva la pone el contenedor; la fila entera se tumba hacia atrás. */
+.mg-ia-mano {
+  position: relative;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  perspective-origin: 50% 130%;
+  z-index: 5;
+}
+.mg-ia-mano-fila {
+  display: flex;
+  gap: 11px;
+  transform: rotateX(0deg) scale(.8); /* el JS lo sobrescribe según la cámara */
+  transform-style: preserve-3d;
+  will-change: transform; /* misma razón que en .mg-board */
+  /* SIN filter a propósito. Un filtro obliga a una pasada de repintado aparte en cada
+     fotograma, y will-change:transform no la cubre: era el resto de salto de brillos
+     que quedaba arriba. El apagado que hacía `brightness(.84) saturate(.92)` está
+     ahora horneado en los colores del dorso, calculado color a color. */
+  transition: transform .9s cubic-bezier(.4, 0, .2, 1);
+}
+/* Dorso: marco de bronce con borde dorado y óvalo oscuro, en proporción áurea
+   (46x74) para que case con las ilustraciones definitivas de 300x485. */
+.mg-card-back {
+  width: 46px;
+  height: 74px;
+  border-radius: 4px;
+  flex: none;
+  /* Colores ya apagados: son los originales pasados por brightness(.84) saturate(.92),
+     calculados uno a uno. Antes ese apagado lo hacía un `filter`, que costaba un
+     repintado por fotograma y hacía saltar los brillos al terminar la animación. */
+  background:
+    radial-gradient(ellipse 56% 40% at 50% 50%, #170f1f 0%, #08050d 72%),
+    linear-gradient(160deg, #644721, #322311);
+  border: 1.5px solid #af8e3e;
+  box-shadow:
+    0 7px 15px rgba(0, 0, 0, .72),
+    inset 0 0 0 2px rgba(0, 0, 0, .5),
+    inset 0 0 10px rgba(0, 0, 0, .8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #af8e3e;
+  font-family: Cinzel, serif;
+  font-size: 17px;
+  text-shadow: 0 0 9px rgba(175, 142, 62, .8);
+}
+
+/* cabecera */
+.mg-header {
+  text-align: center;
+  margin: 10px 0 6px;
+}
+.mg-kicker {
+  font-family: Cinzel, serif;
+  font-size: 14px;
+  letter-spacing: 8px;
+  color: #d4a941;
+  text-transform: uppercase;
+}
+.mg-header h1 {
+  margin: 3px 0 0;
+  font-family: Cinzel, serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-shadow: 0 0 18px rgba(212, 169, 65, .45);
+}
+.mg-turno {
+  font-size: 13px;
+  color: #8b93a7;
+  margin-top: 5px;
+}
+
+/* tablero */
+.mg-tablero-wrap {
+  padding: 4px 0;
+}
+.mg-puente {
+  width: max-content;
+  margin: 0 auto;
+  perspective: 1100px;
+}
+.mg-board {
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+  transform-origin: 50% 62%;
+  /* Mantiene viva la capa gráfica del tablero. Sin esto, el navegador la crea al
+     empezar la animación de cámara y la destruye al acabar, y en ese ida y vuelta los
+     desenfoques (halo del abismo, sombra de la plataforma) se redibujan de golpe: es
+     el salto de brillos que se veía al asentarse el tablero. */
+  will-change: transform;
+}
+/* mazo y cementerio: flotan sobre las esquinas del tablero, aprovechando el
+   margen lateral de piedra que ya tenía el campo. No ocupan altura propia. */
+.mg-pilas {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 4;
+}
+.mg-pilas.arriba { top: 10px; }
+.mg-pilas.abajo { bottom: 10px; }
+.mg-pila-wrap { text-align: center; width: 48px; }
+.mg-pila {
+  width: 42px;
+  height: 68px;
+  margin: 0 auto;
+  border-radius: 6px;
+  position: relative;
+  background: rgba(10, 13, 20, .5);
+  border: 2px solid #3a4258;
+}
+.mg-pila.con-cartas {
+  background: repeating-linear-gradient(135deg, #1d2436 0 4px, #232c44 4px 8px);
+  border-color: #d4a941;
+}
+.mg-pila-badge {
+  position: absolute;
+  bottom: -7px;
+  right: -7px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #d4a941;
+  color: #141414;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #0b0d13;
+}
+.mg-pila-label {
+  font-size: 7.5px;
+  color: #a89f8c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.mg-frentes {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  /* 100 px de margen lateral: es lo que hace falta para que las casillas de portal
+     (42 px) quepan enteras dentro del panel, separadas de las dos columnas.
+     84 = 60 que se sale el portal (42 de casilla + 18 de separación) + 24 de aire
+     hasta el borde de piedra. Eran 100 cuando las casillas medían 58. */
+  padding: 16px 84px;
+  border-radius: 26px;
+  border: 2px solid #5a4a2e;
+  /* Textura de piedra generada aquí mismo (SVG incrustado): no depende de ningún
+     archivo externo, así que no puede volver a perderse ni pide nada al servidor. */
+  background: linear-gradient(160deg, rgba(28, 25, 19, .90), rgba(12, 11, 9, .94)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23p)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: auto, 180px 180px;
+  box-shadow: 0 0 0 4px #1f150c, 0 0 0 5.5px rgba(212, 169, 65, .4), 0 26px 60px rgba(0, 0, 0, .75), inset 0 0 46px rgba(0, 0, 0, .75), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+.mg-frente {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mg-cadena-fila {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 28 = 8 + 12 + 8, el mismo salto que hay entre las dos casillas de .mg-fila (hueco,
+     eslabón horizontal, hueco). Con 8 px los eslabones caían hacia dentro de su columna.
+     Este 28 NO depende del ancho de la casilla, así que sobrevivió al paso de 58 a 42;
+     lo que sí cambió es dónde cae el centro de cada columna: antes ±43, ahora ±35. */
+  gap: 28px;
+}
+.mg-cadena-slot {
+  width: 42px;
+  flex: none;
+  display: flex;
+  justify-content: center;
+}
+.mg-cadena-v {
+  width: 6px;
+  height: 12px;
+  background: repeating-linear-gradient(180deg, #8a7a5a 0 2px, #443c2e 2px 4px, #6b6252 4px 6px);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+/* Diagonales al cuello. Geometría: del centro de una columna al centro del cuello hay
+   43 px en horizontal; dándole 43 también en vertical la caída sale a 45° justos y la
+   cadena mide la hipotenusa, 61 px. El translateX de 21,5 (la mitad del recorrido)
+   la recoloca sobre el trayecto real, porque su hueco está centrado en la columna.
+   La fila se fija a 43 px de alto: la barra sobresale sin recortarse, pero al girar
+   ocupa exactamente esos 43. */
+/* Diagonales al cuello, a 45° justos. Los tres números salen del mismo sitio: el centro
+   de cada columna está a 35 px del centro de la fila (era 43 con las casillas de 58),
+   así que el recorrido es 35 en horizontal y 35 en vertical, la cadena mide la
+   hipotenusa (35 × √2 = 49,5) y se corre media altura para quedar centrada sobre el
+   trayecto. Si vuelve a cambiar el ancho de la casilla, hay que rehacer los tres. */
+.mg-cadena-fila.diagonal { height: 35px; }
+.mg-cadena-v.diag-izq,
+.mg-cadena-v.diag-der { height: 49.5px; }
+.mg-cadena-v.diag-izq { transform: translateX(17.5px) rotate(-45deg); }
+.mg-cadena-v.diag-der { transform: translateX(-17.5px) rotate(45deg); }
+/* Con el cuello arriba las diagonales se abren en vez de converger. */
+.mg-cadena-fila.cuello-arriba .mg-cadena-v.diag-izq { transform: translateX(17.5px) rotate(45deg); }
+.mg-cadena-fila.cuello-arriba .mg-cadena-v.diag-der { transform: translateX(-17.5px) rotate(-45deg); }
+.mg-cadena-h {
+  width: 12px;
+  height: 6px;
+  flex: none;
+  align-self: center;
+  background: repeating-linear-gradient(90deg, #8a7a5a 0 2px, #443c2e 2px 4px, #6b6252 4px 6px);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+}
+/* Abismo central ("Puente del Vacío"). El color lo pone --abismo-color, que el JS
+   fija según el Dios en juego (ver TEMAS_ABISMO en js/app.js). */
+.mg-abismo {
+  --abismo-color: #8b5cf6;
+  position: relative;
+  /* SIN overflow:hidden a propósito: recortaba el halo de la carta de Dios, que
+     sobresale 22 px y solo tenía 13,8 de margen. Quien se recorta ahora es la capa
+     de imagen del tema, que lleva su propio redondeo. */
+  /* Perspectiva propia: da profundidad de verdad a la carta de Dios sin necesidad de
+     preserve-3d en todo el tablero, así el efecto queda contenido aquí dentro y no
+     contamina la inclinación del campo. */
+  perspective: 620px;
+  perspective-origin: 50% 50%;
+  flex: none;
+  width: 96px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #35333f, #232130 22%, #1d1b28 78%, #302c3d);
+  border: 2px solid var(--abismo-color);
+  /* Plataforma elevada. El grosor se PINTA con bandas sólidas sin desenfoque, que al
+     seguir el redondeo del borde se leen como la pared lateral del pedestal; debajo va
+     la sombra que proyecta sobre el tablero. Se dibuja, no se desplaza en 3D: así se
+     sostiene igual en vista de campo y en vista de mano, que es donde falló el intento
+     anterior de dar profundidad moviendo cosas hacia la cámara. */
+  box-shadow:
+    0 5px 0 color-mix(in srgb, var(--abismo-color) 22%, #2a2540),
+    0 10px 0 color-mix(in srgb, var(--abismo-color) 14%, #1a1628),
+    0 15px 0 #110e1b,
+    0 26px 34px rgba(0, 0, 0, .85),
+    0 0 var(--abismo-halo, 30px) var(--abismo-color),
+    inset 0 2px 0 rgba(255, 255, 255, .12),
+    inset 0 0 26px rgba(0, 0, 0, .8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: border-color 1.2s ease, box-shadow 1.2s ease;
+}
+/* Sin Dios solo cambia el borde y baja el halo. NO se redefine box-shadow entero:
+   si se hace, se cargan las capas que dibujan el grosor de la plataforma. */
+.mg-abismo.vacio {
+  border-style: dashed;
+  --abismo-halo: 16px;
+}
+/* Aquí aterriza la imagen del tema cuando Adrii la ponga en TEMAS_ABISMO. */
+.mg-abismo-fondo {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px; /* se recorta ella sola, ya que el abismo ya no lo hace */
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: .85;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+/* Hueco de 42x68 esperando la carta de Dios, mismo tamaño que la carta en el campo. */
+.mg-dios-hueco {
+  position: relative;
+  z-index: 2;
+  width: 42px;
+  height: 68px;
+  border-radius: 9px;
+  border: 2px dashed var(--abismo-color);
+  background: rgba(255, 255, 255, .02);
+}
+
+/* Tinte del fondo de toda la pantalla, del color del Dios en juego. Vive fuera del
+   lienzo para cubrir también los márgenes negros de los lados. */
+.mg-tinte {
+  position: fixed;
+  inset: 0;
+  /* Detrás del lienzo: el color del Dios tiñe el cielo, no las cartas. Con z-index 0
+     quedaba por encima del juego y apagaba ligeramente todo el tablero. */
+  z-index: -1;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 1.4s ease;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, transparent 78%);
+}
+
+/* Destello de onda expansiva al invocar un Dios. */
+@keyframes ondaDios {
+  0% { width: 40px; height: 40px; opacity: .95; border-width: 6px; }
+  100% { width: 1500px; height: 1500px; opacity: 0; border-width: 1px; }
+}
+.mg-onda-dios {
+  position: fixed;
+  z-index: 45;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 6px solid #8b5cf6;
+  animation: ondaDios 1.1s cubic-bezier(.2, .7, .3, 1) forwards;
+}
+
+.mg-corazones {
+  display: flex;
+  justify-content: center;
+  /* 28 = 8 + 12 + 8, el mismo salto que hay entre dos casillas de .mg-fila
+     (hueco + eslabón de cadena + hueco). Así cada corazón cae justo encima
+     de su columna de casillas. Si cambia esa fila, hay que cambiar esto. */
+  gap: 28px;
+  /* 94 = 68 (carta de protección) + 42 (altar del corazón) - 16 de solape. La carta se
+     apoya sobre el corazón y le tapa la mitad de arriba; el corazón asoma por debajo. */
+  height: 94px;
+  align-items: center;
+}
+.mg-corazon-cont {
+  position: relative;
+  width: 42px;
+  height: 100%;
+  text-align: center;
+  flex: none;
+  transition: all .2s;
+}
+.mg-corazon-icovacio {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  font-size: 27px;
+  filter: grayscale(1) brightness(.6);
+}
+/* El altar se ancla al borde de FUERA (abajo en tu lado, arriba en el de la IA), que es
+   el que no tapa la protección. El emoji se pega a ese mismo borde para caer dentro de
+   la franja que queda a la vista. */
+.mg-corazon-altar,
+.mg-corazon-resto {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.mg-corazones.ia .mg-corazon-altar,
+.mg-corazones.ia .mg-corazon-resto { bottom: auto; top: 0; }
+.mg-corazon-resto { width: 32px; height: 42px; }
+.mg-corazon-altar {
+  width: 32px;
+  height: 42px;
+  border-radius: 5px;
+  justify-content: flex-end;
+  padding-bottom: 3px;
+  background: linear-gradient(170deg, #1a2030, #0e1119);
+  /* NO se tiñe con el Dios: cada corazón lleva su color por significado (💙 evasión,
+     💚 magia, ❤️ ataque, 💛 sacrificio) y el JS se lo pone en línea. */
+  border: 1.5px solid #3a4258;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all .2s;
+}
+/* Solo en el primer montaje: el JS pone `naciendo` únicamente entonces. */
+.mg-corazon-altar.naciendo { animation: forjarAltarCentrado .7s ease-out; }
+.mg-corazones.ia .mg-corazon-altar { justify-content: flex-start; padding-bottom: 0; padding-top: 3px; }
+.mg-corazon-altar.atacable {
+  cursor: pointer;
+  box-shadow: 0 0 14px #f0d27a;
+  /* el translateX(-50%) es el que lo centra en la columna: hay que repetirlo aquí o el
+     corazón se va hacia la derecha justo cuando lo estás apuntando. */
+  transform: translateX(-50%) scale(1.18);
+}
+.mg-corazon-punteado {
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed rgba(255, 255, 255, .28);
+  border-radius: 3px;
+  pointer-events: none;
+}
+.mg-corazon-emoji {
+  font-size: 16px;
+  /* caja ajustada: con line-height normal la caja mide 25 px y el latido le metía el
+     borde superior por debajo de la carta de protección. */
+  line-height: 1;
+  opacity: .9;
+  animation: latido 2.2s infinite;
+}
+
+/* ---- Carta de protección ----
+   Escudo de un solo uso que nace pegado a cada corazón. Mide 58x68, lo mismo que una
+   casilla del tablero, para que una carta puesta encima quepa igual que en el campo.
+   Va anclada al borde de DENTRO (mirando al enemigo) y tapa 16 px del altar. */
+.mg-prot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 42px;
+  height: 68px;
+  border-radius: 7px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--prot-color, #8b93a7);
+  background: linear-gradient(170deg, #1e2534, #0d1017);
+  border: 1.5px solid var(--prot-color, #3a4258);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .7), 0 0 8px color-mix(in srgb, var(--prot-color) 40%, transparent), inset 0 0 12px rgba(0, 0, 0, .55);
+  transition: transform .2s, box-shadow .2s;
+}
+.mg-prot.naciendo { animation: forjarAltar .7s ease-out; }
+.mg-corazones.ia .mg-prot { top: auto; bottom: 0; }
+.mg-prot-art { width: 28px; height: 38px; }
+.mg-prot-art svg { width: 100%; height: 100%; display: block; }
+/* Rota: solo queda el hueco marcado, para que se vea que ese corazón ya está expuesto. */
+.mg-prot.rota {
+  background: rgba(255, 255, 255, .015);
+  border: 1.5px dashed color-mix(in srgb, var(--prot-color) 45%, transparent);
+  box-shadow: none;
+  animation: none;
+}
+.mg-prot.rompiendo {
+  animation: protRomper 1.4s ease-in forwards;
+}
+.mg-prot.atacable {
+  cursor: pointer;
+  border-color: #f0d27a;
+  box-shadow: 0 0 16px #f0d27a, inset 0 0 12px rgba(0, 0, 0, .55);
+  transform: scale(1.08);
+}
+@keyframes protRomper {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  12% { transform: translate(-3px, 1px) rotate(-3deg); }
+  24% { transform: translate(3px, -1px) rotate(3deg); }
+  36% { transform: translate(-2px, 2px) rotate(-2deg); }
+  100% { transform: translateY(9px) rotate(7deg) scale(.86); opacity: 0; }
+}
+.mg-esquirla {
+  position: fixed;
+  z-index: 46;
+  width: 7px;
+  height: 3px;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+/* Carta de aumento apilada SOBRE la protección: mismo tamaño, corrida unos píxeles y
+   girada, para que el dibujo de debajo siga leyéndose. */
+.mg-corazon-carta {
+  position: absolute;
+  /* corrida 8 px a la derecha y 9 hacia el tablero: es lo justo para que se vea el marco
+     de la protección por dos lados y se lea como dos cartas, no como una sola. */
+  left: 8px;
+  top: -9px;
+  width: 42px;
+  height: 68px;
+  border-radius: 7px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(170deg, #1c2230, #12161f);
+  border: 1.5px solid #3a4258;
+  transform: rotate(-5deg);
+}
+/* la de aumento sí se forja cada vez que se coloca, no solo al empezar la partida */
+@keyframes forjarCartaCorazon {
+  0% { transform: rotate(-5deg) scale(.3) rotateY(90deg); opacity: 0; }
+  55% { transform: rotate(-5deg) scale(1.15) rotateY(0deg); opacity: 1; }
+  100% { transform: rotate(-5deg) scale(1); }
+}
+.mg-corazon-carta.naciendo { animation: forjarCartaCorazon .5s ease-out; }
+.mg-corazones.ia .mg-corazon-carta { top: auto; bottom: -9px; }
+.mg-corazon-carta-icon { font-size: 22px; line-height: 1; }
+.mg-corazon-carta-val { font-size: 9px; color: #f0d27a; font-weight: 800; margin-top: 2px; }
+.mg-corazon-roto {
+  font-size: 30px;
+  line-height: 42px;
+  animation: corazonRoto 1.45s ease-in forwards;
+}
+.mg-corazon-ceniza {
+  width: 22px;
+  height: 22px;
+  margin: 9px auto 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 0, 0, .8), rgba(35, 22, 14, .45) 60%, transparent 78%);
+}
+.mg-corazon-tip {
+  /* oculto por defecto y lo enseña :hover, sin pasar por el estado ni por un render */
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: linear-gradient(180deg, rgba(24, 20, 12, .97), rgba(10, 8, 5, .97));
+  border: 1px solid #3a4258;
+  color: #f0e6d0;
+  font-family: Cinzel, serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 7px;
+  z-index: 60;
+  pointer-events: none;
+}
+.mg-corazon-cont:hover .mg-corazon-tip { display: block; }
+
+.mg-fila {
+  position: relative; /* referencia para el portal, que va suelto */
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+/* Colores derivados: en vez de escribir a mano cada variante de un color, se calculan
+   a partir de --dios-color, que el JS fija según el Dios que haya en el abismo (ver
+   _aplicarTemaAbismo). Cambiar ese único valor tiñe todo el tablero en reposo.
+   La receta de cada uno es: mezclar el tono del Dios con el color base de la pieza, y
+   luego rebajar la opacidad con una segunda mezcla contra transparent. */
+:root { --dios-color: #8b5cf6; }
+
+.mg-losa {
+  --losa-borde: color-mix(in srgb, color-mix(in srgb, var(--dios-color) 30%, #becbe1) 55%, transparent);
+  --losa-borde-inv: color-mix(in srgb, color-mix(in srgb, var(--dios-color) 26%, #7ac898) 58%, transparent);
+  --losa-fondo: color-mix(in srgb, color-mix(in srgb, var(--dios-color) 15%, #08070e) 92%, transparent);
+  --losa-fondo-inv: color-mix(in srgb, color-mix(in srgb, var(--dios-color) 13%, #060d09) 92%, transparent);
+  --losa-borde-portal: color-mix(in srgb, color-mix(in srgb, var(--dios-color) 34%, #9696be) 45%, transparent);
+  /* 42x68 = la misma proporción que la carta de 300x485. Se llegó aquí ESTRECHANDO,
+     no creciendo: el alto de 68 no se puede tocar porque el tablero no tiene hueco
+     libre en vertical, mientras que de ancho sobra sitio de sobra. */
+  width: 42px;
+  height: 68px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .6);
+}
+.mg-losa.hueco { animation: latido .9s infinite; }
+/* La casilla central mide lo mismo que las demás (42x68): al ser la única de su fila
+   y converger en ella todas las diagonales, ya se entiende sola sin destacarla. Que
+   midiera más deformaba las cartas puestas ahí respecto al resto del campo. */
+
+.mg-ficha {
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(170deg, #1c2230, #12161f);
+  border: 1.5px solid #555;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .6);
+  transition: transform .8s cubic-bezier(.4, 0, .2, 1);
+}
+/* Con la casilla en 42 quedan 39 px de ancho útil, así que la ficha va justa: estos
+   tamaños están medidos para que "10⚔ III" y "12🌀" no se salgan. */
+.mg-ficha-icon { font-size: 20px; }
+.mg-ficha-stats { font-size: 9px; font-weight: 700; }
+.mg-ficha-stats .atq { color: #e0705a; }
+.mg-ficha-stats .mag { color: #4a5266; margin-left: 2px; }
+.mg-ficha-esq { font-size: 8px; color: #6fb3e8; }
+.mg-congelada-overlay {
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px;
+  z-index: 3;
+  background:
+    radial-gradient(1px 1px at 25% 30%, #fff, transparent 2px),
+    radial-gradient(1px 1px at 70% 65%, #cbd5ff, transparent 2px),
+    radial-gradient(1px 1px at 45% 85%, #fff, transparent 2px),
+    linear-gradient(170deg, rgba(25, 25, 38, .93), rgba(11, 11, 20, .95));
+  border: 2px solid #6b6290;
+  transform: rotate(6deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b8bb0;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .7);
+}
+.mg-sac-marcador {
+  position: absolute;
+  top: 1px;
+  right: 3px;
+  font-size: 11px;
+  z-index: 4;
+}
+
+/* mensajes y botones */
+/* Pista y registro viven en la columna derecha, bajo los botones: por eso van
+   alineados a la izquierda y a todo el ancho, en vez de centrados como antes. */
+.mg-hint {
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  min-height: 16px;
+  color: #d4a941;
+}
+.mg-botones {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+.mg-botones button {
+  background: linear-gradient(180deg, #d4a941, #a87f24);
+  color: #141414;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.mg-botones button:disabled { background: #2a2f3d; color: #5a6070; cursor: default; }
+.mg-btn-secundario {
+  background: linear-gradient(180deg, rgba(50, 56, 74, .5), rgba(22, 25, 34, .6)) !important;
+  color: #8b93a7 !important;
+  border: 1px solid #4a5268 !important;
+  font-weight: 400 !important;
+}
+.mg-btn-corazon {
+  background: transparent !important;
+  color: #d4a941 !important;
+  border: 1.5px solid #d4a941 !important;
+  font-weight: 400 !important;
+}
+.mg-btn-corazon.activo {
+  background: linear-gradient(180deg, #d4a941, #a87f24) !important;
+  color: #141414 !important;
+}
+
+.mg-fin {
+  text-align: center;
+  padding: 14px;
+  margin: 0 auto 8px;
+  max-width: 340px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+.mg-fin.victoria { background: rgba(212, 169, 65, .12); border: 1px solid #d4a941; }
+.mg-fin.derrota { background: rgba(224, 92, 58, .1); border: 1px solid #e05c3a; }
+
+.mg-log {
+  max-width: 100%;
+  margin: 0;
+  background: rgba(16, 20, 29, .8);
+  border: 1px solid #252c3c;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #aab0c0;
+  max-height: 96px;
+  overflow-y: auto;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+/* mano del jugador (posición/relleno se fijan por JS: dependen de la cámara mano/campo) */
+.mg-mano { z-index: 20; }
+/* Las cartas de la mano se animan al cambiar de cámara y con el zoom del ratón: se
+   les mantiene la capa por el mismo motivo que al tablero. */
+.mg-carta { will-change: transform; }
+
+/* ---------- el hueco de cada carta en la mano ----------
+   Antes la carta era su propia zona de ratón, y eso hacía parpadear el zoom: al
+   pasar el ratón la carta sube 44 px o más, se escapa del cursor, deja de estar en
+   :hover, baja... y vuelve a estar debajo del cursor. Bucle. Casi no se notaba con
+   los 0,22 s de antes; con la vuelta lenta de 0,8 s sería un balanceo de un segundo.
+
+   La solución es separar el HUECO de la CARA: .mg-carta-zona ocupa el sitio en la
+   fila y no se mueve nunca, y el :hover se mira en ella. El ::after rellena el hueco
+   por debajo de la carta (z-index 0 contra el 1 de la carta, para no robarle los
+   clics): así, aunque la carta se vaya para arriba, el cursor sigue dentro de la
+   zona y el zoom se mantiene quieto.
+   El JS le pasa --bajada, que es lo que la carta se desplaza hacia abajo en reposo
+   (el arco del abanico, más lo que se hunde la mano en vista campo: ver ASOMA_CAMPO),
+   para que
+   el hueco caiga justo encima de ella y no un poco más arriba.
+
+   Y mientras está ampliada, el hueco se estira hacia arriba hasta el borde superior
+   de la carta grande, para que no quede una franja muerta entre las dos por la que se
+   pierda el ratón al ir a leerla. La cuenta sale exacta sin saber la altura: la carta
+   crece desde su base (transform-origin 50% 100%), así que con el ×1,5 su techo queda
+   media altura por encima; y media altura es el 50 % de la zona, porque la zona mide
+   justo lo que la carta. --alza es lo que sube (los 44 px del zoom más su arco). */
+.mg-carta-zona { position: relative; flex: none; }
+.mg-carta-zona::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  top: var(--bajada, 0px);
+  bottom: calc(-1 * var(--bajada, 0px));
+}
+.mg-carta-zona:hover { z-index: 100 !important; }
+.mg-carta-zona:hover::after { top: calc(-50% - var(--alza, 44px) - 8px); }
+
+/* el zoom es :hover puro (no estado JS) para que la transición se anime de verdad:
+   esta app reconstruye el DOM entero en cada render, así que un hover por estado
+   destruiría y recrearía la carta ya en su tamaño grande, sin transición visible. */
+/* perspective() va antes de las rotaciones: solo afecta a lo que viene detrás de él,
+   así el zoom y la inclinación conviven en un único transform. --rx/--ry las escribe
+   el JS mientras mueves el ratón; sin ratón valen 0 y la carta no se inclina. */
+.mg-carta-zona:hover .mg-carta {
+  transform: translateX(var(--shift, 0px)) translateY(var(--hover-y, -44px)) perspective(900px) scale(1.5) rotate(0deg) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .65), 0 6px 16px rgba(240, 210, 122, .25) !important;
+  /* SUBE COMO SIEMPRE, BAJA DESPACIO.
+     La transición que se usa es la del estado al que se va: al entrar manda esta
+     (0,22 s, la de toda la vida) y al salir manda la que el JS deja en línea sobre
+     la carta (0,8 s con easeOutExpo, que arranca rápido y frena mucho al final).
+     Lleva !important porque compite contra un estilo en línea. --dur la pone holo()
+     a 0s tras un cuarto de segundo, para que la inclinación siga al ratón sin
+     retraso; aquí sigue funcionando igual. */
+  transition: all var(--dur, .22s) cubic-bezier(.2, .8, .3, 1) !important;
+}
+.mg-carta-zona:hover .mg-carta-nombre {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+.mg-carta-nombre { font-size: 11px; font-weight: 700; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: none; }
+/* La ilustración se queda con todo lo que sobra: la carta mide 201 px fijos y ya no
+   lleva caja de efecto, así que el dibujo es lo que manda, como en la carta grande. */
+.mg-carta-icon {
+  flex: 1;
+  min-height: 0;
+  border-radius: 8px;
+  border: 1px solid #252c3c;
+  background: radial-gradient(ellipse at 50% 30%, #232c40, #0d1017 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+}
+.mg-carta-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -11px 3px 0;
+  position: relative;
+  background: linear-gradient(180deg, #232a3a, #161c29);
+  border: 1.5px solid #d4a941;
+  border-radius: 11px;
+  padding: 4px 8px;
+  font-size: 16px;
+  font-weight: 800;
+  flex: none;
+}
+.mg-carta-stats .atq { color: #e0705a; }
+.mg-carta-stats .esq { color: #6fb3e8; }
+.mg-carta-medallon {
+  width: 28px;
+  height: 28px;
+  margin-top: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #2a3348, #12161f 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex: none;
+}
+/* .mg-carta-efecto ya no existe: la carta de la mano no lleva texto de efecto (ver el
+   comentario de card.innerHTML en _renderMano). Si algún día se quiere recuperar, hay
+   que darle sitio quitándoselo a la ilustración, que hoy es la que tiene el flex:1. */
+.mg-carta-sac { text-align: center; font-size: 11px; margin-top: 2px; flex: none; }
+
+/* ---------- lámina holográfica de las cartas especiales ----------
+   Adaptado del efecto "holo" de las cartas de Pokémon (CodePen de simeydotme),
+   traducido a CSS normal y sin jQuery. La idea son dos capas transparentes por
+   encima de la carta que se mezclan en modo "color-dodge" (sobreexponer): ese
+   modo quema hacia el blanco donde la capa de arriba es clara y no hace nada
+   donde es oscura, que es justo como se comporta una lámina holográfica real.
+
+   Solo la llevan dioses, mágicas y trampas: la clase .holo se la pone el JS
+   (ver _renderMano en js/app.js). En reposo es invisible; se enciende solo al
+   pasar el ratón, y sigue al cursor mediante las variables --bgx/--bgy y
+   --sparkx/--sparky, que también escribe el JS. */
+.mg-carta.holo {
+  overflow: hidden;    /* recorta las dos capas al contorno de la carta */
+  isolation: isolate;  /* encierra el color-dodge: sin esto quemaría el tablero */
+}
+.mg-carta.holo::before,
+.mg-carta.holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;  /* las capas no roban los clics ni el hover a la carta */
+  opacity: 0;
+  background-repeat: no-repeat;
+  mix-blend-mode: color-dodge;
+  transition: opacity .28s ease;
+}
+/* capa 1: la franja de arcoíris que barre la carta */
+.mg-carta.holo::before {
+  z-index: 3;
+  background-image: linear-gradient(115deg,
+    transparent 22%,
+    rgba(120, 226, 255, .8) 40%,
+    rgba(255, 255, 255, .5) 50%,
+    rgba(255, 140, 224, .8) 60%,
+    transparent 78%);
+  background-size: 240% 240%;
+  background-position: var(--bgx, 50%) var(--bgy, 50%);
+  filter: brightness(.6) contrast(1.5);
+}
+.mg-carta-zona:hover .mg-carta.holo::before { opacity: .9; }
+/* capa 2: la purpurina. Los destellos son puntos hechos con CSS, no un .gif de
+   fuera: así el efecto no depende de ningún servidor ajeno. */
+.mg-carta.holo::after {
+  z-index: 4;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 18%, rgba(255, 255, 255, .95), transparent 2px),
+    radial-gradient(1.2px 1.2px at 31% 63%, rgba(255, 240, 200, .85), transparent 2px),
+    radial-gradient(1.6px 1.6px at 48% 27%, rgba(255, 255, 255, .90), transparent 3px),
+    radial-gradient(1.2px 1.2px at 66% 78%, rgba(210, 240, 255, .85), transparent 2px),
+    radial-gradient(1.5px 1.5px at 82% 36%, rgba(255, 255, 255, .90), transparent 3px),
+    radial-gradient(1.2px 1.2px at 22% 88%, rgba(255, 225, 255, .80), transparent 2px),
+    radial-gradient(1.3px 1.3px at 91% 66%, rgba(255, 255, 255, .85), transparent 2px),
+    radial-gradient(1.2px 1.2px at 57% 8%, rgba(200, 255, 240, .80), transparent 2px),
+    linear-gradient(125deg,
+      rgba(255, 0, 132, .28) 15%, rgba(252, 164, 0, .24) 30%, rgba(255, 255, 0, .18) 40%,
+      rgba(0, 255, 138, .12) 60%, rgba(0, 207, 255, .24) 70%, rgba(204, 76, 250, .30) 85%);
+  background-size: 170% 170%;
+  background-position: var(--sparkx, 50%) var(--sparky, 50%);
+  background-blend-mode: overlay;
+  filter: brightness(1.05) contrast(1.1);
+}
+.mg-carta-zona:hover .mg-carta.holo::after { opacity: .85; }
+
+/* modales */
+.mg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(5, 7, 11, .9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.mg-combate {
+  width: 100%;
+  max-width: 380px;
+  background: #10141d;
+  border-radius: 14px;
+  border: 1px solid #d4a941;
+  padding: 18px 20px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(212, 169, 65, .25);
+  box-sizing: border-box;
+}
+.mg-combate-vs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 4px;
+}
+.mg-combate-icon { font-size: 36px; }
+.mg-combate-info { font-size: 11px; color: #cfc7b4; }
+.mg-vs { font-size: 13px; color: #6f7893; letter-spacing: 3px; margin: 4px 0; }
+.mg-dado {
+  width: 64px;
+  height: 64px;
+  margin: 8px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: #141414;
+  background: linear-gradient(160deg, #e8e2d4, #a9a291);
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+}
+.mg-dado.acierta { background: linear-gradient(160deg, #f0d27a, #c8952f); }
+.mg-dado.falla { background: linear-gradient(160deg, #8b93a7, #565e72); }
+.mg-combate-texto { font-size: 13px; margin-top: 8px; line-height: 1.6; }
+.mg-combate-texto .crit { color: #e05c3a; }
+.mg-combate-texto .impacto { color: #f0d27a; }
+.mg-combate-texto .esquiva { color: #8b93a7; }
+.mg-combate-resultado { font-size: 14px; font-weight: 700; margin-top: 4px; }
+.mg-combate-resultado.mata { color: #e05c3a; }
+.mg-combate-resultado.resiste { color: #8b93a7; }
+.mg-combate button {
+  margin-top: 10px;
+  background: linear-gradient(180deg, #d4a941, #a87f24);
+  color: #141414;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 26px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.mg-combate button:disabled { opacity: .5; cursor: default; }
+
+/* ---------- CARTA GRANDE, 300x485 ----------
+   Medidas calcadas de `Carta.dc.html` (modo "inspect") del proyecto de diseño de
+   Adrii, en C:\Users\Usuario\Desktop\GAME\Animación y diseño de cartas. NO son
+   números redondos elegidos aquí: si hay que tocarlos, se tocan allí primero.
+     300x485 exteriores · borde 2,5 · padding 12 · radio 18
+   El alto útil son 456 px (485 - 5 de borde - 24 de padding) y se reparte así:
+     cabecera 44 + 7 de margen · ilustración 225 · cinturón 76 · efecto 104
+   El efecto lleva flex:1 en vez de una altura fija, así absorbe el descuadre de
+   2 px del diseño original y crece solo a 180 cuando una carta no tiene cinturón.
+   Los colores llegan por variables (--cg-*) que pone el JS según el tipo y la
+   civilización; ver TEMA_CARTA en js/app.js. */
+.mg-carta-grande {
+  width: 300px;
+  height: 485px;
+  flex: none;
+  box-sizing: border-box;
+  border-radius: 18px;
+  padding: 12px;
+  border: 2.5px solid var(--cg-borde);
+  background: var(--cg-fondo);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: Montserrat, system-ui, sans-serif;
+  color: #e8e2d4;
+  text-align: left;
+}
+
+/* cabecera: píldora oscura con el sello de sacrificio a la izquierda. El hueco de
+   40 px de la derecha existe solo para que el nombre quede centrado de verdad. */
+.mg-cg-cab {
+  position: relative;
+  height: 44px;
+  margin-bottom: 7px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.mg-cg-cab::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: #0d1017;
+  border: 2px solid var(--cg-borde);
+  box-sizing: border-box;
+}
+.mg-cg-sello {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-left: 2px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mg-cg-sello::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, .06), transparent 60%), #05070c;
+  border: 1.5px solid var(--cg-borde);
+}
+.mg-cg-sello svg { position: relative; width: 30px; height: 30px; }
+.mg-cg-nombre {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #f1e9d6;
+  /* Ni puntos suspensivos ni recorte: el nombre parte en dos líneas si hace falta y se
+     ve entero (ver el comentario del tamaño de letra en _cartaGrandeBox). OJO con
+     poner overflow:hidden aquí: Cinzel pide más alto de línea del que ocupa la caja
+     y se comía la parte de abajo de la J y la O. Con la escalera de tamaños, dos
+     líneas de 12 px caben de sobra en los 44 de la cabecera. */
+  white-space: normal;
+  overflow: visible;
+  text-shadow: 0 0 12px var(--cg-halo);
+}
+.mg-cg-hueco { width: 40px; flex: none; }
+
+/* hueco de la ilustración: 271x222 de dibujo (1,22:1, apaisado). Hoy lleva el emoji
+   de la criatura; el día que Adrii traiga los marcos con dibujo, aquí entra la imagen. */
+.mg-cg-arte {
+  height: 225px;
+  flex: none;
+  box-sizing: border-box;
+  border-radius: 12px;
+  border: 1.5px solid var(--cg-oscuro);
+  background: var(--cg-arte);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.mg-cg-arte-icon { font-size: 120px; line-height: 1; }
+
+/* cinturón: pastilla roja de ataque y azul de evasión, y el medallón de magia
+   encima del punto donde se juntan (las pastillas se solapan -24 px cada una). */
+.mg-cg-cinturon {
+  height: 76px;
+  flex: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d1017;
+  border: 2px solid var(--cg-borde);
+  border-radius: 22px;
+}
+.mg-cg-cinturon-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+.mg-cg-atq,
+.mg-cg-def,
+.mg-cg-placa {
+  flex: 1;
+  height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mg-cg-atq {
+  margin-right: -24px;
+  border-radius: 20px 0 0 20px;
+  justify-content: flex-start;
+  padding-left: 16px;
+  background: linear-gradient(90deg, #4a1414, #2a0d0d);
+  border: 1.5px solid #ef4444;
+}
+.mg-cg-def {
+  margin-left: -24px;
+  border-radius: 0 20px 20px 0;
+  justify-content: flex-end;
+  padding-right: 16px;
+  background: linear-gradient(90deg, #081420, #0e2a4a);
+  border: 1.5px solid #3b82f6;
+}
+/* Las cartas sin ataque ni evasión (mágicas, trampas, dioses, aumentos) llevan una
+   sola placa con su rótulo en vez de las dos pastillas. Así el cinturón sigue ahí y
+   la carta mantiene el mismo ritmo vertical que una criatura. */
+.mg-cg-placa {
+  margin: 0 4px;
+  border-radius: 20px;
+  justify-content: center;
+  background: linear-gradient(90deg, #1a2030, #12161f);
+  border: 1.5px solid var(--cg-borde);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cg-borde);
+}
+.mg-cg-num {
+  font-family: Cinzel, serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+.mg-cg-atq .mg-cg-num { color: #ef4444; text-shadow: 0 0 8px rgba(239, 68, 68, .6); }
+.mg-cg-def .mg-cg-num { color: #60a5fa; text-shadow: 0 0 8px rgba(96, 165, 250, .6); }
+.mg-cg-med {
+  width: 62px;
+  height: 62px;
+  flex: none;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 3px solid #d4a941;
+  background: radial-gradient(circle, #173a1c 0%, #081208 85%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Cinzel, serif;
+  font-weight: 700;
+  color: #22c55e;
+  text-shadow: 0 0 12px rgba(34, 197, 94, .75);
+  box-shadow: 0 0 16px rgba(34, 197, 94, .55), inset 0 0 12px rgba(0, 0, 0, .85);
+  z-index: 2;
+}
+.mg-cg-med.apagado {
+  border-color: #4a5266;
+  color: #4a5266;
+  text-shadow: none;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, .85);
+  background: radial-gradient(circle, #1a2030 0%, #0a0d14 85%);
+}
+
+.mg-cg-efecto {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  background: #0d1017;
+  border: 1.5px solid var(--cg-borde);
+  border-radius: 10px;
+  padding: 9px 11px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #cbd5e1;
+}
+.mg-cg-efecto b { color: #ffd700; letter-spacing: 1px; }
+.mg-cg-cerrar { font-size: 11px; color: #6f7893; margin-top: 12px; text-align: center; }
+
+/* ---------- Fase 2: magias, dioses, portales, farol, aumentos ---------- */
+
+/* El color del borde de la carta grande ya no se pone por clase: lo lleva la
+   variable --cg-borde que escribe el JS (ver TEMA_CARTA en js/app.js). Las reglas
+   .mg-carta-stats-* de aquí abajo SIGUEN EN USO: son las de la carta de la mano. */
+.mg-carta-stats-magica {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(180deg, #14261c, #0e1c14);
+  border: 1.5px solid #4caf7d;
+}
+.mg-carta-stats-magica span:first-child { color: #7ec9a3; font-size: 11px; letter-spacing: 1.5px; font-weight: 700; }
+.mg-carta-stats-trampa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #191926, #0b0b14);
+  border: 1.5px solid #6b6290;
+  padding: 5px 10px;
+}
+.mg-carta-stats-trampa span { color: #8b8bb0; font-size: 11px; letter-spacing: 3px; font-weight: 700; }
+.mg-carta-stats-dios {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #2a2410, #171207);
+  border: 1.5px solid #d4a941;
+  padding: 5px 10px;
+}
+.mg-carta-stats-dios span { color: #f0d27a; font-size: 11px; letter-spacing: 3px; font-weight: 700; }
+.mg-carta-stats-aumento {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #232a3a, #161c29);
+  border: 1.5px solid #d4a941;
+  padding: 5px 10px;
+}
+.mg-carta-stats-aumento span { color: #f0d27a; font-size: 11px; letter-spacing: 1.5px; font-weight: 700; }
+.mg-carta-stats-magica, .mg-carta-stats-trampa, .mg-carta-stats-dios, .mg-carta-stats-aumento {
+  text-align: center;
+  margin: -11px 3px 0;
+  position: relative;
+  border-radius: 11px;
+}
+
+.mg-ficha.girada { transform: rotate(180deg); }
+
+/* Casillas de portal: son huecos normales con habilidad especial, así que van dentro
+   del panel pero separados de las dos columnas, y fuera del flujo para no moverlas. */
+.mg-losa-portal {
+  position: absolute;
+  top: 0;
+  z-index: 3;
+}
+.mg-losa-portal.izq { left: -60px; }
+.mg-losa-portal.der { right: -60px; }
+/* Camino del portal al cuello. No es una cadena como el resto del tablero porque no
+   se anda: es un salto mágico, así que va como un hilo de energía del color del
+   abismo. Los 53 px son el hueco exacto entre el borde del portal y el del cuello:
+   el portal acaba a -18 del borde de la fila y el cuello, centrado en una fila de 112,
+   empieza a 35. Eran 61 cuando las casillas medían 58. */
+.mg-losa-portal::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 53px;
+  height: 3px;
+  transform: translateY(-50%);
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(139, 92, 246, .12), rgba(167, 130, 255, .95) 45%, rgba(139, 92, 246, .12));
+  box-shadow: 0 0 9px rgba(139, 92, 246, .85);
+  pointer-events: none;
+}
+.mg-losa-portal.izq::after { left: 100%; }
+.mg-losa-portal.der::after { right: 100%; }
+
+/* La carta de Dios sobresale del abismo con profundidad real: el JS le pone un
+   translateZ que se apoya en la perspectiva de .mg-abismo, más fuerte en vista de
+   campo y casi nulo en vista de mano. La sombra proyectada acompaña al relieve.
+   Sin movimiento continuo, a propósito. */
+.mg-dios {
+  position: relative;
+  z-index: 3;
+  width: 42px;
+  height: 68px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  border: 2px solid #d4a941;
+  background: linear-gradient(170deg, #2a2410, #171207);
+  transition: transform .9s cubic-bezier(.4, 0, .2, 1);
+  box-shadow:
+    0 16px 24px rgba(0, 0, 0, .85),
+    0 6px 10px rgba(0, 0, 0, .7),
+    0 0 22px rgba(212, 169, 65, .55),
+    inset 0 1px 0 rgba(255, 232, 170, .25);
+  padding: 6px 3px;
+  text-align: center;
+  cursor: pointer;
+}
+.mg-dios-icon { font-size: 22px; }
+.mg-dios-nombre { font-size: 8px; font-weight: 800; color: #f0d27a; line-height: 1.1; margin-top: 2px; }
+.mg-dios-dueno {
+  display: inline-block;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: #8b93a7;
+  border: 1px solid #8b93a7;
+}
+.mg-dios.vikinga .mg-dios-dueno { color: #e08a4a; border-color: #e08a4a; }
+.mg-dios.griega .mg-dios-dueno { color: #4a9de0; border-color: #4a9de0; }
+
+.mg-farol {
+  width: 100%;
+  max-width: 390px;
+  background: #10141d;
+  border-radius: 14px;
+  border: 1px solid #9a5fe0;
+  padding: 16px 18px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(154, 95, 224, .3);
+  box-sizing: border-box;
+}
+.mg-tornado {
+  width: 100%;
+  max-width: 340px;
+  background: #10141d;
+  border-radius: 14px;
+  border: 1px solid #4caf7d;
+  padding: 16px 18px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(76, 175, 125, .25);
+  box-sizing: border-box;
+}
+.mg-tornado-titulo { font-size: 11px; color: #7ec9a3; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.mg-tornado-texto { font-size: 13px; line-height: 1.55; margin-bottom: 12px; }
+.mg-tornado-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.mg-tornado-btns button {
+  background: linear-gradient(180deg, #4caf7d, #2e7d54);
+  color: #0c1a12;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.mg-farol-titulo { font-size: 11px; color: #b98aff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.mg-farol-texto { font-size: 13px; line-height: 1.55; margin-bottom: 12px; }
+.mg-farol-dorso {
+  width: 62px;
+  height: 82px;
+  margin: 0 auto 14px;
+  border-radius: 8px;
+  background: linear-gradient(170deg, #191926, #0b0b14);
+  border: 2px solid #6b6290;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b8bb0;
+  font-size: 24px;
+}
+.mg-farol-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.mg-farol-btns button {
+  background: linear-gradient(180deg, #d4a941, #a87f24);
+  color: #141414;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.mg-farol-cartas { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+.mg-farol-carta {
+  width: 58px;
+  border-radius: 8px;
+  padding: 4px 2px;
+  cursor: pointer;
+  text-align: center;
+  background: linear-gradient(170deg, #1c2230, #12161f);
+  border: 1.5px solid #8b8bb0;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+.mg-farol-carta-nombre { font-size: 7.5px; font-weight: 700; line-height: 1.15; }
+
+.mg-revelar {
+  position: fixed;
+  left: 50%;
+  top: 74px;
+  transform: translateX(-50%);
+  z-index: 58;
+  max-width: 94vw;
+  background: rgba(10, 12, 18, .96);
+  border: 2px solid #f0d27a;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 0 30px rgba(240, 210, 122, .35);
+  text-align: center;
+  box-sizing: border-box;
+}
+.mg-revelar-titulo { font-size: 10px; color: #f0d27a; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 8px; }
+.mg-revelar-cartas { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.mg-revelar-carta {
+  width: 56px;
+  border-radius: 8px;
+  background: linear-gradient(170deg, #1c2230, #12161f);
+  border: 1.5px solid #3d7fb8;
+  padding: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  text-align: center;
+}
+.mg-revelar-carta div:last-child { font-size: 7px; font-weight: 700; line-height: 1.1; }
+
+/* ---------- pulido visual: efectos flotantes fuera del flujo normal ---------- */
+
+.mg-ghost, .mg-vuelo, .mg-flash {
+  position: fixed;
+  z-index: 65;
+  pointer-events: none;
+}
+.mg-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.mg-vuelo {
+  border-radius: 10px;
+  background: linear-gradient(170deg, #1c2230, #12161f);
+  border: 1.5px solid #d4a941;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .6);
+}
+.mg-flash {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 130, 115, .95), rgba(224, 92, 58, .45) 55%, transparent 75%);
+}
+.mg-hilos-cont {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+.mg-hilo {
+  position: fixed;
+  height: 2px;
+  transform-origin: 0 50%;
+  opacity: .7;
+}

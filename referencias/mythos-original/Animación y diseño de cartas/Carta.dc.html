@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;500;600;700&family=Bitter:wght@500;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:transparent; }
+    a { color:#ffd700; } a:hover { color:#fde047; }
+    @keyframes carta-aura { 0%,100% { box-shadow:0 0 22px rgba(var(--aura), .35), 0 10px 30px rgba(0,0,0,.6); } 50% { box-shadow:0 0 40px rgba(var(--aura), .6), 0 10px 30px rgba(0,0,0,.6); } }
+    @keyframes light-sweep { 0% { transform:translate(-100%,-100%) rotate(45deg); } 20%,100% { transform:translate(100%,100%) rotate(45deg); } }
+    @keyframes float-particle { 0% { transform:translateY(110%) translateX(0); opacity:0; } 15%,85% { opacity:.35; } 100% { transform:translateY(-10%) translateX(12px); opacity:0; } }
+  </style>
+</helmet>
+<div style="width:{{ cardW }}px; height:{{ cardH }}px; border-radius:{{ cardRadius }}px; position:relative; box-sizing:border-box; padding:{{ cardPad }}; display:flex; flex-direction:column; justify-content:{{ rootJustify }}; align-items:{{ rootAlign }}; background:{{ cardBg }}; color:#e8e2d4; font-family:'Palatino Linotype',Palatino,Georgia,serif; user-select:none; overflow:hidden; border:{{ borderW }}px solid {{ borderColor }}; --aura:{{ auraRgb }}; animation:{{ auraAnim }}; transform:{{ cardTransform }}; transition:{{ cardTransition }};" onMouseMove="{{ onCardMove }}" onMouseLeave="{{ onCardLeave }}" ref="{{ cardRef }}">
+  <sc-if value="{{ showSweep }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:10; border-radius:inherit;">
+      <div style="position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:linear-gradient(45deg, transparent 45%, rgba(255,255,255,.07) 50%, transparent 55%); animation:{{ sweepAnim }};"></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isInspect }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute; inset:0; pointer-events:none; z-index:11; border-radius:inherit; opacity:{{ shineOp }}; background:radial-gradient({{ shinePos }}, rgba(255,255,255,.4), transparent 45%); mix-blend-mode:overlay; transition:opacity .35s ease-out;"></div>
+  </sc-if>
+  <sc-if value="{{ showMotif }}" hint-placeholder-val="{{ false }}">
+    <svg viewBox="0 0 100 100" fill="none" stroke="{{ borderColor }}" stroke-width="1.5" opacity="0.1" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1;"><path d="{{ motifD }}"></path></svg>
+  </sc-if>
+
+  <sc-if value="{{ isBoard }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex; flex-direction:column; height:100%; width:100%; justify-content:center; align-items:center; text-align:center; box-sizing:border-box; gap:3px; z-index:2; position:relative;">
+      <div style="font-size:21px; line-height:1;">{{ boardIcon }}</div>
+      <div style="font-size:9.5px; font-weight:700; line-height:1.12; display:flex; align-items:center; justify-content:center; gap:4px; width:100%;">
+        <span style="color:#e0705a;">{{ atqD }}⚔</span>
+        <span style="width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%); display:flex; align-items:center; justify-content:center; font-size:8.5px; font-weight:800; color:#4caf7d;">{{ feRoman }}</span>
+      </div>
+      <div style="font-size:8.5px; line-height:1.12; display:flex; align-items:center; justify-content:center; gap:3px; width:100%;">
+        <span style="color:#6fb3e8;">{{ desD }}🌀</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ notBoard }}" hint-placeholder-val="{{ true }}">
+    <div style="height:{{ headerH }}px; margin-bottom:{{ headerMb }}px; position:relative; display:flex; align-items:center; gap:{{ headerGap }}px; z-index:2; flex:none; width:100%;">
+      <sc-if value="{{ isInspect }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute; inset:0; border-radius:22px; background:#0d1017; border:2px solid {{ borderColor }}; box-sizing:border-box; z-index:0;"></div>
+        <div style="width:40px; height:40px; margin-left:2px; display:flex; align-items:center; justify-content:center; flex:none; position:relative; z-index:1;">
+          <div style="position:absolute; inset:1px; border-radius:50%; background:radial-gradient(circle at 40% 35%, rgba(255,255,255,.06), transparent 60%), #05070c; border:1.5px solid {{ borderColor }}; z-index:0;"></div>
+          <svg width="30" height="30" viewBox="0 0 44 44" fill="none" style="filter:{{ runeGlow }}; position:relative; z-index:1;">
+            <sc-for list="{{ runePaths }}" as="p" hint-placeholder-count="1">
+              <path d="{{ p.d }}" fill="{{ p.f }}" stroke="{{ p.s }}" stroke-width="{{ p.w }}" stroke-dasharray="{{ p.dash }}" transform="{{ p.transform }}" stroke-linecap="round" stroke-linejoin="round" opacity="{{ p.o }}"></path>
+            </sc-for>
+          </svg>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isHand }}" hint-placeholder-val="{{ false }}">
+        <div style="width:17px; height:21px; border-radius:4px; background:#141018; border:1px solid #3a2430; box-shadow:inset 0 2px 5px rgba(0,0,0,.9); flex:none; display:flex; align-items:center; justify-content:center; gap:1.5px;">
+          <sc-for list="{{ handSticks }}" as="s" hint-placeholder-count="0">
+            <div style="width:2px; height:13px; background:#ef4444; border-radius:1px; box-shadow:0 0 2px rgba(239,68,68,.6);"></div>
+          </sc-for>
+          <sc-if value="{{ handCostGlyph }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:9px; color:#fdba74; font-weight:800;">{{ handCostGlyphText }}</span>
+          </sc-if>
+        </div>
+      </sc-if>
+      <div style="flex:1; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:{{ nameGap }}px; position:relative; z-index:1; box-sizing:border-box;">
+        <h1 style="margin:0; width:100%; text-align:center; font-size:{{ nameSize }}px; font-weight:{{ nameWeight }}; letter-spacing:{{ nameLS }}px; line-height:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Cinzel',serif; color:#f1e9d6; text-shadow:0 0 {{ nameGlow }}px rgba(var(--aura),.7); visibility:{{ vis }};">{{ nombre }}</h1>
+      </div>
+      <sc-if value="{{ isInspect }}" hint-placeholder-val="{{ true }}">
+        <div style="width:40px; flex:none;"></div>
+      </sc-if>
+    </div>
+
+    <div style="height:{{ illusH }}px; border-radius:{{ illusRadius }}px; overflow:hidden; position:relative; display:flex; align-items:center; justify-content:center; background:{{ illusBg }}; border:1.5px solid {{ darkColor }}; flex:none; z-index:1; margin-bottom:{{ illusMb }}px; width:100%;">
+      <sc-if value="{{ showParticles }}" hint-placeholder-val="{{ true }}">
+        <sc-for list="{{ particles }}" as="p" hint-placeholder-count="3">
+          <div style="position:absolute; width:3px; height:3px; background:rgba(253,186,116,.8); border-radius:50%; left:{{ p.left }}; opacity:0; animation:{{ p.anim }};"></div>
+        </sc-for>
+      </sc-if>
+      <span style="font:{{ illusFont }}; color:#8b93a7; text-align:center; letter-spacing:1px; visibility:{{ vis }};">{{ placeholderText }}</span>
+    </div>
+
+    <sc-if value="{{ hasStats }}" hint-placeholder-val="{{ true }}">
+      <sc-if value="{{ isInspect }}" hint-placeholder-val="{{ true }}">
+        <div style="height:76px; margin:0; position:relative; display:flex; align-items:center; justify-content:center; flex:none; z-index:2; width:100%; background:#0d1017; border:2px solid {{ borderColor }}; border-radius:22px; box-sizing:border-box;">
+          <div style="display:flex; align-items:center; justify-content:center; width:100%; padding:0 6px; box-sizing:border-box;">
+            <div style="flex:1; height:48px; margin-right:-24px; border-radius:20px 0 0 20px; background:linear-gradient(90deg,#4a1414,#2a0d0d); border:1.5px solid #ef4444; display:flex; align-items:center; justify-content:flex-start; padding-left:16px; gap:5px; box-sizing:border-box; visibility:{{ vis }};">
+              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 1 L14.4 4.2 L14.4 13 L12 15.4 L9.6 13 L9.6 4.2 Z M6.4 14.8 L17.6 14.8 L17.6 17 L13.1 17 L13.1 20.6 L10.9 20.6 L10.9 17 L6.4 17 Z" fill="#ef4444" stroke="#7f1d1d" stroke-width=".6"></path><circle cx="12" cy="22" r="1.5" fill="#ef4444"></circle></svg>
+              <span style="font-family:'Cinzel',serif; font-size:22px; font-weight:800; color:#ef4444; text-shadow:0 0 8px rgba(239,68,68,.6);">{{ atqD }}</span>
+            </div>
+            <div style="width:62px; height:62px; border-radius:50%; border:3px solid #d4a941; background:radial-gradient(circle,#173a1c 0%,#081208 85%); display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(34,197,94,.55), inset 0 0 12px rgba(0,0,0,.85); font-family:'Cinzel',serif; font-size:{{ feSize }}px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,.75); z-index:2; flex:none; visibility:{{ vis }};">{{ feRoman }}</div>
+            <div style="flex:1; height:48px; margin-left:-24px; border-radius:0 20px 20px 0; background:linear-gradient(90deg,#081420,#0e2a4a); border:1.5px solid #3b82f6; display:flex; align-items:center; justify-content:flex-end; padding-right:16px; gap:5px; box-sizing:border-box; visibility:{{ vis }};">
+              <span style="font-family:'Cinzel',serif; font-size:22px; font-weight:800; color:#60a5fa; text-shadow:0 0 8px rgba(96,165,250,.6);">{{ desD }}</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><path d="M12 12 c0 -1.2 1.8 -1.2 1.8 0 c0 1.8 -3.4 1.8 -3.4 0 c0 -3 5.2 -3 5.2 0 c0 4 -7 4 -7 0 c0 -5 8.8 -4.6 8.8 .4"></path></svg>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isHand }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:-7px 2px 0; position:relative; background:linear-gradient(180deg,#232a3a,#161c29); border:1px solid #d4a941; border-radius:7px; padding:2px 6px; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box; z-index:2; width:calc(100% - 14px);">
+          <span style="font-family:'Cinzel',serif; font-size:11px; font-weight:800; color:#ef4444;">{{ atqD }}⚔</span>
+          <div style="width:20px; height:20px; border-radius:50%; border:1px solid #d4a941; background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%); display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; color:#22c55e; margin-top:-9px; box-shadow:0 0 8px rgba(76,175,125,.35);">{{ feRoman }}</div>
+          <span style="font-family:'Cinzel',serif; font-size:11px; font-weight:800; color:#60a5fa;">{{ desD }}🌀</span>
+        </div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ isInspect }}" hint-placeholder-val="{{ true }}">
+      <div style="height:{{ efectoH }}px; background:#0d1017; border-radius:10px; padding:9px 11px; box-sizing:border-box; overflow:hidden; flex:none; z-index:2; border:1.5px solid {{ borderColor }}; width:100%; perspective:420px;">
+        <div style="visibility:{{ vis }}; height:100%; overflow-y:auto; font-family:{{ efxFont }}; font-size:13px; font-weight:{{ efxWeight }}; line-height:1.5; color:{{ efxColor }}; text-shadow:{{ efxShadow }}; -webkit-text-stroke:{{ efxStroke }}; transform:{{ efxTransform }}; transition:transform .1s ease-out; will-change:transform;">
+          <sc-if value="{{ hasEffect }}" hint-placeholder-val="{{ false }}">
+            <b style="letter-spacing:1px; color:{{ efxLabelColor }};">EFECTO: </b>
+          </sc-if>
+          {{ efecto }}
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:490},&quot;card&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;,&quot;default&quot;:null},&quot;hideData&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;mode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;inspect&quot;,&quot;hand&quot;,&quot;board&quot;],&quot;default&quot;:&quot;inspect&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;velocidad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;inclinacion&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:18,&quot;step&quot;:1,&quot;unit&quot;:&quot;°&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;aura&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;barrido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;particulas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;relieve&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ninguno&quot;,&quot;grabado&quot;,&quot;extrusion&quot;,&quot;neon&quot;],&quot;default&quot;:&quot;ninguno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;profundidad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;tipoLetra&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;montserrat&quot;,&quot;bitter&quot;,&quot;cinzel&quot;,&quot;archivo&quot;],&quot;default&quot;:&quot;montserrat&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;parallaxFuerza&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;parallaxX&quot;:{&quot;editor&quot;:null,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;parallaxY&quot;:{&quot;editor&quot;:null,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  state = { rx: 0, ry: 0, shineX: 50, shineY: 50, hovering: false };
+
+  onCardMove(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    const maxTilt = this.props.inclinacion ?? 9;
+    this.setState({
+      rx: -(py - 0.5) * 2 * maxTilt,
+      ry: (px - 0.5) * 2 * maxTilt,
+      shineX: px * 100, shineY: py * 100, hovering: true
+    });
+  }
+  onCardLeave() {
+    this.setState({ rx: 0, ry: 0, shineX: 50, shineY: 50, hovering: false });
+  }
+
+  attachCardRef(el) {
+    if (this._cardEl && this._cardEl !== el) {
+      this._cardEl.removeEventListener('mouseleave', this._boundLeave);
+      this._cardEl.removeEventListener('pointerleave', this._boundLeave);
+      this._cardEl.removeEventListener('mouseout', this._boundOut);
+    }
+    this._cardEl = el;
+    if (el) {
+      this._boundLeave = this._boundLeave || (() => this.onCardLeave());
+      this._boundOut = this._boundOut || ((e) => { if (!el.contains(e.relatedTarget)) this.onCardLeave(); });
+      el.addEventListener('mouseleave', this._boundLeave);
+      el.addEventListener('pointerleave', this._boundLeave);
+      el.addEventListener('mouseout', this._boundOut);
+    }
+  }
+  componentWillUnmount() {
+    if (this._cardEl) {
+      this._cardEl.removeEventListener('mouseleave', this._boundLeave);
+      this._cardEl.removeEventListener('pointerleave', this._boundLeave);
+      this._cardEl.removeEventListener('mouseout', this._boundOut);
+    }
+  }
+
+  textoRelieve() {
+    const p = this.props;
+    const modo = p.relieve || 'ninguno';
+    const d = p.profundidad ?? 1;
+    const FONTS = {
+      montserrat: ["'Montserrat',sans-serif", 500],
+      bitter: ["'Bitter',Georgia,serif", 600],
+      cinzel: ["'Cinzel',serif", 700],
+      archivo: ["'Archivo Black',sans-serif", 400]
+    };
+    const [font, weight] = FONTS[p.tipoLetra || 'montserrat'] || FONTS.montserrat;
+    const px = p.parallaxX ?? 0, py = p.parallaxY ?? 0;
+    const lift = p.parallax === false ? 0 : (p.parallaxFuerza ?? 1);
+    const transform = lift
+      ? 'translate3d(' + (-px * 9 * lift).toFixed(2) + 'px,' + (-py * 7 * lift).toFixed(2) + 'px,' + (16 * lift).toFixed(1) + 'px)'
+      : 'none';
+
+    const base = { font, weight, transform, color: '#cbd5e1', labelColor: '#ffd700', shadow: 'none', stroke: '0' };
+    if (modo === 'ninguno') return base;
+
+    if (modo === 'grabado') {
+      const a = (1.2 * d).toFixed(2), b = (2.2 * d).toFixed(2);
+      return Object.assign(base, {
+        color: '#9aa6b8',
+        labelColor: '#c9a63c',
+        shadow: '0 -' + a + 'px 0 rgba(0,0,0,.92), 0 ' + a + 'px 0 rgba(255,255,255,.26), 0 ' + b + 'px ' + (b * 1.4).toFixed(2) + 'px rgba(0,0,0,.75)'
+      });
+    }
+
+    if (modo === 'extrusion') {
+      const n = Math.max(2, Math.round(5 * d));
+      const layers = [];
+      for (let i = 1; i <= n; i++) {
+        const t = i / n;
+        const l = Math.round(26 - t * 22);
+        layers.push((i * .9).toFixed(2) + 'px ' + (i * .9).toFixed(2) + 'px 0 hsl(220,18%,' + l + '%)');
+      }
+      layers.push((n * 1.1).toFixed(1) + 'px ' + (n * 1.1).toFixed(1) + 'px ' + (n * 1.6).toFixed(1) + 'px rgba(0,0,0,.85)');
+      return Object.assign(base, { color: '#eef2f8', labelColor: '#ffd700', shadow: layers.join(', ') });
+    }
+
+    if (modo === 'neon') {
+      const g = (5 * d).toFixed(1), g2 = (11 * d).toFixed(1);
+      return Object.assign(base, {
+        color: 'rgba(12,16,24,.55)',
+        labelColor: '#ffe98a',
+        stroke: (0.45 * d).toFixed(2) + 'px rgba(226,232,240,.9)',
+        shadow: '0 0 ' + g + 'px rgba(148,197,255,.75), 0 0 ' + g2 + 'px rgba(90,140,255,.45), 0 ' + (1.5 * d).toFixed(1) + 'px ' + (3 * d).toFixed(1) + 'px rgba(0,0,0,.9)'
+      });
+    }
+    return base;
+  }
+
+  renderVals() {
+    const c = this.props.card || {
+      nombre: 'Zeus', tipo: 'Dios', civilizacion: 'Griega', nivel: 'N1',
+      ataque: '—', fe: '—', des: '—', costeSacrificio: '∞',
+      efecto: 'Dominio del Olimpo: Otorga +2 de evasión a todos los griegos del campo.'
+    };
+    const hide = !!this.props.hideData;
+    const tipo = c.tipo || '';
+    const civ = c.civilizacion || 'Neutral';
+    const mode = this.props.mode || 'inspect';
+    const isInspect = mode === 'inspect', isHand = mode === 'hand', isBoard = mode === 'board';
+
+    const T = {
+      vikinga:  { b:'#f97316', a:'249,115,22',  l:'#fdba74', d:'#7c2d12', ig:'radial-gradient(circle at 50% 42%, #3a1c08 0%, #150a04 70%)', mb:['#4a2510','#1c0e05','#3a1c08'] },
+      griega:   { b:'#3b82f6', a:'59,130,246',  l:'#93c5fd', d:'#1e3a8a', ig:'radial-gradient(circle at 50% 42%, #0e203f 0%, #050b16 70%)', mb:['#1b2f52','#0d1830','#16294a'] },
+      egipcia:  { b:'#fde047', a:'253,224,71',  l:'#fef08a', d:'#854d0e', ig:'radial-gradient(circle at 50% 42%, #3a2e12 0%, #141006 70%)', mb:['#4a3a14','#1c1406','#3a2e12'] },
+      hinduista:{ b:'#c084fc', a:'192,132,252', l:'#e9d5ff', d:'#581c87', ig:'radial-gradient(circle at 50% 42%, #341854 0%, #11081c 70%)', mb:['#3d1e63','#160a26','#2f1750'] },
+      comun:    { b:'#10b981', a:'16,185,129',  l:'#a7f3d0', d:'#065f46', ig:'radial-gradient(circle at 50% 42%, #0f351e 0%, #05140b 70%)', mb:['#123a26','#071a10','#0f2f1f'] },
+      trap:     { b:'#4b5563', a:'75,85,99',    l:'#d1d5db', d:'#1f2937', ig:'radial-gradient(circle at 50% 42%, #1a1a24 0%, #06060c 70%)', mb:['#262c38','#0d1017','#1c222e'] },
+      dios:     { b:'#d4a941', a:'212,169,65',  l:'#ffd700', d:'#854d0e', ig:'radial-gradient(circle at 50% 42%, #3a2e12 0%, #141006 70%)', mb:['#4a3a14','#1c1406','#3a2e12'] },
+      titan:    { b:'#94a3b8', a:'148,163,184', l:'#e2e8f0', d:'#374151', ig:'radial-gradient(circle at 50% 42%, #1a2030 0%, #0a0d14 70%)', mb:['#2a3342','#10141c','#212a38'] },
+      mit:      { b:'#a78bfa', a:'167,139,250', l:'#ddd6fe', d:'#4c1d95', ig:'radial-gradient(circle at 50% 42%, #1e0f45 0%, #09050e 70%)', mb:['#2c1a5c','#100826','#241448'] },
+      escualo:  { b:'#0891b2', a:'8,145,178',   l:'#67e8f9', d:'#164e63', ig:'radial-gradient(circle at 50% 42%, #0f3040 0%, #050e18 70%)', mb:['#123a4a','#061820','#0f2f3d'] }
+    };
+    let th;
+    if (tipo === 'Dios') th = T.dios;
+    else if (tipo === 'Titán') th = T.titan;
+    else if (tipo === 'Animal Mitológico') th = T.mit;
+    else if (tipo === 'Escualo') th = T.escualo;
+    else if (tipo === 'Trampa') th = T.trap;
+    else if (civ === 'Vikinga') th = T.vikinga;
+    else if (civ === 'Griega') th = T.griega;
+    else if (civ === 'Egipcia') th = T.egipcia;
+    else if (civ === 'Hinduista') th = T.hinduista;
+    else th = T.comun;
+
+    const cardBg = tipo === 'Titán'
+      ? 'linear-gradient(170deg, #1e2433 0%, #0d1017 70%)'
+      : (tipo === 'Animal Mitológico'
+        ? 'linear-gradient(170deg, #1a1035 0%, #0a0816 70%)'
+        : 'linear-gradient(170deg, #221410 0%, #12161f 70%)');
+
+    // Emblema de sacrificio: geometría según coste + corazón con runa de la muerte
+    const coste = c.costeSacrificio;
+    let runeGlow = 'none', runePaths = [];
+    const GOLD = '#d4a941', RED = '#ef4444', DARK = '#0d1017';
+    const P = (d, opts) => ({ d, f: 'none', s: 'none', w: 0, o: 1, dash: '0', transform: '', ...opts });
+    const circleD = (cx, cy, r) => 'M' + (cx - r) + ' ' + cy + ' a' + r + ' ' + r + ' 0 1 0 ' + (2 * r) + ' 0 a' + r + ' ' + r + ' 0 1 0 ' + (-2 * r) + ' 0';
+    const heartD = (cx, cy, k) => 'M' + cx + ' ' + cy +
+      ' c' + (-3 * k) + ' ' + (-2.6 * k) + ' ' + (-7.5 * k) + ' ' + (-5.4 * k) + ' ' + (-7.5 * k) + ' ' + (-9 * k) +
+      ' c0 ' + (-4 * k) + ' ' + (5 * k) + ' ' + (-5.8 * k) + ' ' + (7.5 * k) + ' ' + (-2.4 * k) +
+      ' c' + (2.5 * k) + ' ' + (-3.4 * k) + ' ' + (7.5 * k) + ' ' + (-1.6 * k) + ' ' + (7.5 * k) + ' ' + (2.4 * k) +
+      ' c0 ' + (3.6 * k) + ' ' + (-4.5 * k) + ' ' + (6.4 * k) + ' ' + (-7.5 * k) + ' ' + (9 * k) + ' Z';
+    const deathRune = (cx, cyTip, k) => {
+      const cyc = cyTip - 5.6 * k;
+      return P('M' + cx + ' ' + (cyc - 3 * k) + ' L' + cx + ' ' + (cyc + 3.6 * k) +
+        ' M' + (cx - 2.6 * k) + ' ' + (cyc + 3.6 * k) + ' L' + cx + ' ' + (cyc + 0.6 * k) +
+        ' L' + (cx + 2.6 * k) + ' ' + (cyc + 3.6 * k), { s: DARK, w: Math.max(1, 1.35 * k) });
+    };
+    const heartRune = (cx, cyTip, k) => [P(heartD(cx, cyTip, k), { f: RED }), deathRune(cx, cyTip, k)];
+    const SKULL_D = 'M22 13 c-4.4 0 -7 3 -7 6.6 c0 2.2 1.2 3.8 2.6 4.8 L17.6 28 c0 1 .8 1.8 1.8 1.8 l5.2 0 c1 0 1.8 -.8 1.8 -1.8 l0 -3.6 c1.4 -1 2.6 -2.6 2.6 -4.8 c0 -3.6 -2.6 -6.6 -7 -6.6';
+    const skullT = (cx, cyc, k) => 'translate(' + cx + ' ' + cyc + ') scale(' + k + ') translate(-22 -21)';
+    const skullAt = (cx, cyc, k) => {
+      const tr = skullT(cx, cyc, k);
+      return [
+        P(SKULL_D, { f: '#e2e8f0', transform: tr }),
+        P(circleD(19.3, 20, 1.7), { f: DARK, transform: tr }),
+        P(circleD(24.7, 20, 1.7), { f: DARK, transform: tr })
+      ];
+    };
+    const DIAMOND = 'M22 2 L42 22 L22 42 L2 22 Z';
+    const PENTA = 'M22 2 L42 17 L34 41 L10 41 L2 17 Z';
+    const HEXA = 'M2 22 L12 5 L32 5 L42 22 L32 39 L12 39 Z';
+    if (coste === 0 || coste === '0') {
+      runePaths = [P('M22 6 L38 22 L22 38 L6 22 Z', { s: '#4b5563', w: 1.6, dash: '3 3' })];
+    } else if (coste === '∞') {
+      runeGlow = 'drop-shadow(0 0 5px rgba(255,215,0,.55))';
+      runePaths = [
+        P(circleD(22, 22, 20), { f: DARK, s: '#ffd700', w: 2 }),
+        P(circleD(22, 22, 15.5), { s: 'rgba(255,215,0,.4)', w: 1 }),
+        P('M22 3.5 L22 7 M22 37 L22 40.5 M3.5 22 L7 22 M37 22 L40.5 22 M8.9 8.9 L11.4 11.4 M32.6 32.6 L35.1 35.1 M35.1 8.9 L32.6 11.4 M11.4 32.6 L8.9 35.1', { s: '#ffd700', w: 1.3 }),
+        P('M13 22 C13 18.2 19 18.2 22 22 C25 25.8 31 25.8 31 22 C31 18.2 25 18.2 22 22 C19 25.8 13 25.8 13 22 Z', { s: '#ffd700', w: 2.1 })
+      ];
+    } else if (coste === 'magia') {
+      runeGlow = 'drop-shadow(0 0 5px rgba(253,186,116,.65))';
+      runePaths = [
+        P('M22 2 L26.5 17.5 L42 22 L26.5 26.5 L22 42 L17.5 26.5 L2 22 L17.5 17.5 Z', { f: DARK, s: '#fdba74', w: 2 }),
+        P('M22 13 L23.8 20.2 L31 22 L23.8 23.8 L22 31 L20.2 23.8 L13 22 L20.2 20.2 Z', { f: '#fdba74' }),
+        P(circleD(22, 22, 1.8), { f: '#fff7ed' }),
+        P(circleD(29.5, 14.5, 1.2), { f: '#fdba74' }),
+        P(circleD(14.5, 29.5, 1.2), { f: '#fdba74' }),
+        P(circleD(30.5, 30.5, 0.9), { f: '#fed7aa' }),
+        P(circleD(13.5, 13.5, 0.9), { f: '#fed7aa' })
+      ];
+    } else if (coste === 1 || coste === '1') {
+      runeGlow = 'drop-shadow(0 0 4px rgba(239,68,68,.4))';
+      runePaths = [P(DIAMOND, { f: DARK, s: GOLD, w: 2 }), ...skullAt(22, 23, 1.05)];
+    } else if (coste === 2 || coste === '2') {
+      runeGlow = 'drop-shadow(0 0 4px rgba(239,68,68,.4))';
+      runePaths = [P(PENTA, { f: DARK, s: GOLD, w: 2 }), ...skullAt(15.5, 24, 0.8), ...skullAt(28.5, 24, 0.8)];
+    } else if (coste === 3 || coste === '3') {
+      runeGlow = 'drop-shadow(0 0 5px rgba(239,68,68,.5))';
+      runePaths = [P(HEXA, { f: DARK, s: GOLD, w: 2 }), ...skullAt(14.5, 20, 0.68), ...skullAt(29.5, 20, 0.68), ...skullAt(22, 32, 0.78)];
+    }
+
+    const MOTIF = {
+      Vikinga: 'M50 10 L50 90 M25 35 L50 60 L75 35 M30 75 L50 60 L70 75',
+      Griega: 'M20 80 L80 80 M30 80 L30 30 M70 80 L70 30 M25 30 L75 30 M50 15 L20 30 L80 30 Z',
+      Egipcia: 'M50 15 L20 75 L80 75 Z M50 15 L50 75 M35 45 L65 45 M27 60 L73 60',
+      Hinduista: 'M50 10 C30 30 30 70 50 90 C70 70 70 30 50 10 Z M10 50 C30 30 70 30 90 50 C70 70 30 70 10 50 Z'
+    };
+    const motifD = MOTIF[civ] || '';
+
+    const sinStats = ['Mágica', 'Trampa', 'Portal'].includes(tipo);
+    const hasStats = !sinStats;
+    const nombreLen = (c.nombre || '').length;
+    const isProtagonist = tipo === 'Dios' || tipo === 'Titán' || tipo === 'Élite / Divinidad';
+
+    // Sticks del coste para el modo "mano"
+    let handSticks = [], handCostGlyph = false, handCostGlyphText = '';
+    if (coste === 1 || coste === '1') handSticks = [0];
+    else if (coste === 2 || coste === '2') handSticks = [0, 1];
+    else if (coste === 3 || coste === '3') handSticks = [0, 1, 2];
+    else if (coste === '∞') { handCostGlyph = true; handCostGlyphText = '∞'; }
+    else if (coste === 'magia') { handCostGlyph = true; handCostGlyphText = '✦'; }
+
+    // Dimensiones por modo
+    const DIMS = {
+      inspect: { w: 300, h: 485, pad: '12px', radius: 18, border: 2.5 },
+      hand: { w: 116, h: 165, pad: '5px 5px 4px', radius: 10, border: 1.5 },
+      board: { w: 58, h: 68, pad: '2px', radius: 9, border: 1.5 }
+    };
+    const dim = DIMS[mode] || DIMS.inspect;
+
+    const boardIcon = (c.nombre || '?').charAt(0).toUpperCase();
+
+    const st = this.state;
+    const cardTransform = isInspect ? 'perspective(900px) rotateX(' + st.rx.toFixed(2) + 'deg) rotateY(' + st.ry.toFixed(2) + 'deg)' : 'none';
+    const cardTransition = st.hovering ? 'transform .08s ease-out' : 'transform .5s cubic-bezier(.2,.8,.3,1)';
+
+    const spd = this.props.velocidad || 1;
+    const auraOn = this.props.aura ?? true;
+    const sweepOn = this.props.barrido ?? true;
+    const partOn = (this.props.particulas ?? true) && isInspect;
+    const particles = [
+      { left: '25%', anim: 'float-particle ' + (7 / spd).toFixed(2) + 's infinite linear' },
+      { left: '50%', anim: 'float-particle ' + (5 / spd).toFixed(2) + 's infinite linear ' + (1.5 / spd).toFixed(2) + 's' },
+      { left: '75%', anim: 'float-particle ' + (6.2 / spd).toFixed(2) + 's infinite linear ' + (3.2 / spd).toFixed(2) + 's' }
+    ];
+
+    const efx = this.textoRelieve();
+
+    return {
+      efxFont: efx.font, efxWeight: efx.weight, efxColor: efx.color,
+      efxShadow: efx.shadow, efxStroke: efx.stroke, efxTransform: efx.transform,
+      efxLabelColor: efx.labelColor,
+      auraAnim: auraOn ? 'carta-aura ' + (4 / spd).toFixed(2) + 's ease-in-out infinite' : 'none',
+      sweepAnim: 'light-sweep ' + (8 / spd).toFixed(2) + 's ease-in-out infinite',
+      showSweep: sweepOn, showParticles: partOn, particles,
+      cardW: dim.w, cardH: dim.h, cardRadius: dim.radius, cardPad: dim.pad, borderW: dim.border,
+      cardTransform, cardTransition,
+      shinePos: 'circle at ' + st.shineX.toFixed(1) + '% ' + st.shineY.toFixed(1) + '%',
+      shineOp: isInspect && st.hovering ? 1 : 0,
+      onCardMove: isInspect ? (e) => this.onCardMove(e) : undefined,
+      onCardLeave: isInspect ? () => this.onCardLeave() : undefined,
+      cardRef: isInspect ? (el) => this.attachCardRef(el) : undefined,
+      rootJustify: isBoard ? 'center' : 'flex-start', rootAlign: isBoard ? 'center' : 'stretch',
+      cardBg, borderColor: th.b, auraRgb: th.a, lightColor: th.l, darkColor: th.d, illusBg: th.ig,
+      vis: hide ? 'hidden' : 'visible',
+      isInspect, isHand, isBoard, notBoard: !isBoard,
+      nombre: (c.nombre || '').toUpperCase(),
+      nameSize: isHand ? 8.5 : (isProtagonist ? (nombreLen > 14 ? 23 : 25) : (nombreLen > 15 ? 19 : 21)),
+      nameWeight: isProtagonist && isInspect ? 700 : 400,
+      nameLS: isHand ? 0.5 : (isProtagonist ? 2 : 1.5),
+      nameGlow: isProtagonist ? 12 : 10,
+      nameGap: isInspect ? 4 : 0,
+      showFiligree: isInspect && !isProtagonist,
+      showMotif: !!motifD && !hide && isInspect, motifD,
+      runeGlow, runePaths,
+      headerH: isHand ? 24 : 44, headerMb: isHand ? 3 : 7, headerGap: isHand ? 4 : 9,
+      handSticks, handCostGlyph, handCostGlyphText,
+      illusH: isHand ? 42 : 222,
+      illusRadius: isHand ? 6 : 12,
+      illusMb: isHand ? 0 : (sinStats ? 10 : 0),
+      illusFont: isHand ? '7px ui-monospace,monospace' : (tipo === 'Trampa' ? '38px sans-serif' : '10px ui-monospace,monospace'),
+      hasStats,
+      marbleGrad: 'radial-gradient(ellipse at 22% 30%, rgba(255,255,255,.09), transparent 45%), repeating-linear-gradient(105deg, transparent 0 13px, rgba(255,255,255,.05) 13px 14px, transparent 14px 30px), linear-gradient(160deg,' + (th.mb || ['#1b2f52', '#0d1830', '#16294a']).join(',') + ')',
+      atqD: String(c.ataque ?? '—'),
+      feRoman: tipo === 'Dios' ? 'V' : ({ 0: '—', 1: 'I', 2: 'II', 3: 'III', 4: 'IV', 5: 'V' }[c.fe] ?? '—'),
+      feSize: tipo === 'Dios' || c.fe <= 2 ? 28 : 22,
+      desD: String(c.des ?? '—'),
+      efectoH: sinStats ? 180 : 106,
+      hasEffect: !!(c.efecto && c.efecto.trim() !== 'Sin efecto.'),
+      efecto: c.efecto || '',
+      boardIcon,
+      placeholderText: tipo === 'Trampa' ? '🕸️' : 'Ilustración Fantasía',
+      phFont: tipo === 'Trampa' ? '38px sans-serif' : '10px ui-monospace,monospace'
+    };
+  }
+}
+</script>
+</body>
+</html>

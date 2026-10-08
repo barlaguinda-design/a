@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Rubik+Wet+Paint&display=swap" rel="stylesheet">
+  <style>
+    @keyframes girar { to { transform:rotate(360deg); } }
+    body { margin:0; background:#07090f; }
+    a { color:#ffd700; } a:hover { color:#fde047; }
+    input[type=range] { accent-color:#d4a941; }
+  </style>
+</helmet>
+<div style="min-height:100vh; background:radial-gradient(ellipse at 50% -10%, #17122a 0%, #07090f 70%); color:#e2e8f0; font-family:'Montserrat',sans-serif;">
+  <header style="background:rgba(8,10,16,.9); border-bottom:1.5px solid rgba(255,255,255,.08); padding:16px 30px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1 style="font-family:'Cinzel',serif; font-size:24px; margin:0; letter-spacing:3px; background:linear-gradient(135deg,#ffd700 0%,#d4a941 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">BANCO DE BRILLO</h1>
+      <p style="font-size:11px; color:#94a3b8; margin:5px 0 0; letter-spacing:1px;">Capas universales y recetas por tipo — mueve el puntero sobre la carta, mantén pulsado para activarla</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <sc-for list="{{ tabBtns }}" as="b" hint-placeholder-count="3">
+        <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:9px 18px; border-radius:8px; font-size:12px; cursor:pointer; font-weight:{{ b.fw }}; font-family:'Cinzel',serif; letter-spacing:1.5px;">{{ b.label }}</button>
+      </sc-for>
+    </div>
+  </header>
+
+  <sc-if value="{{ notElementos }}" hint-placeholder-val="{{ true }}">
+  <main style="max-width:1420px; margin:0 auto; padding:26px; box-sizing:border-box; display:flex; flex-wrap:wrap; gap:32px; align-items:flex-start;">
+    <section style="flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:16px; padding:34px 46px; background:rgba(10,13,20,.6); border:1.5px solid rgba(255,255,255,.07); border-radius:20px;">
+      <div style="transform:scale(1.22); transform-origin:top center; margin-bottom:118px;">
+        <dc-import name="CartaHolo" card="{{ heroCard }}" receta="{{ receta }}" intensidad="{{ intensidad }}" zona="{{ zona }}" grados="{{ grados }}" glare="{{ glare }}" holo="{{ holo }}" grano="{{ grano }}" tinte="{{ tinte }}" halo="{{ halo }}" rotacion="{{ rotacion }}" forzar-activo="{{ fijo }}" aura="{{ aura }}" barrido="{{ barrido }}" particulas="{{ particulas }}" relieve="{{ relieve }}" profundidad="{{ profundidad }}" tipo-letra="{{ tipoLetra }}" parallax-fuerza="{{ parallaxFuerza }}" hint-size="300px,485px"></dc-import>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; max-width:420px;">
+        <sc-for list="{{ cardBtns }}" as="b" hint-placeholder-count="6">
+          <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:6px 11px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }}; font-family:'Montserrat',sans-serif;">{{ b.label }}</button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="flex:1; min-width:320px; display:flex; flex-direction:column; gap:18px;">
+      <sc-if value="{{ showTexto }}" hint-placeholder-val="{{ false }}">
+        <div style="background:rgba(13,17,26,.85); border:1.5px solid rgba(212,169,65,.28); border-radius:16px; padding:18px 20px; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Relieve del texto de efecto</span>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <sc-for list="{{ relieveBtns }}" as="b" hint-placeholder-count="4">
+                <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+            <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Tipografía</span>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <sc-for list="{{ fontBtns }}" as="b" hint-placeholder-count="4">
+                <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <label style="display:flex; align-items:center; gap:12px; font-size:11px; color:#cbd5e1;">
+              <span style="width:112px; color:#94a3b8; letter-spacing:1px;">Profundidad</span>
+              <input type="range" min="0.3" max="2" step="0.1" value="{{ profundidad }}" onInput="{{ setProfundidad }}" style="flex:1;">
+              <span style="width:34px; text-align:right; color:#d4a941; font-weight:700;">{{ profundidadLbl }}</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:12px; font-size:11px; color:#cbd5e1;">
+              <span style="width:112px; color:#94a3b8; letter-spacing:1px;">Flotación</span>
+              <input type="range" min="0" max="2.5" step="0.1" value="{{ parallaxFuerza }}" onInput="{{ setParallax }}" style="flex:1;">
+              <span style="width:34px; text-align:right; color:#d4a941; font-weight:700;">{{ parallaxLbl }}</span>
+            </label>
+          </div>
+          <p style="font-size:11px; color:#64748b; margin:0; line-height:1.6;">El texto de efecto se despega de la carta y se desplaza al contrario del giro. Con flotación a 0 queda solo el relieve.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showBrillo }}" hint-placeholder-val="{{ true }}">
+      <div style="background:rgba(13,17,26,.85); border:1.5px solid rgba(255,255,255,.08); border-radius:16px; padding:18px 20px; display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; flex-direction:column; gap:9px;">
+          <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Receta de holo</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <sc-for list="{{ recetaBtns }}" as="b" hint-placeholder-count="6">
+              <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:9px;">
+          <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Zona que brilla</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <sc-for list="{{ zonaBtns }}" as="b" hint-placeholder-count="3">
+              <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <label style="display:flex; align-items:center; gap:12px; font-size:11px; color:#cbd5e1;">
+            <span style="width:112px; color:#94a3b8; letter-spacing:1px;">Intensidad</span>
+            <input type="range" min="0" max="2" step="0.1" value="{{ intensidad }}" onInput="{{ setIntensidad }}" style="flex:1;">
+            <span style="width:34px; text-align:right; color:#d4a941; font-weight:700;">{{ intensidadLbl }}</span>
+          </label>
+          <label style="display:flex; align-items:center; gap:12px; font-size:11px; color:#cbd5e1;">
+            <span style="width:112px; color:#94a3b8; letter-spacing:1px;">Giro 3D</span>
+            <input type="range" min="0" max="26" step="1" value="{{ grados }}" onInput="{{ setGrados }}" style="flex:1;">
+            <span style="width:34px; text-align:right; color:#d4a941; font-weight:700;">{{ gradosLbl }}</span>
+          </label>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:9px;">
+          <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Capas</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <sc-for list="{{ capaBtns }}" as="b" hint-placeholder-count="8">
+              <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <div style="background:rgba(13,17,26,.6); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:16px 20px;">
+        <p style="font-size:11px; color:#94a3b8; margin:0 0 8px; letter-spacing:1px; font-family:'Cinzel',serif; text-transform:uppercase;">Reparto automático por tipo</p>
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:5px 14px; font-size:11.5px; color:#cbd5e1; line-height:1.5;">
+          <span style="color:#d4a941;">Metal</span><span>Dios</span>
+          <span style="color:#d4a941;">Radiante</span><span>Titán · Trampa</span>
+          <span style="color:#d4a941;">Galaxia</span><span>Animal Mitológico · Portal</span>
+          <span style="color:#d4a941;">Prisma</span><span>Élite / Divinidad · Mágica</span>
+          <span style="color:#d4a941;">Líneas</span><span>Personaje · Animal · Humano común · Escualo</span>
+          <span style="color:#d4a941;">VMAX · Arcoíris · Galería</span><span>nuevas — sin asignar</span>
+        </div>
+        <p style="font-size:11px; color:#94a3b8; margin:14px 0 8px; letter-spacing:1px; font-family:'Cinzel',serif; text-transform:uppercase;">Color por civilización</p>
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:5px 14px; font-size:11.5px; color:#cbd5e1; line-height:1.5;">
+          <span style="color:#3b82f6;">Azul</span><span>Griegos</span>
+          <span style="color:#facc15;">Amarillo</span><span>Egipcios</span>
+          <span style="color:#f97316;">Naranja</span><span>Vikingos</span>
+          <span style="color:#15803d;">Verde oscuro</span><span>Místicos</span>
+          <span style="color:#4ade80;">Verde claro</span><span>Cartas mágicas</span>
+          <span style="color:#e2e8f0;">Plata</span><span>Trampas — provisional, falta el negro con estrella</span>
+        </div>
+        <p style="font-size:11px; color:#64748b; margin:12px 0 0; line-height:1.6;">La civilización no cambia la receta de holo: tiñe el halo, el borde y el destello. Los dioses heredan el color de su civilización. Faltan los rangos internos de cada color.</p>
+      </div>
+    </section>
+  </main>
+
+  <section style="max-width:1420px; margin:0 auto; padding:0 26px 50px; box-sizing:border-box;">
+    <p style="font-size:11px; color:#94a3b8; margin:0 0 18px; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">{{ compareTitle }}</p>
+    <div style="display:flex; flex-wrap:wrap; gap:26px;">
+      <sc-for list="{{ compare }}" as="r" hint-placeholder-count="5">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+          <div style="width:210px; height:340px; display:flex; align-items:flex-start; justify-content:center;">
+            <div style="transform:scale(.7); transform-origin:top center;">
+              <dc-import name="CartaHolo" card="{{ heroCard }}" receta="{{ r.receta }}" relieve="{{ r.relieve }}" profundidad="{{ profundidad }}" tipo-letra="{{ tipoLetra }}" parallax-fuerza="{{ parallaxFuerza }}" intensidad="{{ intensidad }}" zona="{{ zona }}" grados="{{ grados }}" glare="{{ glare }}" holo="{{ holo }}" grano="{{ grano }}" tinte="{{ tinte }}" halo="{{ halo }}" rotacion="{{ rotacion }}" forzar-activo="{{ fijo }}" aura="{{ aura }}" barrido="{{ barrido }}" particulas="{{ particulas }}" hint-size="300px,485px"></dc-import>
+            </div>
+          </div>
+          <span style="font-size:11px; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif; color:{{ r.col }};">{{ r.label }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ showElementos }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:1420px; margin:0 auto; padding:26px 26px 50px; box-sizing:border-box; display:flex; flex-direction:column; gap:26px;">
+    <div style="display:flex; flex-wrap:wrap; gap:26px; align-items:stretch;">
+      <div style="flex:1; min-width:300px; background:rgba(13,17,26,.85); border:1.5px solid rgba(239,68,68,.3); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-size:11px; color:#f87171; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Sacrificio · hexágono + número</span>
+        <svg width="0" height="0" style="position:absolute;">
+          <defs>
+            <filter id="gore" x="-60%" y="-60%" width="220%" height="260%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="b"></feGaussianBlur>
+              <feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11" result="g"></feColorMatrix>
+              <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="n"></feTurbulence>
+              <feDisplacementMap in="g" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+            </filter>
+          </defs>
+        </svg>
+        <div style="display:flex; gap:16px; justify-content:center; align-items:center; flex:1;">
+          <sc-for list="{{ sacrificios }}" as="n" hint-placeholder-count="3">
+            <div style="width:114px; height:100px; position:relative; display:grid; place-items:center; filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));">
+              <svg viewBox="0 0 114 100" width="114" height="100" style="grid-area:1/1;">
+                <polygon points="30,3 84,3 111,50 84,97 30,97 3,50" fill="#160b0d" stroke="#7f1d1d" stroke-width="3"></polygon>
+                <polygon points="34,12 80,12 102,50 80,88 34,88 12,50" fill="none" stroke="#b91c1c" stroke-width="1.3" opacity=".65"></polygon>
+              </svg>
+              <div style="grid-area:1/1; width:100%; height:100%; position:relative; filter:{{ goreFilter }};">
+                <div style="position:absolute; inset:0; display:grid; place-items:center;">
+                  <span style="font-family:{{ zFontCss }}; font-size:{{ zSize }}px; line-height:1; color:{{ zColor }}; text-shadow:{{ zFat }}; transform:translateY({{ zOffset }}px); text-align:center;">{{ n.v }}</span>
+                </div>
+                <sc-if value="{{ gore }}" hint-placeholder-val="{{ true }}">
+                  <sc-for list="{{ n.drips }}" as="d" hint-placeholder-count="3">
+                    <div style="position:absolute; left:{{ d.x }}%; top:{{ d.y }}%; width:{{ d.w }}px; height:{{ d.h }}px; background:{{ zColor }}; border-radius:0 0 50% 50% / 0 0 {{ d.h }}px {{ d.h }}px;"></div>
+                    <div style="position:absolute; left:{{ d.bx }}%; top:{{ d.by }}%; width:{{ d.bw }}px; height:{{ d.bw }}px; background:{{ zColor }}; border-radius:50%;"></div>
+                  </sc-for>
+                </sc-if>
+              </div>
+              <sc-if value="{{ gore }}" hint-placeholder-val="{{ true }}">
+                <span style="grid-area:1/1; font-family:{{ zFontCss }}; font-size:{{ zSize }}px; line-height:1; color:transparent; transform:translateY({{ zOffset }}px); text-align:center; text-shadow:0 -1.5px 0 rgba(255,150,150,.5), 0 1px 2px rgba(40,0,0,.7); pointer-events:none;">{{ n.v }}</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:8px; justify-content:center;">
+          <sc-for list="{{ goreBtns }}" as="b" hint-placeholder-count="2">
+            <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 15px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }};">{{ b.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+          <sc-for list="{{ zFontBtns }}" as="b" hint-placeholder-count="2">
+            <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:7px 13px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }}; font-family:{{ b.ff }};">{{ b.label }}</button>
+          </sc-for>
+        </div>
+        <p style="font-size:11px; color:#64748b; margin:0; line-height:1.6;">Hexágono horizontal. Rock Salt aporta el trazo manuscrito nervioso; Rubik Wet Paint, el cuerpo de pintura húmeda. Con sangre añade goteo y bordes fundidos.</p>
+      </div>
+      <div style="flex:1; min-width:300px; background:rgba(13,17,26,.85); border:1.5px solid rgba(239,68,68,.3); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-size:11px; color:#f87171; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Ataque · espada con filo metálico</span>
+        <div style="display:flex; gap:14px; justify-content:center; align-items:center; flex:1;">
+          <svg viewBox="0 0 100 100" width="126" height="126" style="filter:drop-shadow(0 0 10px rgba(239,68,68,.5));">
+            <defs>
+              <linearGradient id="filo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7f1d1d"></stop><stop offset=".38" stop-color="#ef4444"></stop><stop offset=".55" stop-color="#fda4a4"></stop><stop offset="1" stop-color="#8f0b0b"></stop></linearGradient>
+              <linearGradient id="empu" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dc2626"></stop><stop offset=".5" stop-color="#fca5a5"></stop><stop offset="1" stop-color="#7f1d1d"></stop></linearGradient>
+            </defs>
+            <g transform="rotate(-45 50 50)" fill="none" stroke="#ef4444" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M50 9 L62 27 L62 61 L38 61 L38 27 Z" fill="url(#filo)"></path>
+              <path d="M50 26 L50 55" stroke="#fecaca" stroke-width="4.5" opacity=".9"></path>
+              <rect x="25" y="61" width="50" height="11" rx="5.5" fill="url(#empu)"></rect>
+              <rect x="43" y="72" width="14" height="15" rx="4" fill="url(#empu)"></rect>
+              <circle cx="50" cy="91" r="7.5" fill="none"></circle>
+            </g>
+          </svg>
+          <span style="font-family:'Cinzel',serif; font-size:46px; font-weight:900; color:#ef4444; text-shadow:0 0 14px rgba(239,68,68,.6);">7.5</span>
+        </div>
+        <p style="font-size:11px; color:#64748b; margin:0; line-height:1.6;">Trazo grueso como tu referencia, en diagonal, con degradado metálico rojo dentro de la hoja y resplandor. El número mantiene el decimal.</p>
+      </div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:26px; align-items:stretch;">
+      <div style="flex:1; min-width:300px; background:rgba(13,17,26,.85); border:1.5px solid rgba(34,197,94,.3); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-size:11px; color:#4ade80; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Magia · círculo arcano giratorio</span>
+        <div style="display:flex; justify-content:center; align-items:center; flex:1;">
+          <div style="width:150px; height:150px; position:relative; display:flex; align-items:center; justify-content:center; background:radial-gradient(circle,#0d2313 0%,#050b06 70%, transparent 72%);">
+            <svg viewBox="0 0 150 150" width="150" height="150" style="position:absolute; inset:0; animation:girar 26s linear infinite;">
+              <circle cx="75" cy="75" r="69" fill="none" stroke="#22c55e" stroke-width="1.6" opacity=".85"></circle>
+              <circle cx="75" cy="75" r="60" fill="none" stroke="#22c55e" stroke-width=".8" stroke-dasharray="4 7" opacity=".7"></circle>
+              <sc-for list="{{ runas }}" as="r" hint-placeholder-count="6">
+                <path d="{{ r.d }}" transform="{{ r.t }}" stroke="#4ade80" stroke-width="1.5" fill="none" stroke-linecap="round" opacity=".9"></path>
+              </sc-for>
+            </svg>
+            <svg viewBox="0 0 150 150" width="150" height="150" style="position:absolute; inset:0; animation:girar 40s linear infinite reverse;">
+              <polygon points="75,29 115,98 35,98" fill="none" stroke="#22c55e" stroke-width="1" opacity=".5"></polygon>
+              <polygon points="75,121 35,52 115,52" fill="none" stroke="#22c55e" stroke-width="1" opacity=".5"></polygon>
+            </svg>
+            <span style="position:relative; font-family:'Cinzel',serif; font-size:46px; font-weight:900; color:#22c55e; text-shadow:0 0 18px rgba(34,197,94,.8);">III</span>
+          </div>
+        </div>
+        <p style="font-size:11px; color:#64748b; margin:0; line-height:1.6;">Dos anillos con runas girando lento y hexagrama interior en contra-rotación. El romano queda fijo encima.</p>
+      </div>
+      <div style="flex:1; min-width:300px; background:rgba(13,17,26,.85); border:1.5px solid rgba(59,130,246,.3); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+        <span style="font-size:11px; color:#60a5fa; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Defensa · escudo heráldico</span>
+        <div style="display:flex; justify-content:center; align-items:center; flex:1;">
+          <div style="position:relative; display:flex; align-items:center; justify-content:center; filter:drop-shadow(0 0 10px rgba(59,130,246,.35));">
+            <svg viewBox="0 0 100 120" width="105" height="126">
+              <defs><linearGradient id="esc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e3a8a"></stop><stop offset="1" stop-color="#0a1730"></stop></linearGradient></defs>
+              <path d="M50 5 L93 15 V57 C93 87 74 106 50 116 C26 106 7 87 7 57 V15 Z" fill="url(#esc)" stroke="#3b82f6" stroke-width="2.5"></path>
+              <path d="M50 12 L86 20.5 V56 C86 81 70 98 50 107 C30 98 14 81 14 56 V20.5 Z" fill="none" stroke="#60a5fa" stroke-width="1" opacity=".55"></path>
+            </svg>
+            <span style="position:absolute; font-family:'Cinzel',serif; font-size:42px; font-weight:900; color:#93c5fd; text-shadow:0 0 14px rgba(96,165,250,.7);">5</span>
+          </div>
+        </div>
+        <p style="font-size:11px; color:#64748b; margin:0; line-height:1.6;">Sustituye a la espiral: heráldico clásico en punta, azul propio del stat, número dentro.</p>
+      </div>
+    </div>
+    <div style="background:rgba(13,17,26,.6); border:1px solid rgba(255,255,255,.06); border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+      <span style="font-size:10px; color:#94a3b8; letter-spacing:2px; text-transform:uppercase; font-family:'Cinzel',serif;">Tamaño en carta</span>
+      <div style="display:flex; align-items:center; gap:22px;">
+        <div style="width:30px; height:26px; display:grid; place-items:center;"><svg viewBox="0 0 114 100" width="30" height="26" style="grid-area:1/1;"><polygon points="30,3 84,3 111,50 84,97 30,97 3,50" fill="#160b0d" stroke="#7f1d1d" stroke-width="6"></polygon></svg><span style="grid-area:1/1; font-family:{{ zFontCss }}; font-size:{{ zMiniSize }}px; line-height:1; color:#ef4444;">2</span></div>
+        <div style="display:flex; align-items:center; gap:3px;"><svg viewBox="0 0 100 100" width="26" height="26"><g transform="rotate(-45 50 50)" fill="none" stroke="#ef4444" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"><path d="M50 9 L62 27 L62 61 L38 61 L38 27 Z"></path><rect x="25" y="61" width="50" height="11" rx="5.5"></rect><rect x="43" y="72" width="14" height="15" rx="4"></rect><circle cx="50" cy="91" r="7.5"></circle></g></svg><span style="font-family:'Cinzel',serif; font-size:13px; font-weight:800; color:#ef4444;">7.5</span></div>
+        <div style="width:26px; height:26px; border-radius:50%; border:1px solid #22c55e; background:radial-gradient(circle,#0d2313,#050b06); display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:11px; font-weight:900; color:#22c55e;">III</div>
+        <div style="width:22px; height:26px; position:relative; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 100 120" width="22" height="26" style="position:absolute; inset:0;"><path d="M50 5 L93 15 V57 C93 87 74 106 50 116 C26 106 7 87 7 57 V15 Z" fill="#0a1730" stroke="#3b82f6" stroke-width="5"></path></svg><span style="position:relative; font-family:'Cinzel',serif; font-size:12px; font-weight:900; color:#93c5fd;">5</span></div>
+      </div>
+      <p style="font-size:11px; color:#64748b; margin:0;">Cuando elijas, los llevo a Carta.dc.html en los tres modos (inspección, mano, tablero).</p>
+    </div>
+  </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {
+    cardId: 18, receta: 'auto', zona: 'toda', intensidad: 1.4, grados: 14,
+    glare: true, holo: true, grano: true, tinte: true, halo: true, rotacion: true,
+    aura: true, barrido: true, particulas: true, fijo: false,
+    tab: 'brillo', relieve: 'grabado', profundidad: 1.1, tipoLetra: 'montserrat', parallaxFuerza: 1, zfont: 'rocksalt', gore: true
+  };
+
+  cards() {
+    if (this._c) return this._c;
+    this._c = [
+      { id:18, nombre:'Zeus', tipo:'Dios', civilizacion:'Griega', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Dominio del Olimpo: Otorga +2 de evasión a todos los griegos del campo.' },
+      { id:19, nombre:'Ra', tipo:'Dios', civilizacion:'Egipcia', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Rayo Solar: Otorga +2 de nivel de magia a todos los egipcios en el campo.' },
+      { id:34, nombre:'Titán Atlas', tipo:'Titán', civilizacion:'Griega', nivel:'N2', ataque:10, fe:0, des:9, costeSacrificio:2, efecto:'Sostén Celeste: protege a los aliados de su frente. Mayor esquiva del juego.' },
+      { id:47, nombre:'Garuda', tipo:'Animal Mitológico', civilizacion:'Hinduista', nivel:'N5', ataque:7, fe:5, des:6, costeSacrificio:3, efecto:'Tormenta de Alas: crea tormentas al batir sus alas doradas. Enemigo natural de las serpientes.' },
+      { id:46, nombre:'Thor', tipo:'Élite / Divinidad', civilizacion:'Vikinga', nivel:'N2', ataque:9, fe:2, des:5, costeSacrificio:2, efecto:'Mjölnir: el martillo divino aumenta su ataque (+2 al atacar).' },
+      { id:2, nombre:'El Ojo de Odín', tipo:'Mágica', civilizacion:'Vikinga', nivel:'M', costeSacrificio:'magia', efecto:'Revela la mano del rival durante 10 segundos. El jugador puede ver todas las cartas del oponente.' },
+      { id:6, nombre:'Legionario', tipo:'Personaje', civilizacion:'Griega', nivel:'N1', ataque:4, fe:0, des:1, costeSacrificio:1, efecto:'Sin efecto.' },
+      { id:28, nombre:'Trampa Ígnea', tipo:'Trampa', civilizacion:'Neutral', nivel:'T', costeSacrificio:'magia', efecto:'Al activarse, hace daño elemental de Fuego a los personajes del frente.' }
+    ];
+    return this._c;
+  }
+
+  btn(label, active, on) {
+    return {
+      label, on,
+      bg: active ? 'rgba(212,169,65,.18)' : 'rgba(255,255,255,.04)',
+      bd: active ? '#d4a941' : 'rgba(255,255,255,.12)',
+      col: active ? '#ffd700' : '#94a3b8',
+      fw: active ? 700 : 400
+    };
+  }
+
+  set(k, v) { this.setState({ [k]: v }); }
+  toggle(k) { this.setState(s => ({ [k]: !s[k] })); }
+
+  renderVals() {
+    const s = this.state;
+    const RECETAS = [['auto','Auto por tipo'],['lineas','Líneas'],['prisma','Prisma'],['galaxia','Galaxia'],['metal','Metal'],['radiante','Radiante'],['vmax','VMAX'],['arcoiris','Arcoíris'],['galeria','Galería']];
+    const ZONAS = [['toda','Toda la carta'],['ilustracion','Solo ilustración'],['marco','Ilustración + marco']];
+    const CAPAS = [['fijo','Brillo fijo'],['glare','Glare'],['holo','Holo'],['grano','Grano'],['tinte','Tinte civ.'],['halo','Halo borde'],['rotacion','Giro 3D'],['aura','Aura'],['barrido','Barrido'],['particulas','Partículas']];
+    const COMPARE = [['lineas','Líneas','#c084fc'],['prisma','Prisma','#67e8f9'],['galaxia','Galaxia','#93c5fd'],['metal','Metal','#ffd700'],['radiante','Radiante','#e2e8f0'],['vmax','VMAX','#4ade80'],['arcoiris','Arcoíris','#f9a8d4'],['galeria','Galería','#fda4af']];
+    const RELIEVES = [['ninguno','Plano'],['grabado','Grabado'],['extrusion','Extrusión'],['neon','Contorno luz']];
+    const FONTS = [['montserrat','Montserrat'],['bitter','Bitter'],['cinzel','Cinzel'],['archivo','Archivo Black']];
+    const TABS = [['brillo','BRILLO'],['texto','TEXTO 3D'],['elementos','ELEMENTOS']];
+    const soloTexto = s.tab === 'texto';
+    const ZF = {
+      rocksalt: { label:'Rock Salt',       css:"'Rock Salt',cursive",       size:38, off:-2 },
+      wetpaint: { label:'Rubik Wet Paint', css:"'Rubik Wet Paint',cursive", size:52, off:1 }
+    };
+
+    const compare = soloTexto
+      ? RELIEVES.map(([id, label]) => ({ receta: 'lineas', relieve: id, label, col: id === s.relieve ? '#ffd700' : '#94a3b8' }))
+      : COMPARE.map(([id, label, col]) => ({ receta: id, relieve: 'ninguno', label, col }));
+
+    return {
+      tabBtns: TABS.map(([v, l]) => this.btn(l, s.tab === v, () => this.set('tab', v))),
+      showElementos: s.tab === 'elementos',
+      notElementos: s.tab !== 'elementos',
+      sacrificios: [
+        { v: 1, drips: [{ x:44, y:56, w:5, h:22, bx:43.6, by:72, bw:6 }, { x:52, y:60, w:3.5, h:13, bx:51.6, by:69, bw:4.2 }] },
+        { v: 2, drips: [{ x:36, y:58, w:5.5, h:26, bx:35.4, by:78, bw:6.8 }, { x:58, y:55, w:4, h:15, bx:57.6, by:65, bw:5 }, { x:48, y:60, w:3, h:10, bx:47.7, by:67, bw:3.6 }] },
+        { v: 3, drips: [{ x:40, y:57, w:4.5, h:18, bx:39.6, by:71, bw:5.4 }, { x:60, y:59, w:5.5, h:28, bx:59.4, by:82, bw:7 }] }
+      ],
+      gore: s.gore,
+      goreFilter: s.gore ? 'url(#gore)' : 'none',
+      zColor: s.gore ? '#8f0b0b' : '#ef4444',
+      zFat: s.gore ? (() => { const r = ZF[s.zfont].size > 45 ? 2.2 : 3.4, c = '#8f0b0b'; let o = []; for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6; o.push((Math.cos(a) * r).toFixed(1) + 'px ' + (Math.sin(a) * r).toFixed(1) + 'px 0 ' + c); } return o.join(', '); })() : 'none',
+      goreBtns: [[true,'Con sangre'],[false,'Limpio']].map(([v, l]) => this.btn(l, s.gore === v, () => this.set('gore', v))),
+      zFontCss: ZF[s.zfont].css, zSize: ZF[s.zfont].size, zOffset: ZF[s.zfont].off,
+      zMiniSize: Math.round(ZF[s.zfont].size * 0.26),
+      zFontBtns: Object.keys(ZF).map(v => Object.assign(this.btn(ZF[v].label, s.zfont === v, () => this.set('zfont', v)), { ff: ZF[v].css })),
+      runas: Array.from({ length: 12 }, (_, i) => ({ t: 'rotate(' + (i * 30) + ' 75 75)', d: ['M75 9 L75 17 M71.5 13 L78.5 13', 'M72 9 L78 17 M78 9 L72 17', 'M75 9 L71.5 17 L78.5 17 Z'][i % 3] })),
+      showBrillo: s.tab !== 'texto',
+      showTexto: s.tab !== 'brillo',
+      relieveBtns: RELIEVES.map(([v, l]) => this.btn(l, s.relieve === v, () => this.set('relieve', v))),
+      fontBtns: FONTS.map(([v, l]) => this.btn(l, s.tipoLetra === v, () => this.set('tipoLetra', v))),
+      relieve: soloTexto ? s.relieve : 'ninguno',
+      profundidad: s.profundidad, profundidadLbl: s.profundidad.toFixed(1),
+      parallaxFuerza: s.parallaxFuerza, parallaxLbl: s.parallaxFuerza.toFixed(1),
+      tipoLetra: s.tipoLetra,
+      setProfundidad: (e) => this.set('profundidad', parseFloat(e.target.value)),
+      setParallax: (e) => this.set('parallaxFuerza', parseFloat(e.target.value)),
+      compareTitle: soloTexto ? 'Los cuatro relieves, misma carta, lado a lado' : 'Las ocho recetas, misma carta, lado a lado',
+      compare,
+      heroCard: this.cards().find(c => c.id === s.cardId) || this.cards()[0],
+      cardBtns: this.cards().map(c => this.btn(c.nombre, c.id === s.cardId, () => this.set('cardId', c.id))),
+      recetaBtns: RECETAS.map(([v, l]) => this.btn(l, s.receta === v, () => this.set('receta', v))),
+      zonaBtns: ZONAS.map(([v, l]) => this.btn(l, s.zona === v, () => this.set('zona', v))),
+      capaBtns: CAPAS.map(([k, l]) => this.btn(l, s[k], () => this.toggle(k))),
+      receta: soloTexto ? 'lineas' : s.receta, zona: s.zona,
+      intensidad: s.intensidad, intensidadLbl: s.intensidad.toFixed(1),
+      grados: s.grados, gradosLbl: s.grados + '°',
+      setIntensidad: (e) => this.set('intensidad', parseFloat(e.target.value)),
+      setGrados: (e) => this.set('grados', parseInt(e.target.value, 10)),
+      glare: soloTexto ? false : s.glare, holo: soloTexto ? false : s.holo,
+      grano: soloTexto ? false : s.grano, tinte: soloTexto ? false : s.tinte, halo: s.halo,
+      rotacion: s.rotacion, aura: s.aura, barrido: s.barrido, particulas: s.particulas,
+      fijo: s.fijo
+    };
+  }
+}
+</script>
+</body>
+</html>

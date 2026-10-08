@@ -1,0 +1,12 @@
+crear nueva función. que se pueda accedes las cartas que hay en el cementerio. hay una opción que si pulsan en la casilla del cementerio les aparece todas las cartas que hay modo scrol para los lados. y luego hay un botón para salir y volver al tablero normal.
+
+crear la animación de coger carta cuando empieza tú turno (pov). 
+
+crea una animación cuando el personaje destruye un corazón y se va desvaneciendo el también con él. 
+
+
+crea un cierre del juego cuando termine que ponga en grande : ¡Bien hecho! (si has ganado) u Otra ves será (si has perdido) y botón de "Empezar nueva partida"
+
+pront: proponme maneras de mejorar el ritmo, la estética y el movimiento del juego. 
+
+los semidioses tienen animaciones especiales con 3d. como si el personaje se levantase de la carta. hay que hacer modelos 3d. mostrar imágenes (perspectiva.png)

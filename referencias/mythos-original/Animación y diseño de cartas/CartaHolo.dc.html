@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="width:300px; height:485px; display:grid; place-items:center; perspective:900px; touch-action:none;" onPointerMove="{{ onMove }}" onPointerLeave="{{ onLeave }}" onPointerDown="{{ onDown }}" onPointerUp="{{ onUp }}">
+  <div style="width:300px; height:485px; position:relative; transform:{{ rotTransform }}; transform-style:preserve-3d; transition:{{ rotTransition }}; border-radius:18px; box-shadow:{{ rotShadow }};">
+    <dc-import name="Carta" card="{{ card }}" velocidad="{{ velocidad }}" inclinacion="{{ tiltCarta }}" aura="{{ aura }}" barrido="{{ barrido }}" particulas="{{ particulas }}" relieve="{{ relieve }}" profundidad="{{ profundidad }}" tipo-letra="{{ tipoLetra }}" parallax="{{ parallax }}" parallax-fuerza="{{ parallaxFuerza }}" parallax-x="{{ parallaxX }}" parallax-y="{{ parallaxY }}" hint-size="300px,485px"></dc-import>
+
+    <sc-if value="{{ showHolo }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:0; border-radius:18px; pointer-events:none; z-index:20; overflow:hidden; clip-path:{{ zonaClip }}; opacity:{{ shineOpacity }}; background-image:{{ shineBg }}; background-size:{{ shineSize }}; background-position:{{ shinePos }}; background-blend-mode:{{ shineBlend }}; filter:{{ shineFilter }}; mix-blend-mode:{{ shineMix }}; transition:opacity .3s ease-out;"></div>
+    </sc-if>
+
+    <sc-if value="{{ showHolo2 }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute; inset:0; border-radius:18px; pointer-events:none; z-index:20; overflow:hidden; clip-path:{{ zonaClip }}; opacity:{{ shineOpacity }}; background-image:{{ shine2Bg }}; background-size:{{ shine2Size }}; background-position:{{ shine2Pos }}; background-blend-mode:{{ shine2Blend }}; filter:{{ shine2Filter }}; mix-blend-mode:{{ shine2Mix }}; transition:opacity .3s ease-out;"></div>
+    </sc-if>
+
+    <sc-if value="{{ showTint }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:0; border-radius:18px; pointer-events:none; z-index:21; clip-path:{{ zonaClip }}; opacity:{{ tintOpacity }}; background:radial-gradient(farthest-corner circle at {{ mx }}% {{ my }}%, {{ tintColor }}, transparent 62%); mix-blend-mode:color-dodge; transition:opacity .3s ease-out;"></div>
+    </sc-if>
+
+    <sc-if value="{{ showGrain }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:0; border-radius:18px; pointer-events:none; z-index:22; opacity:{{ grainOpacity }}; background-image:url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22300%22%20height=%22300%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%22.85%22%20numOctaves=%224%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22300%22%20height=%22300%22%20filter=%22url(%23n)%22%20opacity=%22.5%22/%3E%3C/svg%3E'); background-size:180px 180px; mix-blend-mode:overlay;"></div>
+    </sc-if>
+
+    <sc-if value="{{ showGlare }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:0; border-radius:18px; pointer-events:none; z-index:23; opacity:{{ glareOpacity }}; background-image:radial-gradient(farthest-corner circle at {{ mx }}% {{ my }}%, rgba(255,255,255,.82) 8%, rgba(255,255,255,.28) 22%, rgba(0,0,0,.55) 92%); mix-blend-mode:{{ glareMix }}; filter:brightness({{ glareBright }}) contrast(1.5); transition:opacity .3s ease-out;"></div>
+    </sc-if>
+
+    <sc-if value="{{ showHalo }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:-1px; border-radius:19px; pointer-events:none; z-index:24; border:1.5px solid {{ haloColor }}; box-shadow:inset 0 0 {{ haloBlur }}px {{ haloColor }}; opacity:{{ haloOpacity }}; transition:opacity .3s ease-out;"></div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:500},&quot;card&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;,&quot;default&quot;:null},&quot;receta&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;lineas&quot;,&quot;prisma&quot;,&quot;galaxia&quot;,&quot;metal&quot;,&quot;radiante&quot;,&quot;vmax&quot;,&quot;arcoiris&quot;,&quot;galeria&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;intensidad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1.4,&quot;min&quot;:0,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;},&quot;zona&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;toda&quot;,&quot;ilustracion&quot;,&quot;marco&quot;],&quot;default&quot;:&quot;toda&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;grados&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:14,&quot;min&quot;:0,&quot;max&quot;:26,&quot;step&quot;:1,&quot;unit&quot;:&quot;°&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;glare&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;holo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;grano&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;tinte&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;halo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;rotacion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;forzarActivo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;relieve&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ninguno&quot;,&quot;grabado&quot;,&quot;extrusion&quot;,&quot;neon&quot;],&quot;default&quot;:&quot;ninguno&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;profundidad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;tipoLetra&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;montserrat&quot;,&quot;bitter&quot;,&quot;cinzel&quot;,&quot;archivo&quot;],&quot;default&quot;:&quot;montserrat&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;parallax&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Texto 3D&quot;},&quot;parallaxFuerza&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Texto 3D&quot;}}">
+class Component extends DCLogic {
+  state = { px: .5, py: .5, hyp: 0, live: false, active: false };
+
+  onMove(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    const hyp = Math.min(1, Math.hypot(px - .5, py - .5) * 2);
+    this.setState({ px, py, hyp, live: true });
+  }
+  onLeave() { this.setState({ px: .5, py: .5, hyp: 0, live: false, active: false }); }
+  onDown(e) { if (e.currentTarget.setPointerCapture) { try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {} } this.setState({ active: true, live: true }); }
+  onUp(e) { if (e.currentTarget.releasePointerCapture) { try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (err) {} } this.setState({ active: false }); }
+
+  civTheme(civ, tipo) {
+    const T = {
+      Griega:    { hex: '#3b82f6', rgb: '59,130,246' },
+      Egipcia:   { hex: '#facc15', rgb: '250,204,21' },
+      Vikinga:   { hex: '#f97316', rgb: '249,115,22' },
+      Hinduista: { hex: '#15803d', rgb: '21,128,61' },
+      Neutral:   { hex: '#94a3b8', rgb: '148,163,184' }
+    };
+    if (tipo === 'Mágica') return { hex: '#4ade80', rgb: '74,222,128' };
+    if (tipo === 'Trampa') return { hex: '#e2e8f0', rgb: '226,232,240' };
+    if (tipo === 'Dios') return T[civ] || { hex: '#ffd700', rgb: '255,215,0' };
+    return T[civ] || T.Neutral;
+  }
+
+  recetaAuto(tipo) {
+    if (tipo === 'Dios') return 'metal';
+    if (tipo === 'Titán') return 'radiante';
+    if (tipo === 'Animal Mitológico') return 'galaxia';
+    if (tipo === 'Élite / Divinidad') return 'prisma';
+    if (tipo === 'Mágica') return 'prisma';
+    if (tipo === 'Portal') return 'galaxia';
+    if (tipo === 'Trampa') return 'radiante';
+    return 'lineas';
+  }
+
+  shine(receta, px, py, hyp, k) {
+    const X = (px * 100).toFixed(1), Y = (py * 100).toFixed(1);
+    const mx = X + '%', my = Y + '%';
+    const sweep = (((50 - px * 100) * 2.5) + 50).toFixed(1) + '%';
+    const b = (v) => (v * (0.75 + k * 0.35)).toFixed(2);
+    const invX = (100 - px * 100).toFixed(1) + '%', invY = (100 - py * 100).toFixed(1) + '%';
+    const NOISE = "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22300%22%20height=%22300%22%3E%3Cfilter%20id=%22n%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%22.012%22%20numOctaves=%223%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22300%22%20height=%22300%22%20filter=%22url(%23n)%22%20opacity=%22.6%22/%3E%3C/svg%3E')";
+    const SPARKLE = "url('data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22200%22%20height=%22200%22%3E%3Cfilter%20id=%22s%22%3E%3CfeTurbulence%20type=%22fractalNoise%22%20baseFrequency=%22.9%22%20numOctaves=%222%22%20stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect%20width=%22200%22%20height=%22200%22%20filter=%22url(%23s)%22/%3E%3C/svg%3E')";
+
+    if (receta === 'prisma') {
+      const base = 'repeating-linear-gradient(0deg, rgb(255,119,115) 5%, rgb(255,237,95) 10%, rgb(168,255,95) 15%, rgb(131,255,247) 20%, rgb(120,148,255) 25%, rgb(216,117,255) 30%, rgb(255,119,115) 35%),' +
+          'repeating-linear-gradient(133deg, #0e152e 0%, hsl(180,10%,60%) 3.8%, hsl(180,29%,66%) 4.5%, hsl(180,10%,60%) 5.2%, #0e152e 10%, #0e152e 12%),' +
+          'radial-gradient(farthest-corner circle at ' + mx + ' ' + my + ', rgba(255,255,255,.35) 10%, rgba(0,0,0,.25) 60%, rgba(0,0,0,.6) 120%)';
+      return {
+        bg: base,
+        size: '200% 700%, 300% 300%, 200% 200%',
+        pos: '0% ' + Y + '%, ' + X + '% ' + Y + '%, ' + X + '% ' + Y + '%',
+        blend: 'hue, hard-light',
+        filter: 'brightness(' + b(1.15) + ') contrast(2.7) saturate(1.15)',
+        mix: 'color-dodge',
+        after: {
+          bg: base,
+          size: '200% 400%, 195% 195%, 200% 200%',
+          pos: '0% ' + Y + '%, ' + invX + ' ' + invY + ', ' + X + '% ' + Y + '%',
+          blend: 'hue, hard-light',
+          filter: 'brightness(' + b(1) + ') contrast(2.5) saturate(1.75)',
+          mix: 'soft-light'
+        }
+      };
+    }
+
+    if (receta === 'galaxia') return {
+      bg: 'radial-gradient(circle at 18% 22%, #fff 0 1px, transparent 2px),' +
+          'radial-gradient(circle at 62% 14%, #fff 0 1.2px, transparent 2px),' +
+          'radial-gradient(circle at 34% 58%, #cfe6ff 0 1px, transparent 2px),' +
+          'radial-gradient(circle at 78% 72%, #fff 0 1.4px, transparent 2px),' +
+          'radial-gradient(ellipse at 32% 38%, rgba(150,80,230,.85), transparent 58%),' +
+          'radial-gradient(ellipse at 72% 66%, rgba(40,140,235,.8), transparent 55%),' +
+          'repeating-linear-gradient(82deg, rgb(218,56,50) 8%, rgb(219,204,86) 16%, rgb(121,199,58) 24%, rgb(58,192,183) 32%, rgb(71,98,207) 40%, rgb(170,69,209) 48%, rgb(218,56,50) 80%),' +
+          'radial-gradient(farthest-corner circle at ' + mx + ' ' + my + ', rgba(255,255,255,.7) 5%, rgba(150,150,150,.3) 40%, #000 100%)',
+      size: '90px 90px, 130px 130px, 70px 70px, 160px 160px, cover, cover, 600% 1200%, cover',
+      pos: 'center, center, center, center, center, center, ' + sweep + ' ' + Y + '%, center',
+      blend: 'screen, screen, screen, screen, color-dodge, color-burn, saturation, screen',
+      filter: 'brightness(' + b(1.05) + ') contrast(1.5) saturate(1.7)',
+      mix: 'color-dodge'
+    };
+
+    if (receta === 'metal') return {
+      bg: 'repeating-linear-gradient(110deg, rgba(89,46,80,.5) 0%, hsl(39,37%,62%) 2.5%, rgb(216,183,92) 5%, hsl(39,37%,62%) 7.5%, rgba(14,21,46,.5) 10%, rgba(14,21,46,.5) 15%),' +
+          'repeating-linear-gradient(-14deg, rgba(255,236,180,.16) 0 3px, rgba(0,0,0,.35) 3px 7px),' +
+          'radial-gradient(farthest-corner circle at ' + mx + ' ' + my + ', rgba(255,240,190,.9) 4%, rgba(120,95,30,.5) 38%, #000 96%)',
+      size: '600% 600%, 220% 220%, 200% 200%',
+      pos: X + '% ' + Y + '%, ' + sweep + ' ' + Y + '%, center',
+      blend: 'color-burn, darken',
+      filter: 'brightness(' + b(1.2) + ') contrast(2.8) saturate(1.05)',
+      mix: 'color-dodge',
+      after: {
+        bg: 'repeating-linear-gradient(110deg, rgba(89,46,80,.5) 0%, hsl(39,37%,62%) 2.5%, rgb(216,183,92) 5%, hsl(39,37%,62%) 7.5%, rgba(14,21,46,.5) 10%, rgba(14,21,46,.5) 15%)',
+        size: '600% 600%',
+        pos: invX + ' ' + invY,
+        blend: 'normal',
+        filter: 'brightness(' + b(1) + ') contrast(2.5) saturate(.66)',
+        mix: 'exclusion'
+      }
+    };
+
+    if (receta === 'radiante') {
+      const bars = (ang) => 'repeating-linear-gradient(' + ang + 'deg, hsl(0,0%,8%) 0 1.2%, hsl(0,0%,22%) 1.2% 2.4%, hsl(0,0%,40%) 2.4% 3.6%, hsl(0,0%,52%) 3.6% 4.8%, hsl(0,0%,40%) 4.8% 6%, hsl(0,0%,22%) 6% 7.2%, hsl(0,0%,8%) 7.2% 8.4%)';
+      const ox = (((px * 100 - 50) * 1.5) + 50).toFixed(1) + '%';
+      const oy = (((py * 100 - 50) * 1.5) + 50).toFixed(1) + '%';
+      const rx = (((px * 100 - 50) * -2.5) + 50).toFixed(1) + '%';
+      const ry = (((py * 100 - 50) * -2.5) + 50).toFixed(1) + '%';
+      return {
+        bg: 'repeating-linear-gradient(55deg, rgb(255,161,158) 8%, rgb(85,178,255) 16%, rgb(255,199,146) 24%, rgb(130,255,213) 32%, rgb(253,170,240) 40%, rgb(148,241,255) 48%, rgb(255,161,158) 56%),' +
+            bars(45) + ',' + bars(-45),
+        size: '400% 400%, 210% 210%, 210% 210%',
+        pos: rx + ' ' + ry + ', ' + ox + ' ' + oy + ', ' + ox + ' ' + oy,
+        blend: 'exclusion, darken',
+        filter: 'brightness(' + b(1.25) + ') contrast(3.4) saturate(.85)',
+        mix: 'color-dodge'
+      };
+    }
+
+    if (receta === 'vmax') return {
+      bg: NOISE + ',' +
+          'repeating-linear-gradient(-33deg, rgb(206,42,36) 6%, rgb(157,170,223) 12%, rgb(45,153,146) 18%, rgb(29,151,36) 24%, rgb(181,64,228) 30%, rgb(206,42,36) 36%),' +
+          'repeating-linear-gradient(133deg, rgba(14,21,46,.5) 0%, hsl(180,10%,50%) 2.5%, hsl(83,50%,35%) 5%, hsl(180,10%,50%) 7.5%, rgba(14,21,46,.5) 10%, rgba(14,21,46,.5) 15%),' +
+          'radial-gradient(farthest-corner circle at ' + mx + ' ' + my + ', rgba(6,218,255,.6) 0%, rgba(38,235,127,.6) 25%, rgba(155,78,228,.6) 50%, rgba(228,78,90,.6) 75%)',
+      size: '220px 220px, 1100% 1100%, 600% 600%, 200% 200%',
+      pos: 'center, 0% ' + Y + '%, ' + X + '% ' + Y + '%, ' + X + '% ' + Y + '%',
+      blend: 'color-burn, screen, soft-light',
+      filter: 'brightness(' + b(0.85 + hyp * 0.3) + ') contrast(2.5) saturate(.9)',
+      mix: 'color-dodge'
+    };
+
+    if (receta === 'arcoiris') {
+      const base = SPARKLE + ',' +
+          'repeating-linear-gradient(-20deg, rgb(253,71,65) 7%, rgb(255,243,151) 14%, rgb(168,255,95) 21%, rgb(131,255,247) 28%, rgb(75,198,255) 35%, rgb(255,73,246) 42%, rgb(255,56,49) 49%),' +
+          'repeating-linear-gradient(130deg, rgba(89,46,80,.5) 0%, hsl(118,43%,76%) 2.5%, rgb(223,96,202) 5%, hsl(180,57%,56%) 7.5%, rgba(14,21,46,.5) 10%, rgba(14,21,46,.5) 15%)';
+      return {
+        bg: base,
+        size: '70px 70px, 500% 500%, 1000% 1000%',
+        pos: 'center, 0% ' + (py * 150).toFixed(1) + '%, ' + X + '% ' + Y + '%',
+        blend: 'color-burn, soft-light',
+        filter: 'brightness(' + b(0.9 + hyp * 0.25) + ') contrast(2) saturate(.95)',
+        mix: 'color-dodge',
+        after: {
+          bg: base,
+          size: '70px 70px, 500% 500%, 1000% 1000%',
+          pos: 'center, 0% ' + (100 - py * 100).toFixed(1) + '%, ' + invX + ' ' + invY,
+          blend: 'color-burn, soft-light',
+          filter: 'brightness(' + b(0.8) + ') contrast(2) saturate(.9)',
+          mix: 'exclusion'
+        }
+      };
+    }
+
+    if (receta === 'galeria') return {
+      bg: 'repeating-linear-gradient(-22deg, rgba(174,102,202,.75) 5%, rgba(228,77,72,.75) 10%, rgba(216,197,55,.75) 15%, rgba(124,201,62,.75) 20%, rgba(80,177,170,.75) 25%, rgba(136,160,255,.75) 30%, rgba(176,105,204,.75) 35%)',
+      size: '200% 400%',
+      pos: '0% ' + Y + '%',
+      blend: 'normal',
+      filter: 'brightness(' + b(0.9 + hyp * 0.3) + ') contrast(2.3) saturate(1.1)',
+      mix: 'color-dodge',
+      after: {
+        bg: 'radial-gradient(farthest-corner ellipse at ' + (px * 50 + 25).toFixed(1) + '% ' + (py * 50 + 25).toFixed(1) + '%, rgb(255,255,255) 5%, rgba(55,0,55,.6) 25%, rgb(55,55,55) 90%)',
+        size: '200% 200%',
+        pos: 'center',
+        blend: 'normal',
+        filter: 'brightness(' + b(0.6 + hyp * 0.2) + ') contrast(.85) saturate(1.1)',
+        mix: 'hard-light'
+      }
+    };
+
+    return {
+      bg: 'repeating-linear-gradient(90deg, hsl(283,72%,58%) 0 2px, #000 2px 4px, hsl(200,74%,56%) 4px 6px, #000 6px 8px, hsl(140,72%,54%) 8px 10px, #000 10px 12px, hsl(48,84%,58%) 12px 14px, #000 14px 16px, hsl(2,84%,58%) 16px 18px, #000 18px 20px),' +
+          'repeating-linear-gradient(90deg, #c929f1, #0dbde9, #21e985, #eedf10, #f80e7b, #c929f1),' +
+          'radial-gradient(farthest-corner circle at ' + mx + ' ' + my + ', rgba(235,235,235,.9) 0%, rgba(200,200,200,.15) 26%, #000 90%)',
+      size: '100% 100%, 200% 200%, 130% 130%',
+      pos: 'center, ' + sweep + ' center, center',
+      blend: 'soft-light, screen',
+      filter: 'brightness(' + b(1.1) + ') contrast(3) saturate(1.2)',
+      mix: 'color-dodge'
+    };
+  }
+
+  renderVals() {
+    const p = this.props, s = this.state;
+    const c = p.card || {};
+    const k = p.intensidad ?? 1.4;
+    const live = s.live || !!p.forzarActivo;
+    const hyp = live ? Math.max(s.hyp, .25) : 0;
+
+    const receta = (!p.receta || p.receta === 'auto') ? this.recetaAuto(c.tipo) : p.receta;
+    const sh = this.shine(receta, s.px, s.py, hyp, k);
+    const th = this.civTheme(c.civilizacion, c.tipo);
+
+    const ZONAS = {
+      toda: 'none',
+      ilustracion: 'inset(10.5% 5% 44% 5% round 12px)',
+      marco: 'inset(2.5% 2.5% 23% 2.5% round 15px)'
+    };
+    const zona = ZONAS[p.zona || 'toda'] || 'none';
+
+    const maxDeg = p.rotacion === false ? 0 : (p.grados ?? 14);
+    const scale = s.active ? 1.06 : 1;
+    const shX = ((.5 - s.px) * 26).toFixed(1), shY = (10 + (.5 - s.py) * 18).toFixed(1), shB = (20 + hyp * 16).toFixed(0);
+    const drop = live ? shX + 'px ' + shY + 'px ' + shB + 'px -6px rgba(0,0,0,.85)' : '0 10px 20px -5px #000';
+    const glow = s.active ? '0 0 14px 2px ' + th.hex + ', 0 0 44px 6px ' + th.hex + '55, ' + drop
+                          : (live ? '0 0 10px 0 ' + th.hex + '66, ' + drop : drop);
+
+    return {
+      card: c,
+      relieve: p.relieve || 'ninguno',
+      profundidad: p.profundidad ?? 1,
+      tipoLetra: p.tipoLetra || 'montserrat',
+      parallax: p.parallax ?? true,
+      parallaxFuerza: p.parallaxFuerza ?? 1,
+      parallaxX: live ? +(s.px - .5).toFixed(3) : 0,
+      parallaxY: live ? +(s.py - .5).toFixed(3) : 0,
+      velocidad: p.velocidad ?? 1,
+      tiltCarta: 0,
+      aura: p.aura ?? true, barrido: p.barrido ?? true, particulas: p.particulas ?? true,
+      mx: (s.px * 100).toFixed(1), my: (s.py * 100).toFixed(1),
+      onMove: (e) => this.onMove(e),
+      onLeave: () => this.onLeave(),
+      onDown: (e) => this.onDown(e),
+      onUp: (e) => this.onUp(e),
+      rotTransform: 'rotateY(' + ((s.px - .5) * 2 * maxDeg).toFixed(2) + 'deg) rotateX(' + (-(s.py - .5) * 2 * maxDeg).toFixed(2) + 'deg) scale(' + scale + ')',
+      rotTransition: live ? 'transform .06s ease-out, box-shadow .3s ease' : 'transform .6s cubic-bezier(.2,.8,.3,1), box-shadow .4s ease',
+      rotShadow: glow,
+      showHolo: (p.holo ?? true), shineBg: sh.bg, shineSize: sh.size, shinePos: sh.pos,
+      shineBlend: sh.blend, shineFilter: sh.filter, shineMix: sh.mix,
+      shineOpacity: (live ? Math.min(1, (.34 + hyp * .66) * k) : 0).toFixed(2),
+      showHolo2: (p.holo ?? true) && !!sh.after,
+      shine2Bg: sh.after ? sh.after.bg : 'none',
+      shine2Size: sh.after ? sh.after.size : 'auto',
+      shine2Pos: sh.after ? sh.after.pos : 'center',
+      shine2Blend: sh.after ? sh.after.blend : 'normal',
+      shine2Filter: sh.after ? sh.after.filter : 'none',
+      shine2Mix: sh.after ? sh.after.mix : 'normal',
+      zonaClip: zona,
+      showTint: (p.tinte ?? true),
+      tintColor: 'rgba(' + th.rgb + ',.55)',
+      tintOpacity: (live ? Math.min(1, .5 * k) : 0).toFixed(2),
+      showGrain: (p.grano ?? true),
+      grainOpacity: (0.1 + hyp * 0.09).toFixed(2),
+      showGlare: (p.glare ?? true),
+      glareMix: 'overlay',
+      glareOpacity: (live ? Math.min(1, (.3 + hyp * .6) * k) : 0).toFixed(2),
+      glareBright: (0.85 + hyp * 0.4).toFixed(2),
+      showHalo: (p.halo ?? true),
+      haloColor: th.hex,
+      haloBlur: s.active ? 26 : 14,
+      haloOpacity: (live ? .8 : .35).toFixed(2)
+    };
+  }
+}
+</script>
+</body>
+</html>

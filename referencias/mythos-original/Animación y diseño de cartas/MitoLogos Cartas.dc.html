@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; background:#07090f; }
+    a { color:#ffd700; } a:hover { color:#fde047; }
+    @keyframes card-in-a { 0% { opacity:0; transform:translateY(26px) scale(.94); } 100% { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes card-in-b { 0% { opacity:0; transform:translateY(26px) scale(.94); } 100% { opacity:1; transform:translateY(0) scale(1); } }
+    @keyframes zoom-in { 0% { opacity:0; transform:scale(.55) translateY(30px); } 100% { opacity:1; transform:scale(1) translateY(0); } }
+    @keyframes veil-in { 0% { opacity:0; } 100% { opacity:1; } }
+    @keyframes back-glow { 0%,100% { opacity:.45; } 50% { opacity:.9; } }
+  </style>
+</helmet>
+<div style="min-height:100vh; background:radial-gradient(ellipse at 50% -20%, #151022 0%, #07090f 75%); color:#e2e8f0; font-family:'Montserrat',sans-serif; display:flex; flex-direction:column;">
+  <header style="background:rgba(8,10,16,.9); border-bottom:1.5px solid rgba(255,255,255,.08); padding:16px 30px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h1 style="font-family:'Cinzel',serif; font-size:28px; margin:0; letter-spacing:3px; background:linear-gradient(135deg,#ffd700 0%,#d4a941 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">MITOLOGOS</h1>
+      <p style="font-size:11px; color:#94a3b8; margin:5px 0 0; letter-spacing:1px;">Diseño y animación de cartas — banco de pruebas</p>
+    </div>
+    <p style="font-size:11px; color:#475569; margin:0; letter-spacing:.5px;">Clic en una carta para inspeccionarla · V para voltear · Esc para cerrar</p>
+  </header>
+
+  <main style="flex:1; width:100%; max-width:1400px; margin:0 auto; padding:24px; box-sizing:border-box;">
+    <div style="background:rgba(13,17,26,.85); border:1.5px solid rgba(255,255,255,.08); border-radius:16px; padding:18px 20px; margin-bottom:24px; display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+        <span style="font-size:11px; color:#94a3b8; letter-spacing:1px; width:100px; text-transform:uppercase; font-family:'Cinzel',serif;">Civilización</span>
+        <sc-for list="{{ civBtns }}" as="b" hint-placeholder-count="6">
+          <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:6px 12px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }}; font-family:'Montserrat',sans-serif; transition:all .2s;">{{ b.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+        <span style="font-size:11px; color:#94a3b8; letter-spacing:1px; width:100px; text-transform:uppercase; font-family:'Cinzel',serif;">Categoría</span>
+        <sc-for list="{{ catBtns }}" as="b" hint-placeholder-count="8">
+          <button onClick="{{ b.on }}" style="background:{{ b.bg }}; border:1px solid {{ b.bd }}; color:{{ b.col }}; padding:6px 12px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:{{ b.fw }}; font-family:'Montserrat',sans-serif; transition:all .2s;">{{ b.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:0 4px 14px; flex-wrap:wrap; gap:8px;">
+      <span style="font-size:12px; color:#64748b; letter-spacing:.5px;">Mostrando <span style="color:#d4a941; font-weight:700;">{{ cardCount }}</span> cartas</span>
+      <span style="font-size:11px; color:#475569;">MitoLogos: Duelo de Corazones — dossier visual</span>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:22px; justify-content:center;">
+      <sc-for list="{{ gridCards }}" as="c" hint-placeholder-count="6">
+        <div onClick="{{ c.open }}" style="animation:{{ c.anim }}; cursor:zoom-in; border-radius:18px;">
+          <dc-import name="Carta" card="{{ c.data }}" velocidad="{{ velocidad }}" inclinacion="{{ inclinacion }}" aura="{{ aura }}" barrido="{{ barrido }}" particulas="{{ particulas }}" hint-size="300px,485px"></dc-import>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+
+  <sc-if value="{{ zoomOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeZoom }}" style="position:fixed; inset:0; z-index:50; background:rgba(4,6,11,.86); backdrop-filter:blur(7px); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; animation:veil-in .25s ease-out both;">
+      <div onClick="{{ stop }}" style="animation:{{ zoomAnim }}; perspective:1600px;">
+        <div style="width:300px; height:485px; position:relative; transform-style:preserve-3d; transition:{{ flipTransition }}; transform:{{ flipTransform }};">
+          <div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;">
+            <dc-import name="Carta" card="{{ zoomCard }}" velocidad="{{ velocidad }}" inclinacion="{{ inclinacion }}" aura="{{ aura }}" barrido="{{ barrido }}" particulas="{{ particulas }}" hint-size="300px,485px"></dc-import>
+          </div>
+          <div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); border-radius:18px; box-sizing:border-box; border:2.5px solid #d4a941; background:linear-gradient(170deg,#1a1207 0%,#0b0d14 70%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.6);">
+            <div style="position:absolute; inset:11px; border:1px solid rgba(212,169,65,.45); border-radius:12px; pointer-events:none;"></div>
+            <div style="position:absolute; inset:0; background:repeating-linear-gradient(45deg, transparent 0 11px, rgba(212,169,65,.05) 11px 12px); pointer-events:none;"></div>
+            <svg width="176" height="176" viewBox="0 0 100 100" fill="none" stroke="#d4a941" stroke-width="1.2" style="animation:back-glow 4s ease-in-out infinite;">
+              <circle cx="50" cy="50" r="46"></circle>
+              <circle cx="50" cy="50" r="34" opacity=".6"></circle>
+              <path d="M50 8 L50 92 M8 50 L92 50 M20 20 L80 80 M80 20 L20 80" opacity=".25"></path>
+              <path d="M50 20 L74 36 L64 66 L36 66 L26 36 Z" stroke-width="1.8"></path>
+              <path d="M50 34 L60 44 L50 60 L40 44 Z" fill="#d4a941" stroke="none" opacity=".85"></path>
+            </svg>
+            <div style="text-align:center; z-index:1;">
+              <div style="font-family:'Cinzel',serif; font-size:24px; letter-spacing:5px; color:#ffd700;">MITOLOGOS</div>
+              <div style="font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:3px; color:#8b7a45; margin-top:7px;">DUELO DE CORAZONES</div>
+              <div style="font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:2px; color:#4a4130; margin-top:16px;">DORSO PROVISIONAL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div onClick="{{ stop }}" style="display:flex; gap:14px;">
+        <button onClick="{{ flip }}" style="background:linear-gradient(135deg,#d4a941 0%,#8a6b1f 100%); border:1.5px solid #ffd700; color:#0a0d14; padding:12px 26px; border-radius:8px; font-size:13px; font-family:'Cinzel',serif; letter-spacing:1px; font-weight:700; cursor:pointer;" style-hover="box-shadow:0 0 22px rgba(255,215,0,.45);">VOLTEAR</button>
+        <button onClick="{{ closeZoom }}" style="background:rgba(255,255,255,.06); border:1.5px solid rgba(255,255,255,.2); color:#e2e8f0; padding:12px 26px; border-radius:8px; font-size:13px; font-family:'Cinzel',serif; letter-spacing:1px; font-weight:700; cursor:pointer;" style-hover="background:rgba(255,255,255,.14);">CERRAR</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;velocidad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.3,&quot;max&quot;:2.5,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;×&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;inclinacion&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:18,&quot;step&quot;:1,&quot;unit&quot;:&quot;°&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;entrada&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Animación&quot;},&quot;aura&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Carta&quot;},&quot;barrido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Carta&quot;},&quot;particulas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Carta&quot;},&quot;sonido&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Carta&quot;}}">
+class Component extends DCLogic {
+  state = { civF: 'all', catF: 'all', gen: 0, zoomId: null, flipped: false };
+
+  componentDidMount() {
+    this._key = (e) => {
+      if (this.state.zoomId == null) return;
+      if (e.key === 'Escape') this.closeZoom();
+      if (e.key === 'v' || e.key === 'V') this.flip();
+    };
+    window.addEventListener('keydown', this._key);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._key); }
+
+  snd() { return this.props.sonido ?? true; }
+  ac() {
+    if (!this._ac) this._ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (this._ac.state === 'suspended') this._ac.resume();
+    return this._ac;
+  }
+  tone(freq, dur, type, vol, when, slide) {
+    if (!this.snd()) return;
+    try {
+      const ac = this.ac(), o = ac.createOscillator(), g = ac.createGain();
+      const t0 = ac.currentTime + (when || 0);
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t0);
+      if (slide) o.frequency.exponentialRampToValueAtTime(slide, t0 + dur);
+      g.gain.setValueAtTime(vol || .2, t0);
+      g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+      o.connect(g); g.connect(ac.destination);
+      o.start(t0); o.stop(t0 + dur + .05);
+    } catch (e) {}
+  }
+  noiseBurst(dur, vol, freq, q) {
+    if (!this.snd()) return;
+    try {
+      const ac = this.ac(), n = Math.floor(ac.sampleRate * dur);
+      const buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = freq || 1200; f.Q.value = q || 1;
+      const g = ac.createGain(); const t0 = ac.currentTime;
+      g.gain.setValueAtTime(vol || .2, t0);
+      g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+      src.connect(f); f.connect(g); g.connect(ac.destination);
+      src.start(t0); src.stop(t0 + dur);
+    } catch (e) {}
+  }
+  sndZoom() { this.tone(420, .3, 'triangle', .11, 0, 880); this.noiseBurst(.18, .07, 2600, 1.4); }
+  sndFlip() { this.noiseBurst(.26, .16, 1400, .8); this.tone(240, .22, 'sine', .09, 0, 130); }
+  sndClose() { this.tone(300, .16, 'sine', .08, 0, 150); }
+
+  setCiv(v) { this.setState(s => ({ civF: v, gen: s.gen + 1 })); }
+  setCat(v) { this.setState(s => ({ catF: v, gen: s.gen + 1 })); }
+  openZoom(id) { this.sndZoom(); this.setState({ zoomId: id, flipped: false }); }
+  closeZoom() { this.sndClose(); this.setState({ zoomId: null, flipped: false }); }
+  flip() { this.sndFlip(); this.setState(s => ({ flipped: !s.flipped })); }
+
+  cards() {
+    if (this._cards) return this._cards;
+    this._cards = [
+      { id:1, nombre:'Tornado', tipo:'Mágica', civilizacion:'Neutral', nivel:'M', costeSacrificio:'magia', efecto:'Levanta todas las cartas del tablero de esa parte del campo.' },
+      { id:2, nombre:'El Ojo de Odín', tipo:'Mágica', civilizacion:'Vikinga', nivel:'M', costeSacrificio:'magia', efecto:'Revela la mano del rival durante 10 segundos. El jugador puede ver todas las cartas del oponente.' },
+      { id:3, nombre:'El Sabio', tipo:'Personaje', civilizacion:'Griega', nivel:'N1', ataque:3, fe:3, des:12, costeSacrificio:1, efecto:'Sabiduría: eleva su nivel de evasión a 12. Solo le aciertan con un 12 natural en el d12.' },
+      { id:4, nombre:'Hermes', tipo:'Personaje', civilizacion:'Griega', nivel:'N2', ataque:4, fe:1, des:8, costeSacrificio:2, legendaria:true, efecto:'Mensajero Divino: puede moverse instantáneamente a su casilla simétrica del otro frente.' },
+      { id:5, nombre:'El Arquero', tipo:'Personaje', civilizacion:'Griega', nivel:'N1', ataque:2, fe:2, des:7, costeSacrificio:1, efecto:'Ataque a distancia: puede saltarse un cuadro al atacar. No daña corazones directamente.' },
+      { id:6, nombre:'Legionario', tipo:'Personaje', civilizacion:'Griega', nivel:'N1', ataque:4, fe:0, des:1, costeSacrificio:1, efecto:'Sin efecto.' },
+      { id:7, nombre:'Dragón de Fuego', tipo:'Animal Mitológico', civilizacion:'Neutral', nivel:'N5', ataque:7, fe:5, des:4, costeSacrificio:3, efecto:'Furia Ígnea: Requiere dragón en mano, personaje de nivel 5 y carta mágica única.' },
+      { id:8, nombre:'Oso', tipo:'Animal Salvaje', civilizacion:'Neutral', nivel:'N1', ataque:4, fe:0, des:3, costeSacrificio:1, efecto:'Sin efecto.' },
+      { id:9, nombre:'Tigre de Siberia', tipo:'Animal Salvaje', civilizacion:'Neutral', nivel:'N1', ataque:4, fe:0, des:4, costeSacrificio:1, efecto:'Cazador: Contribuyó a la extinción del Neandertal.' },
+      { id:10, nombre:'Elefante Sagrado', tipo:'Animal Mitológico', civilizacion:'Hinduista', nivel:'N5', ataque:8, fe:5, des:2, costeSacrificio:3, efecto:'Embestida: Tira d12. Si sale 10, 11 o 12, el ataque se duplica (16).' },
+      { id:11, nombre:'Esclavo', tipo:'Humano común', civilizacion:'Neutral', nivel:'N1', ataque:1, fe:0, des:1, costeSacrificio:0, efecto:'Sin efecto.' },
+      { id:12, nombre:'Arkantos', tipo:'Élite / Divinidad', civilizacion:'Griega', nivel:'N2', ataque:10, fe:2, des:6, costeSacrificio:2, efecto:'Inmortalidad Divina: Si Arkantos y Zeus están en campo, no puede morir.' },
+      { id:13, nombre:'Poseidón', tipo:'Élite / Divinidad', civilizacion:'Griega', nivel:'N2', ataque:6, fe:3, des:7, costeSacrificio:2, efecto:'Dominio del Mar (Semidiós): +3 de ataque a todos los de elemento Agua al atacar.' },
+      { id:14, nombre:'Leonidas', tipo:'Élite / Divinidad', civilizacion:'Griega', nivel:'N2', ataque:8, fe:0, des:7, costeSacrificio:2, efecto:'Bonus Defensivo: Aumenta +1 la esquiva de los guerreros adyacentes.' },
+      { id:15, nombre:'Akuvis', tipo:'Élite / Divinidad', civilizacion:'Egipcia', nivel:'N2', ataque:5, fe:2, des:5, costeSacrificio:2, efecto:'Resurrección: Revive un personaje egipcio del cementerio y lo coloca en un portal.' },
+      { id:16, nombre:'Osiris', tipo:'Élite / Divinidad', civilizacion:'Egipcia', nivel:'N2', ataque:6, fe:3, des:6, costeSacrificio:2, efecto:'Renacimiento: Al morir, renace en el cementerio aliado con todos los efectos disipados.' },
+      { id:17, nombre:'Tort (Thoth)', tipo:'Élite / Divinidad', civilizacion:'Egipcia', nivel:'N2', ataque:7, fe:3, des:8, costeSacrificio:2, efecto:'Escritura Sagrada: Roba 1 carta mágica adicional al inicio del turno.' },
+      { id:18, nombre:'Zeus', tipo:'Dios', civilizacion:'Griega', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Dominio del Olimpo: Otorga +2 de evasión a todos los griegos del campo.' },
+      { id:19, nombre:'Ra', tipo:'Dios', civilizacion:'Egipcia', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Rayo Solar: Otorga +2 de nivel de magia a todos los egipcios en el campo.' },
+      { id:20, nombre:'Odín', tipo:'Dios', civilizacion:'Vikinga', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Sabiduría Aesir: Otorga +1 de ataque a todos los vikingos en el campo.' },
+      { id:21, nombre:'Shiva', tipo:'Dios', civilizacion:'Hinduista', nivel:'N1', ataque:'—', fe:'—', des:'—', costeSacrificio:'∞', efecto:'Trascendencia: Permite usar magias aliadas sin cumplir requisitos de Fe.' },
+      { id:22, nombre:'Samurai', tipo:'Humano común', civilizacion:'Neutral', nivel:'N1', ataque:3, fe:0, des:4, costeSacrificio:1, efecto:'Sin efecto.' },
+      { id:23, nombre:'Ninja', tipo:'Humano común', civilizacion:'Neutral', nivel:'N1', ataque:2, fe:0, des:7, costeSacrificio:1, efecto:'Sigilo: No activa las trampas al cruzar el portal.' },
+      { id:24, nombre:'Ymir', tipo:'Animal Mitológico', civilizacion:'Vikinga', nivel:'N5', ataque:6, fe:5, des:2, costeSacrificio:3, efecto:'Glaciar Ancestral: Invoca tormenta de nieve que reduce velocidad enemiga.' },
+      { id:25, nombre:'Pegasus', tipo:'Animal Mitológico', civilizacion:'Griega', nivel:'N5', ataque:5, fe:5, des:6, costeSacrificio:3, efecto:'Vuelo: Puede saltar sobre obstáculos y personajes del puente.' },
+      { id:26, nombre:'Kaliya', tipo:'Animal Mitológico', civilizacion:'Hinduista', nivel:'N5', ataque:7, fe:5, des:7, costeSacrificio:3, efecto:'Veneno Petrificador: Congela al personaje enemigo atacado durante 1 turno.' },
+      { id:27, nombre:'Trampa Anti-Portal', tipo:'Trampa', civilizacion:'Neutral', nivel:'T', costeSacrificio:'magia', efecto:'Destruye el portal activo del oponente y congela a su criatura.' },
+      { id:28, nombre:'Trampa Ígnea', tipo:'Trampa', civilizacion:'Neutral', nivel:'T', costeSacrificio:'magia', efecto:'Al activarse, hace daño elemental de Fuego a los personajes del frente.' },
+      { id:29, nombre:'Trampa de Foso', tipo:'Trampa', civilizacion:'Neutral', nivel:'T', costeSacrificio:'magia', efecto:'El personaje defensor cae al abismo en el próximo movimiento.' },
+      { id:30, nombre:'Portal Alfa', tipo:'Portal', civilizacion:'Neutral', nivel:'P', costeSacrificio:'magia', efecto:'Abre conexión de agujero de gusano entre frentes.' },
+      { id:31, nombre:'Portal Beta', tipo:'Portal', civilizacion:'Neutral', nivel:'P', costeSacrificio:'magia', efecto:'Permite teletransporte instantáneo del frente 0 al frente 1.' },
+      { id:32, nombre:'Portal Omega', tipo:'Portal', civilizacion:'Neutral', nivel:'P', costeSacrificio:'magia', efecto:'Abre portal de invocación avanzada a mitad de tablero.' },
+      { id:33, nombre:'Titán Cronos', tipo:'Titán', civilizacion:'Neutral', nivel:'N2', ataque:9, fe:1, des:1, costeSacrificio:2, efecto:'Control Temporal: Impide que los personajes enemigos adyacentes retrocedan.' },
+      { id:34, nombre:'Titán Atlas', tipo:'Titán', civilizacion:'Griega', nivel:'N2', ataque:10, fe:0, des:9, costeSacrificio:2, efecto:'Sostén Celeste: protege a los aliados de su frente. Mayor esquiva del juego. [Actualizado]' },
+      { id:35, nombre:'Titán Prometeo', tipo:'Titán', civilizacion:'Neutral', nivel:'N2', ataque:7, fe:2, des:3, costeSacrificio:2, efecto:'Fuego del Saber: Otorga +1 de magia a un aliado al ser invocado.' },
+      { id:36, nombre:'Suerte de Azar', tipo:'Mágica', civilizacion:'Neutral', nivel:'M', costeSacrificio:'magia', efecto:'Dado d12: 1-5 = -6 ATQ, 6 = Sin efecto, 7-12 = +6 ATQ al objetivo.' },
+      { id:37, nombre:'Tritón', tipo:'Escualo', civilizacion:'Griega', nivel:'N1', ataque:5, fe:1, des:5, costeSacrificio:1, efecto:'Mensajero Marino: Si está en una losa de agua, gana +1 de esquiva.' },
+      { id:38, nombre:'Sirena', tipo:'Escualo', civilizacion:'Vikinga', nivel:'N1', ataque:4, fe:1, des:4, costeSacrificio:1, efecto:'Canto de Sirena: Atrae a un enemigo una losa hacia adelante.' },
+      { id:39, nombre:'Cuerno de Ægir', tipo:'Mágica', civilizacion:'Vikinga', nivel:'M', costeSacrificio:'magia', efecto:'Hidromiel Divina: Aumenta temporalmente el ataque de tu líder en +2.' },
+      { id:40, nombre:'Mehalogon G.', tipo:'Animal común', civilizacion:'Neutral', nivel:'N1', ataque:3, fe:0, des:3, costeSacrificio:1, efecto:'Gran tiburón de Groenlandia adaptado a las aguas árticas.' },
+      { id:41, nombre:'Vikingo con Hacha', tipo:'Personaje', civilizacion:'Vikinga', nivel:'N1', ataque:4, fe:0, des:3, costeSacrificio:1, efecto:'Sin efecto.' },
+      { id:42, nombre:'El Faraón', tipo:'Personaje', civilizacion:'Egipcia', nivel:'N1', ataque:3, fe:3, des:5, costeSacrificio:1, efecto:'Resurrección condicionada: Requiere 5 niveles de magia en campo para revivir a un egipcio.' },
+      { id:46, nombre:'Thor', tipo:'Élite / Divinidad', civilizacion:'Vikinga', nivel:'N2', ataque:9, fe:2, des:5, costeSacrificio:2, efecto:'Mjölnir: el martillo divino aumenta su ataque (+2 al atacar). [Provisional]' },
+      { id:47, nombre:'Garuda', tipo:'Animal Mitológico', civilizacion:'Hinduista', nivel:'N5', ataque:7, fe:5, des:6, costeSacrificio:3, efecto:'Tormenta de Alas: crea tormentas al batir sus alas doradas. Enemigo natural de las serpientes (Kaliya).' },
+      { id:48, nombre:'Bennu', tipo:'Animal Mitológico', civilizacion:'Egipcia', nivel:'N5', ataque:6, fe:5, des:5, costeSacrificio:3, efecto:'Renacimiento Solar: el fénix egipcio renace una vez del cementerio. [Provisional]' },
+      { id:49, nombre:'Quimera', tipo:'Animal Mitológico', civilizacion:'Griega', nivel:'N5', ataque:8, fe:5, des:3, costeSacrificio:3, efecto:'Tres Cabezas: león con cabeza de cabra y cola de serpiente. [Efecto pendiente]' },
+      { id:50, nombre:'Crono', tipo:'Mágica', civilizacion:'Griega', nivel:'M', costeSacrificio:'magia', efecto:'Control del Tiempo: mueve el tiempo. Solo griegos de nivel de magia II o superior. [Pendiente]' },
+      { id:52, nombre:'Gea', tipo:'Titán', civilizacion:'Griega', nivel:'N2', ataque:6, fe:3, des:4, costeSacrificio:2, efecto:'Madre Primordial: diosa primordial de la Tierra. [Efecto pendiente: fertilidad / protección]' },
+      { id:53, nombre:'Apofis', tipo:'Titán', civilizacion:'Egipcia', nivel:'N2', ataque:8, fe:2, des:3, costeSacrificio:2, efecto:'Fauces del Vacío: al final de cada turno, ambos jugadores sacrifican una carta.' },
+      { id:54, nombre:'Teseo', tipo:'Mágica', civilizacion:'Griega', nivel:'M', costeSacrificio:'magia', efecto:'Laberinto del Destino: manda al cementerio las 3 primeras cartas del mazo rival. Ambos ven cuáles son.' }
+    ];
+    return this._cards;
+  }
+
+  btn(label, value, active, onClick) {
+    return {
+      label, on: onClick,
+      bg: active ? 'rgba(212,169,65,.18)' : 'rgba(255,255,255,.04)',
+      bd: active ? '#d4a941' : 'rgba(255,255,255,.12)',
+      col: active ? '#ffd700' : '#94a3b8',
+      fw: active ? 700 : 400
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const CIVS = ['all', 'Griega', 'Egipcia', 'Vikinga', 'Hinduista', 'Neutral'];
+    const CATS = ['all', 'Dios', 'Élite / Divinidad', 'Titán', 'Personaje', 'Animal Mitológico', 'Animal Salvaje', 'Humano común', 'Escualo', 'Mágica', 'Trampa', 'Portal'];
+    const labelOf = v => v === 'all' ? 'Todas' : v;
+
+    const filtered = this.cards().filter(c =>
+      (s.civF === 'all' || c.civilizacion === s.civF) &&
+      (s.catF === 'all' || c.tipo === s.catF));
+
+    const stagger = this.props.entrada ?? true;
+    const spd = this.props.velocidad || 1;
+    const animName = s.gen % 2 === 0 ? 'card-in-a' : 'card-in-b';
+    const gridCards = filtered.map((c, i) => ({
+      data: c,
+      open: () => this.openZoom(c.id),
+      anim: stagger
+        ? animName + ' ' + (0.5 / spd).toFixed(2) + 's cubic-bezier(.2,.8,.3,1) both ' + (i * 0.045 / spd).toFixed(3) + 's'
+        : 'none'
+    }));
+
+    const zoomCard = s.zoomId == null ? null : this.cards().find(c => c.id === s.zoomId);
+
+    return {
+      civBtns: CIVS.map(v => this.btn(labelOf(v), v, s.civF === v, () => this.setCiv(v))),
+      catBtns: CATS.map(v => this.btn(labelOf(v), v, s.catF === v, () => this.setCat(v))),
+      cardCount: filtered.length,
+      gridCards,
+      velocidad: spd,
+      inclinacion: this.props.inclinacion ?? 9,
+      aura: this.props.aura ?? true,
+      barrido: this.props.barrido ?? true,
+      particulas: this.props.particulas ?? true,
+      zoomOpen: !!zoomCard,
+      zoomCard,
+      zoomAnim: 'zoom-in ' + (0.4 / spd).toFixed(2) + 's cubic-bezier(.2,.8,.3,1) both',
+      flipTransform: s.flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+      flipTransition: 'transform ' + (0.75 / spd).toFixed(2) + 's cubic-bezier(.3,.9,.3,1)',
+      flip: () => this.flip(),
+      closeZoom: () => this.closeZoom(),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+</script>
+</body>
+</html>

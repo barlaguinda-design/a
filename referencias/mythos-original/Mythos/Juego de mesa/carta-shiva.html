@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MitoLogos — Shiva</title>
+<style>
+  :root{
+    --fondo:#0b0d13;
+    --civ:#f97316;
+    --civOscuro:#7c2d12;
+    --civClaro:#fdba74;
+    --oro:#d4a941;
+    --texto:#e8e2d4;
+    --gris:#8b93a7;
+  }
+  body{
+    margin:0; min-height:100vh;
+    background:radial-gradient(ellipse at 50% -10%, #241408 0%, var(--fondo) 65%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Palatino Linotype',Palatino,Georgia,serif;
+    padding:24px; box-sizing:border-box;
+  }
+  .carta{
+    width:300px; height:470px; border-radius:18px; position:relative;
+    background:linear-gradient(170deg,#221410,#12161f 70%);
+    border:2.5px solid var(--civ);
+    box-shadow:0 0 30px rgba(249,115,22,.45), 0 10px 34px rgba(0,0,0,.7), inset 0 0 32px rgba(0,0,0,.55);
+    display:flex; flex-direction:column;
+    padding:12px; box-sizing:border-box;
+    animation:aura 4s ease-in-out infinite;
+  }
+  @keyframes aura{
+    0%,100%{box-shadow:0 0 26px rgba(249,115,22,.35), 0 10px 34px rgba(0,0,0,.7), inset 0 0 32px rgba(0,0,0,.55)}
+    50%{box-shadow:0 0 48px rgba(249,115,22,.65), 0 10px 34px rgba(0,0,0,.7), inset 0 0 32px rgba(0,0,0,.55)}
+  }
+  @media (prefers-reduced-motion: reduce){ .carta{animation:none} }
+
+  .cabecera{display:flex; align-items:center; gap:9px; margin-bottom:9px}
+  .nivel{
+    min-width:40px; height:40px; border-radius:9px;
+    background:#0d1017; border:1.5px solid var(--civ);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--civClaro); font-weight:700; line-height:1;
+  }
+  .nivel b{font-size:17px}
+  .nivel span{font-size:8px; letter-spacing:1px; color:var(--gris)}
+  .nombre{flex:1}
+  .nombre h1{
+    margin:0; font-size:21px; letter-spacing:2px; color:var(--texto);
+    text-shadow:0 0 10px rgba(249,115,22,.6);
+  }
+  .nombre small{font-size:10px; letter-spacing:3px; color:var(--civ); text-transform:uppercase}
+
+  .ilustracion{
+    flex:1; border-radius:12px; overflow:hidden; position:relative;
+    border:1.5px solid var(--civOscuro);
+    background:radial-gradient(circle at 50% 42%, #3a1c08 0%, #150a04 70%);
+  }
+  .ilustracion svg{width:100%; height:100%; display:block}
+
+  .stats{
+    display:flex; gap:8px; margin:10px 0 8px;
+  }
+  .stat{
+    flex:1; text-align:center; padding:7px 0 5px;
+    background:#0d1017; border-radius:9px; border:1.5px solid #2c3547;
+  }
+  .stat b{display:block; font-size:19px; line-height:1}
+  .stat span{font-size:8.5px; letter-spacing:2px; color:var(--gris)}
+  .atq b{color:#ef4444} .fe b{color:#22c55e} .des b{color:#3b82f6}
+
+  .efecto{
+    background:#0d1017; border:1.5px solid var(--civ); border-radius:10px;
+    padding:9px 11px; font-size:12px; line-height:1.45; color:var(--texto);
+  }
+  .efecto b{color:var(--civClaro); letter-spacing:1px}
+  .efecto .tag{
+    display:inline-block; font-size:9px; letter-spacing:2px; color:var(--civ);
+    border:1px solid var(--civ); border-radius:5px; padding:1px 6px; margin-bottom:5px;
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="carta">
+  <div class="cabecera">
+    <div class="nivel"><b>N1</b><span>DIOS</span></div>
+    <div class="nombre">
+      <h1>SHIVA</h1>
+      <small>🕉️ Hindúes · Poder Místico</small>
+    </div>
+  </div>
+
+  <div class="ilustracion">
+    <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="halo" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#fdba74" stop-opacity=".9"/>
+          <stop offset="45%" stop-color="#f97316" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="cuerpo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3b2a5e"/>
+          <stop offset="100%" stop-color="#1a1230"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Halo / rueda de fuego -->
+      <circle cx="150" cy="112" r="96" fill="url(#halo)"/>
+      <circle cx="150" cy="112" r="86" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="4 7" opacity=".8"/>
+      <circle cx="150" cy="112" r="94" fill="none" stroke="#fdba74" stroke-width="1" stroke-dasharray="2 10" opacity=".5"/>
+
+      <!-- Llamas del anillo -->
+      <g fill="#f97316" opacity=".85">
+        <path d="M150 12 l6 14 -6 8 -6 -8z"/>
+        <path d="M150 212 l6 -14 -6 -8 -6 8z" opacity=".6"/>
+        <path d="M60 62 l12 4 2 10 -10 -2z"/>
+        <path d="M240 62 l-12 4 -2 10 10 -2z"/>
+        <path d="M52 150 l14 -2 6 9 -12 4z"/>
+        <path d="M248 150 l-14 -2 -6 9 12 4z"/>
+      </g>
+
+      <!-- Luna creciente -->
+      <path d="M186 40 a16 16 0 1 0 6 24 a12 12 0 1 1 -6 -24z" fill="#e8e2d4" opacity=".9"/>
+
+      <!-- Silueta de Shiva meditando -->
+      <g>
+        <!-- brazos superiores (cuatro brazos) -->
+        <path d="M118 118 Q86 96 78 70" stroke="url(#cuerpo)" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <path d="M182 118 Q214 96 222 70" stroke="url(#cuerpo)" stroke-width="11" fill="none" stroke-linecap="round"/>
+        <!-- torso -->
+        <path d="M150 92 q-30 6 -32 56 q0 14 32 16 q32 -2 32 -16 q-2 -50 -32 -56z" fill="url(#cuerpo)"/>
+        <!-- brazos en meditación -->
+        <path d="M122 130 Q112 156 138 166" stroke="url(#cuerpo)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <path d="M178 130 Q188 156 162 166" stroke="url(#cuerpo)" stroke-width="12" fill="none" stroke-linecap="round"/>
+        <!-- piernas cruzadas (loto) -->
+        <path d="M96 176 q54 -22 108 0 q6 12 -8 16 q-46 14 -92 0 q-14 -4 -8 -16z" fill="url(#cuerpo)"/>
+        <!-- cabeza -->
+        <circle cx="150" cy="76" r="20" fill="url(#cuerpo)"/>
+        <!-- moño / jata -->
+        <path d="M138 60 q12 -18 24 0 q4 -14 -12 -16 q-16 2 -12 16z" fill="#2a1d47"/>
+        <!-- tercer ojo -->
+        <path d="M150 72 l4 6 -4 6 -4 -6z" fill="#fdba74">
+          <animate attributeName="opacity" values="0.5;1;0.5" dur="2.6s" repeatCount="indefinite"/>
+        </path>
+      </g>
+
+      <!-- Tridente (trishula) -->
+      <g stroke="#d4a941" stroke-width="4" fill="none" stroke-linecap="round">
+        <line x1="78" y1="70" x2="78" y2="20"/>
+        <path d="M66 30 q0 -14 12 -14 q12 0 12 14"/>
+        <line x1="78" y1="16" x2="78" y2="30"/>
+      </g>
+
+      <!-- Cobra en el hombro derecho -->
+      <path d="M222 70 q-4 -16 8 -20 q10 -3 10 6 q0 7 -8 6" stroke="#22c55e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <circle cx="238" cy="52" r="2.4" fill="#22c55e"/>
+
+      <!-- Partículas ascendentes -->
+      <g fill="#fdba74">
+        <circle cx="110" cy="200" r="1.8"><animate attributeName="cy" values="205;30" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.9;0" dur="6s" repeatCount="indefinite"/></circle>
+        <circle cx="196" cy="210" r="1.4"><animate attributeName="cy" values="215;40" dur="7.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.8;0" dur="7.5s" repeatCount="indefinite"/></circle>
+        <circle cx="150" cy="220" r="1.6"><animate attributeName="cy" values="225;24" dur="5.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="5.2s" repeatCount="indefinite"/></circle>
+      </g>
+    </svg>
+  </div>
+
+  <div class="stats">
+    <div class="stat atq"><b>—</b><span>ATQ</span></div>
+    <div class="stat fe"><b>—</b><span>FE</span></div>
+    <div class="stat des"><b>—</b><span>DES</span></div>
+  </div>
+
+  <div class="efecto">
+    <span class="tag">✦ Efecto</span><br>
+    <b>Trascendencia:</b> permite usar todas tus magias sin cumplir el requisito de Fe.
+  </div>
+</div>
+</body>
+</html>

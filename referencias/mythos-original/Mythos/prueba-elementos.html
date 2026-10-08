@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mythos · Esquema de elementos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fuego: #f97316;
+    --tierra: #c08a4a;
+    --rayo: #facc15;
+    --agua: #38bdf8;
+    --viento: #a8b8a0;
+    --eter: #c4b5fd;
+    --oro: #d4a941;
+    --panel: #0d1017;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse at 50% -10%, #17122a 0%, #07090f 70%);
+    color: #e2e8f0;
+    font-family: Montserrat, system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    padding: 18px 30px;
+    background: rgba(8, 10, 16, .9);
+    border-bottom: 1.5px solid rgba(255, 255, 255, .08);
+  }
+  h1 {
+    font-family: Cinzel, serif;
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin: 0;
+    color: var(--oro);
+  }
+  header p { font-size: 11px; color: #94a3b8; margin: 5px 0 0; letter-spacing: 1px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 26px; display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; }
+  .caja {
+    background: rgba(13, 17, 26, .85);
+    border: 1.5px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .caja h2 {
+    font-family: Cinzel, serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .nota { font-size: 11px; color: #64748b; line-height: 1.6; margin: 12px 0 0; }
+
+  /* Cada añadido se enciende y se apaga por separado, para ver qué aporta cada uno. */
+  .interruptores { display: flex; flex-direction: column; gap: 9px; }
+  .interruptores button {
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .12);
+    color: #94a3b8;
+    padding: 8px 14px;
+    border-radius: 7px;
+    font-size: 11.5px;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: all .15s;
+  }
+  .interruptores button[aria-pressed="true"] {
+    background: rgba(212, 169, 65, .18);
+    border-color: var(--oro);
+    color: #ffd700;
+    font-weight: 700;
+  }
+
+  /* El hueco real que tiene en el juego: la columna derecha mide 372 con 16 de padding. */
+  .marco-panel {
+    width: 340px;
+    background: var(--panel);
+    border: 1.5px solid #252c3c;
+    border-radius: 12px;
+    padding: 8px;
+  }
+  .marco-panel .rotulo {
+    font-family: Cinzel, serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #6f7893;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+  .boton-turno {
+    margin-top: 10px;
+    background: linear-gradient(180deg, #d4a941, #a87f24);
+    color: #141414;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 26px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+    width: 100%;
+  }
+
+  svg { display: block; width: 100%; height: auto; }
+  .nodo-circulo { transition: opacity .18s, filter .18s; }
+  .nodo-nombre { font-family: Cinzel, serif; letter-spacing: .6px; }
+  .arista { transition: opacity .18s; }
+
+  /* apagados */
+  .sin-flechas .arista-ciclo { display: none; }
+  .sin-eter .arista-eter { display: none; }
+  .sin-nombres .nodo-nombre { display: none; }
+  .sin-pentagono .pentagono { display: none; }
+
+  /* resaltado al pasar el ratón: lo que se apaga es todo lo demás */
+  .con-hover .nodo.atenuado { opacity: .22; }
+  .con-hover .arista.atenuada { opacity: .08; }
+  .nodo { transition: opacity .18s; }
+
+  table { border-collapse: collapse; font-size: 12px; }
+  td { padding: 4px 10px 4px 0; color: #cbd5e1; }
+  td.gana { color: var(--oro); font-weight: 700; }
+  .pastilla {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 9px 2px 5px;
+    border-radius: 20px;
+    border: 1px solid currentColor;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-family: Cinzel, serif;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ESQUEMA DE ELEMENTOS</h1>
+  <p>Pentágono de cinco elementos con el éter en el centro · va encima del botón de terminar turno</p>
+</header>
+
+<main>
+  <div class="caja">
+    <h2>Tamaño real en el panel</h2>
+    <div class="marco-panel">
+      <div class="rotulo">ELEMENTOS</div>
+      <div id="chico"></div>
+      <button class="boton-turno">Terminar turno ⚔️</button>
+    </div>
+    <p class="nota">El panel derecho del juego mide 372 px con 16 de margen, así que el hueco<br>de verdad son 340. Esto es a escala 1:1.</p>
+  </div>
+
+  <div class="caja">
+    <h2>Ampliado, para mirarlo de cerca</h2>
+    <div style="width:520px" id="grande"></div>
+  </div>
+
+  <div class="caja">
+    <h2>Qué encender</h2>
+    <div class="interruptores">
+      <button data-clase="sin-flechas">Flechas del ciclo</button>
+      <button data-clase="sin-eter">Rayos del éter</button>
+      <button data-clase="sin-nombres">Nombres</button>
+      <button data-clase="sin-pentagono">Pentágono de fondo</button>
+      <button data-clase="con-hover" data-invertido="1">Resaltar al pasar el ratón</button>
+    </div>
+    <p class="nota">Cada cosa por separado, para ver qué aporta y qué sobra.<br>Con el resaltado activo, pasa el ratón por encima de un elemento.</p>
+  </div>
+
+  <div class="caja">
+    <h2>Las reglas</h2>
+    <table id="reglas"></table>
+    <p class="nota" id="neutrales"></p>
+  </div>
+</main>
+
+<script>
+  // El orden del array ES el orden alrededor del pentágono: cada uno gana al siguiente,
+  // así que las flechas caen sobre los lados y el ciclo se lee dando la vuelta.
+  const ELEMENTOS = [
+    { id: "fuego",  nombre: "FUEGO",  icono: "🔥", color: "#f97316" },
+    { id: "tierra", nombre: "TIERRA", icono: "⛰️", color: "#c08a4a" },
+    { id: "rayo",   nombre: "RAYO",   icono: "⚡", color: "#facc15" },
+    { id: "agua",   nombre: "AGUA",   icono: "💧", color: "#38bdf8" },
+    { id: "viento", nombre: "VIENTO", icono: "🌀", color: "#a8b8a0" },
+  ];
+  const ETER = { id: "eter", nombre: "ÉTER", color: "#c4b5fd" };
+
+  function dibujar(destino, ancho) {
+    const N = ELEMENTOS.length;
+    const escala = ancho / 340;
+    const alto = ancho * 0.94;
+    const cx = ancho / 2, cy = alto / 2;
+    const R = 108 * escala;          // distancia del centro a cada esquina
+    const rN = 31 * escala;          // radio de cada elemento
+    const rE = 33 * escala;          // radio del éter
+
+    const punto = (i) => {
+      const a = -Math.PI / 2 + i * 2 * Math.PI / N;
+      return { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) };
+    };
+    const P = ELEMENTOS.map((_, i) => punto(i));
+
+    // Recorta el segmento por los dos extremos, para que la flecha no se meta debajo
+    // de los círculos y se vea entera.
+    const recortar = (a, b, dIni, dFin) => {
+      const dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy);
+      const ux = dx / L, uy = dy / L;
+      return { x1: a.x + ux * dIni, y1: a.y + uy * dIni, x2: b.x - ux * dFin, y2: b.y - uy * dFin };
+    };
+
+    let defs = "", ciclo = "", eter = "", nodos = "";
+
+    const pent = P.map(p => p.x.toFixed(1) + "," + p.y.toFixed(1)).join(" ");
+    const fondo = '<polygon class="pentagono" points="' + pent + '" fill="rgba(255,255,255,.014)" stroke="rgba(255,255,255,.16)" stroke-width="' + (1.2 * escala) + '"/>';
+
+    ELEMENTOS.forEach((e, i) => {
+      const sig = (i + 1) % N;
+      const s = recortar(P[i], P[sig], rN + 4 * escala, rN + 11 * escala);
+      defs += '<marker id="pta-' + e.id + '-' + ancho + '" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">'
+        + '<path d="M0 0 L7 3.5 L0 7 z" fill="' + e.color + '"/></marker>';
+      ciclo += '<line class="arista arista-ciclo" data-de="' + e.id + '" data-a="' + ELEMENTOS[sig].id + '"'
+        + ' x1="' + s.x1.toFixed(1) + '" y1="' + s.y1.toFixed(1) + '" x2="' + s.x2.toFixed(1) + '" y2="' + s.y2.toFixed(1) + '"'
+        + ' stroke="' + e.color + '" stroke-width="' + (2.2 * escala) + '" stroke-linecap="round" opacity=".85"'
+        + ' marker-end="url(#pta-' + e.id + '-' + ancho + ')"/>';
+
+      const r = recortar({ x: cx, y: cy }, P[i], rE + 3 * escala, rN + 9 * escala);
+      eter += '<line class="arista arista-eter" data-de="eter" data-a="' + e.id + '"'
+        + ' x1="' + r.x1.toFixed(1) + '" y1="' + r.y1.toFixed(1) + '" x2="' + r.x2.toFixed(1) + '" y2="' + r.y2.toFixed(1) + '"'
+        + ' stroke="' + ETER.color + '" stroke-width="' + (1.3 * escala) + '" stroke-dasharray="' + (4 * escala) + ' ' + (5 * escala) + '" opacity=".5"/>';
+    });
+
+    ELEMENTOS.forEach((e, i) => {
+      nodos += nodo(e.id, P[i].x, P[i].y, rN, e.color, e.icono, e.nombre, escala, false);
+    });
+    // El éter va el último para quedar por encima de sus propios rayos.
+    nodos += nodo("eter", cx, cy, rE, ETER.color, null, ETER.nombre, escala, true);
+
+    destino.innerHTML = '<svg viewBox="0 0 ' + ancho + ' ' + alto + '" xmlns="http://www.w3.org/2000/svg">'
+      + '<defs>' + defs + '</defs>' + fondo + eter + ciclo + nodos + '</svg>';
+  }
+
+  function nodo(id, x, y, r, color, icono, nombre, escala, esEter) {
+    const dentro = esEter
+      ? estrella(x, y - 5 * escala, 12 * escala, color)
+      : '<text x="' + x + '" y="' + (y - 2 * escala) + '" text-anchor="middle" font-size="' + (21 * escala) + '">' + icono + '</text>';
+    const aro = esEter
+      ? '<circle cx="' + x + '" cy="' + y + '" r="' + (r - 4 * escala) + '" fill="none" stroke="#d4a941" stroke-width="' + (1 * escala) + '" opacity=".55"/>'
+      : "";
+    return '<g class="nodo" data-id="' + id + '">'
+      + '<circle class="nodo-circulo" cx="' + x + '" cy="' + y + '" r="' + r + '"'
+      + ' fill="rgba(8,10,16,.92)" stroke="' + color + '" stroke-width="' + ((esEter ? 2.6 : 2) * escala) + '"/>'
+      + aro + dentro
+      + '<text class="nodo-nombre" x="' + x + '" y="' + (y + 17 * escala) + '" text-anchor="middle"'
+      + ' font-size="' + (8.5 * escala) + '" fill="' + color + '">' + nombre + '</text></g>';
+  }
+
+  function estrella(cx, cy, r, color) {
+    let p = "";
+    for (let i = 0; i < 8; i++) {
+      const a = -Math.PI / 2 + i * Math.PI / 4;
+      const rad = i % 2 === 0 ? r : r * 0.38;
+      p += (i ? " L" : "M") + (cx + rad * Math.cos(a)).toFixed(1) + " " + (cy + rad * Math.sin(a)).toFixed(1);
+    }
+    return '<path d="' + p + ' Z" fill="' + color + '"/>';
+  }
+
+  const cajas = [[document.getElementById("chico"), 340], [document.getElementById("grande"), 520]];
+  cajas.forEach(([d, w]) => dibujar(d, w));
+
+  // interruptores: cada uno pone o quita una clase en el body
+  document.querySelectorAll(".interruptores button").forEach(b => {
+    const invertido = b.dataset.invertido === "1";
+    const encendido = () => invertido ? document.body.classList.contains(b.dataset.clase) : !document.body.classList.contains(b.dataset.clase);
+    const pintar = () => b.setAttribute("aria-pressed", String(encendido()));
+    b.onclick = () => { document.body.classList.toggle(b.dataset.clase); pintar(); };
+    pintar();
+  });
+
+  // resaltado: al pasar por un elemento se apaga todo menos él, a quién gana y quién le gana
+  function relacionados(id) {
+    if (id === "eter") return new Set(["eter", ...ELEMENTOS.map(e => e.id)]);
+    const i = ELEMENTOS.findIndex(e => e.id === id);
+    const gana = ELEMENTOS[(i + 1) % ELEMENTOS.length].id;
+    const pierde = ELEMENTOS[(i - 1 + ELEMENTOS.length) % ELEMENTOS.length].id;
+    return new Set([id, gana, pierde, "eter"]);
+  }
+  document.addEventListener("mouseover", (ev) => {
+    const g = ev.target.closest && ev.target.closest(".nodo");
+    if (!g) return;
+    const vivos = relacionados(g.dataset.id);
+    document.querySelectorAll(".nodo").forEach(n => n.classList.toggle("atenuado", !vivos.has(n.dataset.id)));
+    document.querySelectorAll(".arista").forEach(a => {
+      const suya = a.dataset.de === g.dataset.id || a.dataset.a === g.dataset.id;
+      a.classList.toggle("atenuada", !suya);
+    });
+  });
+  document.addEventListener("mouseout", (ev) => {
+    if (ev.target.closest && ev.target.closest(".nodo")) {
+      document.querySelectorAll(".atenuado").forEach(n => n.classList.remove("atenuado"));
+      document.querySelectorAll(".atenuada").forEach(a => a.classList.remove("atenuada"));
+    }
+  });
+
+  // tabla de reglas
+  const past = (e) => '<span class="pastilla" style="color:' + e.color + '">' + (e.icono || "✦") + " " + e.nombre + "</span>";
+  let filas = "";
+  ELEMENTOS.forEach((e, i) => {
+    const sig = ELEMENTOS[(i + 1) % ELEMENTOS.length];
+    filas += "<tr><td>" + past(e) + '</td><td class="gana">gana a</td><td>' + past(sig) + "</td></tr>";
+  });
+  filas += '<tr><td>' + past({ color: ETER.color, nombre: ETER.nombre, icono: "✦" }) + '</td><td class="gana">gana a</td><td style="color:#94a3b8">todos</td></tr>';
+  document.getElementById("reglas").innerHTML = filas;
+
+  // Con cinco elementos y una sola victoria cada uno, la mitad de los cruces se quedan
+  // sin resolver. Conviene tenerlo delante antes de dar el esquema por bueno.
+  const sueltos = [];
+  for (let i = 0; i < ELEMENTOS.length; i++) {
+    for (let j = i + 1; j < ELEMENTOS.length; j++) {
+      const dist = Math.min((j - i + 5) % 5, (i - j + 5) % 5);
+      if (dist !== 1) sueltos.push(ELEMENTOS[i].nombre.toLowerCase() + " · " + ELEMENTOS[j].nombre.toLowerCase());
+    }
+  }
+  document.getElementById("neutrales").innerHTML =
+    "Ojo: cada elemento gana a UNO solo, así que de los 10 cruces posibles hay <b>"
+    + sueltos.length + " que quedan en tablas</b>:<br>" + sueltos.join(" &nbsp;·&nbsp; ");
+</script>
+</body>
+</html>

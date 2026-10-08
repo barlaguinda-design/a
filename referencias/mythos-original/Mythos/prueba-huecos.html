@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mythos · Comparativa de huecos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background:
+      radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,.6), transparent 2px),
+      radial-gradient(1px 1px at 78% 12%, rgba(255,255,255,.45), transparent 2px),
+      radial-gradient(1.5px 1.5px at 55% 35%, rgba(255,233,201,.65), transparent 2px),
+      radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,.4), transparent 2px),
+      radial-gradient(1px 1px at 88% 62%, rgba(207,228,255,.5), transparent 2px),
+      radial-gradient(ellipse at 50% 45%, #131722 0%, #07080f 75%);
+    color: #e8e2d4;
+    font-family: Marcellus, Georgia, serif;
+    min-height: 100vh;
+    padding: 26px 20px 60px;
+  }
+
+  h1 { font-family: Cinzel, serif; font-size: 22px; text-align: center; color: #f0d27a; letter-spacing: 2px; }
+  .sub { text-align: center; color: #9aa0b0; font-size: 13px; margin: 6px 0 26px; line-height: 1.5; }
+
+  .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1180px; margin: 0 auto; }
+
+  .op {
+    width: 270px;
+    border: 1px solid #2a2f3d;
+    border-radius: 14px;
+    padding: 16px 14px 14px;
+    background: rgba(10,12,18,.55);
+  }
+  .op h2 { font-family: Cinzel, serif; font-size: 14px; color: #d4a941; letter-spacing: 1px; margin-bottom: 3px; }
+  .op .num { font-size: 10px; color: #6c7385; letter-spacing: 2px; }
+  .op p { font-size: 11.5px; line-height: 1.5; color: #a8aebd; margin-top: 10px; }
+
+  /* el "abismo": fondo comun sobre el que se apoyan las losas */
+  .abismo {
+    margin-top: 12px;
+    padding: 18px 12px 22px;
+    border-radius: 10px;
+    background: radial-gradient(ellipse 90% 70% at 50% 40%, rgba(30,26,52,.5), rgba(4,4,8,.92) 78%);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    align-items: center;
+  }
+  .fila { display: flex; gap: 8px; }
+  .slot { width: 58px; height: 68px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 26px; position: relative; }
+  .etq { font-size: 9px; color: #6c7385; letter-spacing: 1.5px; margin-top: 10px; text-align: center; }
+
+  /* ---------- 1. Losa suspendida por cadenas ---------- */
+  .a1 .slot {
+    background: linear-gradient(168deg, #4a4436 0%, #2b2820 45%, #17150f 100%);
+    border: 1px solid #6b5f3f;
+    box-shadow:
+      0 14px 20px rgba(0,0,0,.85),
+      0 3px 0 #100e09,
+      inset 0 2px 0 rgba(255,236,180,.16),
+      inset 0 -6px 10px rgba(0,0,0,.6);
+  }
+  .a1 .slot::before,
+  .a1 .slot::after {
+    content: ""; position: absolute; top: -9px; width: 2px; height: 9px;
+  }
+  .a1 .slot::before { left: 9px; background: repeating-linear-gradient(180deg, #7d6c46 0 2px, transparent 2px 4px); }
+  .a1 .slot::after { right: 9px; background: repeating-linear-gradient(180deg, #7d6c46 0 2px, transparent 2px 4px); }
+  .a1 .slot.libre { border-color: #b99a52; box-shadow: 0 14px 22px rgba(0,0,0,.85), 0 0 0 1px rgba(240,210,122,.5), 0 0 16px rgba(240,210,122,.35), inset 0 2px 0 rgba(255,236,180,.22); }
+
+  /* ---------- 2. Anillo runico grabado ---------- */
+  .a2 .slot {
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(30,24,48,.85), rgba(6,5,12,.95));
+    border: 1px solid rgba(150,120,200,.22);
+    box-shadow: 0 10px 22px rgba(0,0,0,.7);
+  }
+  .a2 .slot::before {
+    content: ""; position: absolute; inset: 8px;
+    border: 1.5px solid rgba(212,169,65,.5);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(212,169,65,.3), inset 0 0 10px rgba(212,169,65,.18);
+  }
+  .a2 .slot.libre::before { border-color: #f0d27a; box-shadow: 0 0 18px rgba(240,210,122,.7), inset 0 0 14px rgba(240,210,122,.4); }
+
+  /* ---------- 3. Plataforma de cristal ---------- */
+  .a3 .slot {
+    background: linear-gradient(160deg, rgba(120,180,235,.30), rgba(40,70,120,.16) 55%, rgba(10,18,34,.5));
+    border: 1px solid rgba(150,205,255,.42);
+    backdrop-filter: blur(2px);
+    box-shadow:
+      0 12px 22px rgba(0,0,0,.7),
+      inset 0 1px 0 rgba(255,255,255,.4),
+      inset 0 -10px 16px rgba(20,60,110,.35);
+  }
+  .a3 .slot.libre { border-color: #b8e4ff; box-shadow: 0 12px 22px rgba(0,0,0,.7), 0 0 20px rgba(150,215,255,.5), inset 0 1px 0 rgba(255,255,255,.6); }
+
+  /* ---------- 4. Yu-Gi-Oh clasico ---------- */
+  .a4 .slot {
+    background: rgba(8,7,14,.9);
+    border: 1.5px solid rgba(190,200,225,.5);
+    border-radius: 7px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.6);
+  }
+  .a4 .slot.libre { border-color: #cfe0ff; box-shadow: 0 6px 14px rgba(0,0,0,.6), 0 0 16px rgba(190,215,255,.55); }
+
+  .leyenda { max-width: 760px; margin: 30px auto 0; font-size: 12px; color: #8a90a0; line-height: 1.6; text-align: center; }
+  .leyenda b { color: #d4a941; }
+</style>
+</head>
+<body>
+
+<h1>¿Cómo deben verse los huecos?</h1>
+<p class="sub">
+  Cuatro maneras de resolver el mismo problema: que se vea que hay un sitio firme donde apoyar<br>
+  una carta, flotando sobre el abismo. En cada bloque, el hueco <b style="color:#f0d27a">iluminado</b> es uno
+  disponible y el que tiene el 🐺 está ocupado.
+</p>
+
+<div class="grid">
+
+  <div class="op a1">
+    <div class="num">OPCIÓN 1</div>
+    <h2>Losa suspendida</h2>
+    <div class="abismo">
+      <div class="fila"><div class="slot"></div><div class="slot libre"></div></div>
+      <div class="fila"><div class="slot">🐺</div><div class="slot"></div></div>
+      <div class="fila"><div class="slot"></div><div class="slot"></div></div>
+    </div>
+    <p>Piedra tallada, con relieve arriba y una sombra profunda debajo que la despega del vacío. Cadenitas al borde superior. Es la más “física”: se ve el peso y el grosor.</p>
+  </div>
+
+  <div class="op a2">
+    <div class="num">OPCIÓN 2</div>
+    <h2>Anillo rúnico</h2>
+    <div class="abismo">
+      <div class="fila"><div class="slot"></div><div class="slot libre"></div></div>
+      <div class="fila"><div class="slot">🐺</div><div class="slot"></div></div>
+      <div class="fila"><div class="slot"></div><div class="slot"></div></div>
+    </div>
+    <p>No hay piedra: el sitio lo marca un círculo de runas grabado en la oscuridad. Muy mitológico y deja el campo despejado, pero la firmeza es sugerida, no vista.</p>
+  </div>
+
+  <div class="op a3">
+    <div class="num">OPCIÓN 3</div>
+    <h2>Plataforma de cristal</h2>
+    <div class="abismo">
+      <div class="fila"><div class="slot"></div><div class="slot libre"></div></div>
+      <div class="fila"><div class="slot">🐺</div><div class="slot"></div></div>
+      <div class="fila"><div class="slot"></div><div class="slot"></div></div>
+    </div>
+    <p>Hielo o cristal traslúcido: se intuye el abismo por debajo pero la superficie brilla arriba. Firme y a la vez etéreo. Encaja con el puente entre mundos.</p>
+  </div>
+
+  <div class="op a4">
+    <div class="num">OPCIÓN 4</div>
+    <h2>Yu-Gi-Oh clásico</h2>
+    <div class="abismo">
+      <div class="fila"><div class="slot"></div><div class="slot libre"></div></div>
+      <div class="fila"><div class="slot">🐺</div><div class="slot"></div></div>
+      <div class="fila"><div class="slot"></div><div class="slot"></div></div>
+    </div>
+    <p>Casilla casi negra con borde fino y claro. Es la más legible de las cuatro y la que menos compite con las ilustraciones, pero es la que menos personalidad tiene.</p>
+  </div>
+
+</div>
+
+<p class="leyenda">
+  Todas están dibujadas al tamaño real que tienen hoy en el juego (58 × 68 px) y sobre el mismo fondo,
+  así que la comparación es justa. Dime cuál te convence — o mézclalas, por ejemplo
+  <b>la losa de la 1 con el brillo de la 3</b> — y la llevo al campo de verdad.
+</p>
+
+</body>
+</html>

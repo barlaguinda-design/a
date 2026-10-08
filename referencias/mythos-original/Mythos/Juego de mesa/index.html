@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MitoLogos — Duelo de Corazones | Sandbox & Balance Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Marcellus&family=Almendra:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Hojas de Estilos -->
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <!-- Encabezado Principal de la Aplicación -->
+    <header class="app-header">
+        <div class="logo-area">
+            <h1>MITOLOGOS</h1>
+            <p class="subtitle">Duelo de Corazones — Prototipo Táctico & Arena</p>
+        </div>
+        
+        <!-- Pestañas Principales de Navegación -->
+        <nav class="app-nav">
+            <button class="nav-tab active" data-tab="catalog">🎴 Catálogo de Cartas</button>
+            <button class="nav-tab" data-tab="arena">⚔️ Arena de Batalla</button>
+            <button class="nav-tab" data-tab="sandbox">🛡️ Sandbox 3vs3</button>
+            <button class="nav-tab" data-tab="codex">📜 Códice & Variables</button>
+        </nav>
+    </header>
+
+    <main class="app-layout-wrapper">
+        
+        <!-- PESTAÑA 1: CATÁLOGO DE CARTAS -->
+        <div class="tab-content active" id="tab-catalog">
+            <div class="catalog-layout">
+                <!-- Panel de Control y Filtros -->
+                <div class="controls">
+                    <div class="toggle-section">
+                        <button class="toggle-btn active" id="btnDigital">Modo Digital (Con Datos)</button>
+                        <button class="toggle-btn" id="btnPlantilla">Plantilla Vacía (Fondo Base)</button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <span class="filter-label">Civilización:</span>
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="Vikinga">Vikinga</button>
+                        <button class="filter-btn" data-filter="Griega">Griega</button>
+                        <button class="filter-btn" data-filter="Egipcia">Egipcia</button>
+                        <button class="filter-btn" data-filter="Hinduista">Hinduista</button>
+                        <button class="filter-btn" data-filter="Neutral">Neutral/Común</button>
+                    </div>
+
+                    <div class="filter-group">
+                        <span class="filter-label">Categoría:</span>
+                        <button class="cat-btn active" data-cat="all">Todas</button>
+                        <button class="cat-btn" data-cat="Personaje">Personaje</button>
+                        <button class="cat-btn" data-cat="Élite / Divinidad">Élite / Divinidad</button>
+                        <button class="cat-btn" data-cat="Dios">Dios</button>
+                        <button class="cat-btn" data-cat="Animal Mitológico">Animal Mitológico</button>
+                        <button class="cat-btn" data-cat="Mágica">Mágica</button>
+                        <button class="cat-btn" data-cat="Trampa">Trampa</button>
+                        <button class="cat-btn" data-cat="Portal">Portal</button>
+                    </div>
+                </div>
+
+                <!-- Rejilla de Visualización del Catálogo -->
+                <div class="deck-grid" id="catalogDeckGrid">
+                    <!-- Se inyecta dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- PESTAÑA 2: ARENA DE COMBATE (1v1) -->
+        <div class="tab-content" id="tab-arena">
+            <div class="arena-layout">
+                <div class="arena-grid">
+                    <!-- Luchador 1 (Aliado - Izquierda) -->
+                    <div class="fighter-panel" id="fighter1">
+                        <div class="fighter-header-box">
+                            <h3>Luchador Aliado</h3>
+                            <div class="fighter-selectors">
+                                <select class="select-civ" id="selectCiv1">
+                                    <option value="">Selecciona Civilización</option>
+                                    <option value="Vikinga">Vikinga</option>
+                                    <option value="Griega">Griega</option>
+                                    <option value="Egipcia">Egipcia</option>
+                                    <option value="Hinduista">Hinduista</option>
+                                    <option value="Neutral">Neutral/Común</option>
+                                </select>
+                                <select class="select-crit" id="selectCrit1" disabled>
+                                    <option value="">Selecciona Criatura</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="fighter-card-view" id="cardFighter1">
+                            <div class="card-empty-state">Selecciona una criatura del Olimpo o de las leyendas...</div>
+                        </div>
+                    </div>
+
+                    <!-- Controles Centrales de la Arena -->
+                    <div class="arena-center-controls">
+                        <div class="vs-circle">VS</div>
+                        
+                        <div class="arena-action-buttons">
+                            <button class="btn btn-action" id="btnSimular" disabled>⚔️ COMBATE</button>
+                            <button class="btn btn-secondary" id="btnPasoAPaso" disabled>⏯️ Paso a Paso</button>
+                            <button class="btn btn-neutral" id="btnSimular100" disabled>📊 Test Balance (100 batallas)</button>
+                        </div>
+
+                        <!-- Reproductor de batalla -->
+                        <div class="playback-controls-card">
+                            <div class="playback-buttons">
+                                <button class="btn btn-small" id="btnControlPausa" style="display:none; width: 100%;">⏸️ Pausar</button>
+                                <button class="btn btn-small btn-danger" id="btnControlStop" style="display:none; width: 100%; margin-top:5px;">⏹️ Cancelar</button>
+                            </div>
+                            <div class="speed-slider-group">
+                                <label for="sliderBatallaSpeed">Tiempo entre acciones</label>
+                                <input type="range" id="sliderBatallaSpeed" min="150" max="1500" step="50" value="700">
+                                <div class="speed-labels">
+                                    <span>Rápido</span>
+                                    <span>Lento</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Luchador 2 (Rival - Derecha) -->
+                    <div class="fighter-panel" id="fighter2">
+                        <div class="fighter-header-box">
+                            <h3>Luchador Rival</h3>
+                            <div class="fighter-selectors">
+                                <select class="select-civ" id="selectCiv2">
+                                    <option value="">Selecciona Civilización</option>
+                                    <option value="Vikinga">Vikinga</option>
+                                    <option value="Griega">Griega</option>
+                                    <option value="Egipcia">Egipcia</option>
+                                    <option value="Hinduista">Hinduista</option>
+                                    <option value="Neutral">Neutral/Común</option>
+                                </select>
+                                <select class="select-crit" id="selectCrit2" disabled>
+                                    <option value="">Selecciona Criatura</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="fighter-card-view" id="cardFighter2">
+                            <div class="card-empty-state">Selecciona una criatura del Olimpo o de las leyendas...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consola del combate -->
+                <div class="combat-log-container">
+                    <h4>Registro de Combates (1v1)</h4>
+                    <div class="combat-console" id="combatConsole">
+                        <p class="placeholder-console">Selecciona a los combatientes y pulsa <strong>COMBATE</strong> para iniciar la simulación...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 3: SANDBOX DE EQUIPOS (3v3) -->
+        <div class="tab-content" id="tab-sandbox">
+            <div class="sandbox-layout">
+                <div class="sandbox-top-row">
+                    <!-- Equipo A -->
+                    <div class="team-builder" id="teamA">
+                        <h4>Formación Aliada</h4>
+                        <div class="team-slots">
+                            <div class="team-slot" data-index="0" id="slotA-0">+ Elegir</div>
+                            <div class="team-slot" data-index="1" id="slotA-1">+ Elegir</div>
+                            <div class="team-slot" data-index="2" id="slotA-2">+ Elegir</div>
+                        </div>
+                        <div class="team-analysis" id="analysisA">
+                            <p class="placeholder-text">Añade criaturas para analizar el balance.</p>
+                        </div>
+                    </div>
+
+                    <!-- Equipo B -->
+                    <div class="team-builder" id="teamB">
+                        <h4>Formación Rival</h4>
+                        <div class="team-slots">
+                            <div class="team-slot" data-index="0" id="slotB-0">+ Elegir</div>
+                            <div class="team-slot" data-index="1" id="slotB-1">+ Elegir</div>
+                            <div class="team-slot" data-index="2" id="slotB-2">+ Elegir</div>
+                        </div>
+                        <div class="team-analysis" id="analysisB">
+                            <p class="placeholder-text">Añade criaturas para analizar el balance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulación 3v3 y Consola -->
+                <div class="sandbox-simulation-container">
+                    <div class="sandbox-sim-header">
+                        <button class="btn btn-action" id="btnSimular3v3" disabled style="width:100%; max-width:400px; margin: 0 auto; display:block;">🔥 SIMULAR ENFRENTAMIENTO 3 vs 3 (Relevos)</button>
+                    </div>
+                    <div class="sandbox-log-wrapper">
+                        <h4>Consola de Enfrentamiento (3v3 Tag-Team)</h4>
+                        <div class="combat-console" id="sandboxConsole">
+                            <p class="placeholder-console">Configura al menos una criatura en cada equipo y presiona el simulador para reproducir la contienda por relevos...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- El Ciclo de Elementos -->
+                <div class="card item-ciclo-card">
+                    <h3>Ciclo de Fortalezas y Debilidades</h3>
+                    <div class="ciclo-visual">
+                        <div class="element-node rayo" data-element="rayo" id="node-rayo">
+                            <span class="element-icon">⚡</span>
+                            <span class="element-name">Rayo</span>
+                        </div>
+                        <div class="element-arrow rayo-agua">➔</div>
+                        <div class="element-node agua" data-element="agua" id="node-agua">
+                            <span class="element-icon">💧</span>
+                            <span class="element-name">Agua</span>
+                        </div>
+                        <div class="element-arrow agua-fuego">➔</div>
+                        <div class="element-node fuego" data-element="fuego" id="node-fuego">
+                            <span class="element-icon">🔥</span>
+                            <span class="element-name">Fuego</span>
+                        </div>
+                        <div class="element-arrow fuego-tierra">➔</div>
+                        <div class="element-node tierra" data-element="tierra" id="node-tierra">
+                            <span class="element-icon">🪨</span>
+                            <span class="element-name">Tierra</span>
+                        </div>
+                        <div class="element-arrow tierra-ray">➔</div>
+                    </div>
+                    <div class="ciclo-explicacion" id="cicloTexto">
+                        Pasa el cursor sobre un elemento para ver su flujo de fortalezas y debilidades.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 4: CÓDICE & VARIABLES (EDICIÓN) -->
+        <div class="tab-content" id="tab-codex">
+            <div class="codex-layout">
+                <!-- Variables Generales de Combate -->
+                <div class="card global-config-card">
+                    <h3>Ajustes Generales del Sistema de Batalla</h3>
+                    <p class="section-desc">Modifica estas variables globales para comprobar cómo reaccionan las mecánicas del juego.</p>
+                    
+                    <div class="config-grid">
+                        <div class="control-group">
+                            <label for="valMultiplicadorVentaja">
+                                Bonus de Ventaja Elemental: <span id="labelVentaja">+50%</span>
+                            </label>
+                            <input type="range" id="valMultiplicadorVentaja" min="0.0" max="1.5" step="0.1" value="0.5">
+                            <small class="help-text">Daño extra aplicado a elementos débiles en el ciclo.</small>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="valBonusTerreno">
+                                Defensa Adicional en Terreno Armónico: <span id="labelTerreno">+4</span>
+                            </label>
+                            <input type="range" id="valBonusTerreno" min="0" max="10" step="1" value="4">
+                            <small class="help-text">Defensa añadida cuando una criatura lucha en su elemento afín.</small>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="selectTerreno">Terreno de Combate:</label>
+                            <select id="selectTerreno">
+                                <option value="neutral">Neutral (Sin bonificaciones)</option>
+                                <option value="agua">Agua (Mar / Ríos)</option>
+                                <option value="tierra">Tierra (Montañas / Desiertos)</option>
+                                <option value="rayo">Rayo (Páramo de Tormentas)</option>
+                                <option value="fuego">Fuego (Volcán / Tierras Quemadas)</option>
+                            </select>
+                            <small class="help-text">El terreno activa las pasivas de armonía elemental.</small>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="valVarianzaRng">
+                                Coeficiente de Varianza de Daño (Dados): <span id="labelVarianzaRng">±15%</span>
+                            </label>
+                            <input type="range" id="valVarianzaRng" min="0.0" max="0.5" step="0.05" value="0.15">
+                            <small class="help-text">Representa la influencia de la suerte. 0% es determinista puro.</small>
+                        </div>
+
+                        <div class="control-group">
+                            <label for="selectIniciativa">Determinación de Iniciativa:</label>
+                            <select id="selectIniciativa">
+                                <option value="velocidad">Velocidad Pura (Ataca primero la criatura más veloz)</option>
+                                <option value="dado">Dado de Iniciativa (Velocidad + Dado 1d6 cada ronda)</option>
+                            </select>
+                            <small class="help-text">Define el orden en que ejecutan las acciones en el turno.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database de Criaturas con Sliders -->
+                <div class="card codex-database-card">
+                    <div class="codex-db-header">
+                        <div>
+                            <h3>Editor de Atributos & Presupuesto de Criaturas</h3>
+                            <p class="section-desc">Ajusta los sliders de cualquier criatura. Su presupuesto total se recalculará en vivo. Los cambios persistirán de forma local.</p>
+                        </div>
+                        <button class="btn btn-secondary btn-small" id="btnRestaurarStats">Restaurar Valores por Defecto</button>
+                    </div>
+
+                    <!-- Pestañas de Civilizaciones -->
+                    <div class="codex-tabs">
+                        <button class="codex-tab-btn active" data-civ="indonesia">Indonesia (En desarrollo)</button>
+                        <button class="codex-tab-btn" data-civ="griega">Grecia</button>
+                        <button class="codex-tab-btn" data-civ="vikinga">Vikinga</button>
+                        <button class="codex-tab-btn" data-civ="egipcia">Egipcia</button>
+                    </div>
+
+                    <!-- Rejilla de Criaturas -->
+                    <div class="codex-grid" id="gridCriaturasCodex">
+                        <!-- Generado dinámicamente por JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal de Selección de Criatura para el Sandbox de Equipos -->
+    <div class="modal" id="selectorCriaturaModal">
+        <div class="modal-content selection-modal-content">
+            <span class="close-btn" id="closeSelectorModal">&times;</span>
+            <h2>Añadir Criatura al Equipo</h2>
+            <div class="selector-tabs">
+                <button class="tab-btn active" data-civ="todas">Todas</button>
+                <button class="tab-btn" data-civ="indonesia">Indonesia</button>
+                <button class="tab-btn" data-civ="griega">Grecia</button>
+                <button class="tab-btn" data-civ="vikinga">Vikinga</button>
+                <button class="tab-btn" data-civ="egipcia">Egipcia</button>
+            </div>
+            <div class="selector-grid" id="gridCriaturasSelector">
+                <!-- Se poblará por JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA CINEMATOGRÁFICA DE COMBATE (OVERLAY) -->
+    <div class="combat-overlay" id="combatOverlay">
+        <!-- Líneas de velocidad anime de fondo -->
+        <div class="speed-lines"></div>
+        <div class="clash-sparkles" id="clashSparkles"></div>
+
+        <!-- Escenario de enfrentamiento -->
+        <div class="clash-scene">
+            <!-- Combatiente 1 (Aliado) -->
+            <div class="combatant combatant-left" id="combatantLeft"></div>
+
+            <!-- Zona Central (Dado d12 3D y Resultado) -->
+            <div class="clash-center-zone">
+                <div class="die-container" id="dieContainer">
+                    <div class="die" id="d12Die">
+                        <!-- Caras del d12 en 3D (dodecaedro) -->
+                        <div class="face face-1">1</div>
+                        <div class="face face-2">2</div>
+                        <div class="face face-3">3</div>
+                        <div class="face face-4">4</div>
+                        <div class="face face-5">5</div>
+                        <div class="face face-6">6</div>
+                        <div class="face face-7">7</div>
+                        <div class="face face-8">8</div>
+                        <div class="face face-9">9</div>
+                        <div class="face face-10">10</div>
+                        <div class="face face-11">11</div>
+                        <div class="face face-12">12</div>
+                    </div>
+                </div>
+                <div class="combat-verdict" id="combatVerdict"></div>
+            </div>
+
+            <!-- Combatiente 2 (Rival) -->
+            <div class="combatant combatant-right" id="combatantRight"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./app.js"></script>
+</body>
+</html>

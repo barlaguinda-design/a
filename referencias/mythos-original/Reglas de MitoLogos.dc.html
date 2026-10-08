@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#1a1713}
+a{color:#8a5a20;text-decoration:none}
+a:hover{color:#b5722a;text-decoration:underline}
+</style>
+</helmet>
+<x-import component-from-global-scope="doc-page" from="./doc-page.js" size="a4" margin="0.85in" hint-size="100%,1200px">
+
+<div style="font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;line-height:1.62;color:#2b241a">
+
+<h1 style="font-family:Cinzel,serif;font-size:30px;font-weight:900;letter-spacing:2px;margin:0;color:#20180e">MITOLOGOS</h1>
+<div style="font-family:Cinzel,serif;font-size:15px;font-weight:700;letter-spacing:5px;color:#8a5a20;margin:2px 0 4px">DUELO DE CORAZONES</div>
+<div style="font-size:12.5px;color:#6b5f4d;font-style:italic;margin-bottom:6px">Documento canónico de reglas · v1 — julio 2026 · Se actualiza con cada decisión de diseño</div>
+<div style="height:3px;background:linear-gradient(90deg,#8a5a20,#d4a941,#8a5a20);margin:10px 0 18px"></div>
+
+<p style="margin:0 0 14px"><i>«Dos frentes. Cuatro corazones. Un abismo entre los dioses. Ganar una batalla no basta: tendrás que ganar la guerra en los dos lados del puente.»</i></p>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">1 · Objetivo y derrota</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Ganas al destruir los <b>4 corazones</b> del rival.</li>
+<li>Pierdes si caen tus 4 corazones <b>o si tu mazo se agota</b> (derrota inmediata).</li>
+<li>1 jugador contra IA (versión inicial) · 20–40 min · mazo de 60 cartas · mano inicial de 7 · robo de 1 por turno.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">2 · El tablero: un puente sobre el universo</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Dos <b>frentes independientes</b> de 7 filas × 2 carriles de losas de piedra flotantes, unidas por cadenas, arqueadas hacia los portales laterales.</li>
+<li><b>Losas verdes con Árbol Áureo</b> (fila propia): zona de invocación. Hay 4 árboles en el juego: 2 por jugador, 1 en cada frente, entre sus dos losas de invocación. El árbol brilla al invocar.</li>
+<li><b>Losas verdes rivales</b>: zona de golpeo — desde ahí una criatura destruye el corazón que tenga justo enfrente (solo ese; para el otro, desplázate lateral).</li>
+<li><b>5 filas centrales</b>: avance y combate. Movimiento adelante, atrás o lateral (sin diagonales), 1 losa por carta y turno.</li>
+<li><b>Portal</b> (extensión lateral de la fila central): invocación adelantada de alto riesgo y teletransporte entre frentes. Único punto que comunica los dos puentes.</li>
+<li><b>Abismo de los Dioses</b> (columna central, nube cósmica vertical): infranqueable. Contiene <b>un único hueco</b> para cartas de <b>Dios o Lugar</b>, que benefician solo a una civilización mientras estén en juego.</li>
+<li><b>Cementerio y mazo</b> en las esquinas. Las caídas van boca abajo al cementerio; algunas magias las recuperan.</li>
+<li>El <b>césped</b> solo existe en las repisas que sujetan las manos de los jugadores (arriba IA, abajo jugador). Bajo el puente: nubes y abismo estrellado.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">3 · Los corazones: vida y poder</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Colocación libre al empezar: 2 por frente, 1 por carril. Cada corazón cae con un solo golpe.</li>
+<li>Cada corazón otorga un <b>poder a su zona</b>, que se pierde con él:
+<table style="border-collapse:collapse;margin:8px 0;width:100%;font-size:13px">
+<tr style="background:#efe6d2"><th style="border:1px solid #c9b691;padding:5px 10px;text-align:left;font-family:Cinzel,serif;letter-spacing:1px">Corazón</th><th style="border:1px solid #c9b691;padding:5px 10px;text-align:left;font-family:Cinzel,serif;letter-spacing:1px">Poder de zona</th></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Vigor</b> ❤️</td><td style="border:1px solid #c9b691;padding:5px 10px">Permite jugar cartas de combate en su zona (subir/bajar ataque, potenciar defensas).</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Magia</b> 💚</td><td style="border:1px solid #c9b691;padding:5px 10px">Habilita la hechicería de la zona: sin él, los lanzadores no canalizan.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Sacrificios</b> 💛</td><td style="border:1px solid #c9b691;padding:5px 10px">Facilita las invocaciones con coste de sacrificio en su zona.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Elementos</b> 💙</td><td style="border:1px solid #c9b691;padding:5px 10px">Potencia las interacciones elementales de la zona.</td></tr>
+</table></li>
+<li>La criatura que destruye un corazón <b>muere en el acto</b>: todo golpe a la vida rival cuesta una vida propia.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">4 · El turno</h2>
+<ol style="margin:0;padding-left:22px">
+<li><b>Robo</b> — 1 carta. Mazo agotado = derrota.</li>
+<li><b>Invocación</b> — hasta 1 personaje por frente y turno (máx. 2), en tus losas verdes o en un portal. Mágicas: sin límite de número, sujetas al nivel de magia disponible (§7).</li>
+<li><b>Maniobra</b> — cada carta puede moverse 1 losa (adelante, atrás o lateral). El jugador decide el orden; nada se mueve solo.</li>
+<li><b>Combate</b> — mover contra una losa ocupada por el enemigo desencadena el combate en ese movimiento.</li>
+</ol>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">5 · Combate: el dado del destino (d12)</h2>
+<ol style="margin:0;padding-left:22px">
+<li><b>La tirada.</b> El atacante lanza un d12 contra la <b>esquiva</b> del defensor. Solo impacta si el resultado <b>supera</b> la esquiva (contra esquiva 6, aciertan del 7 al 12).</li>
+<li><b>El choque de fuerzas.</b> Si impacta, se compara la <b>fuerza</b> del atacante (más bonos elementales) con la del defensor. Si la supera, el defensor muere y el atacante ocupa su losa. Si no, el defensor resiste intacto. La fuerza es ataque y vida a la vez: sin contadores de daño ni contraataques.</li>
+<li><b>Impacto crítico ×2.</b> Solo puede darse cuando atacante y defensor tienen <b>el mismo ataque</b>: si el dado saca <b>exactamente</b> la esquiva del defensor, el golpe impacta con la fuerza duplicada (el defensor gastó toda su energía en la esquiva fallida y queda expuesto). Con ataques distintos no hay crítico: el número exacto cuenta como esquiva.
+<div style="background:#f5eedd;border:1px solid #c9b691;padding:7px 12px;margin:6px 0;font-size:12.5px"><b>⚠ Pendiente de confirmar:</b> con ataques distintos, ¿el número exacto es esquiva o impacto normal? ¿Y el empate de fuerza tras impactar: resiste el defensor o mueren los dos?</div></li>
+</ol>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">6 · Los cinco elementos</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Cadena cerrada: <b>Agua 💧 &gt; Fuego 🔥 &gt; Tierra 🪨 &gt; Rayo ⚡ &gt; Agua</b>. Atacar al elemento dominado da <b>+2 de fuerza</b> en ese golpe (solo en combate, con animación visible del nuevo nivel de ataque).</li>
+<li><b>Viento 🌪️ es especial</b>: no interactúa con ningún elemento. Ni suma ni resta fuerza a quien lo porta ni a quien lo ataca.</li>
+<li>Algunas criaturas tienen <b>doble elemento</b>: su dueño elige con cuál ataca.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">7 · La magia</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Nivel de magia de 0 a <b>III</b> en números romanos (el III roza lo divino), mostrado en el medallón del cinturón (runa gris apagada = sin magia).</li>
+<li>Una <b>carta mágica solo puede activarse si tienes en el campo un personaje con nivel de magia igual o superior</b> al de la carta. El nivel no se gasta.</li>
+<li>Las magias bloquean zonas del puente, revelan la mano rival, resucitan criaturas del cementerio…</li>
+<li style="color:#8a5a20"><i>Sistema en profundización — el usuario detallará la canalización próximamente.</i></li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">8 · El sacrificio</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Coste de invocación: <b>0, 1, 2 o 3 almas</b> — criaturas propias del tablero que deben morir.</li>
+<li>Se representa con la <b>runa roja progresiva</b> (diseño original): hueco vacío (0) → clavo central (1) → zigzags laterales (2) → runa cerrada y brillante (3).</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">9 · Portales y trampas</h2>
+<ul style="margin:0;padding-left:22px">
+<li>Invocación adelantada de alto riesgo o teletransporte entre frentes.</li>
+<li><b>Trampas de portal</b> (pendiente de implementar, a instrucción del usuario): al aparecer una criatura en un portal, el rival puede bloquearla con una carta boca abajo. Su dueño elige: no levantarla (la criatura queda congelada y perdida) o levantarla — si es trampa, la criatura muere y la trampa se cumple; si no, vive y además se queda la carta del rival.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">10 · Civilizaciones y colores</h2>
+<table style="border-collapse:collapse;margin:8px 0;width:100%;font-size:13px">
+<tr style="background:#efe6d2"><th style="border:1px solid #c9b691;padding:5px 10px;text-align:left;font-family:Cinzel,serif;letter-spacing:1px">Tipo de carta</th><th style="border:1px solid #c9b691;padding:5px 10px;text-align:left;font-family:Cinzel,serif;letter-spacing:1px">Color</th><th style="border:1px solid #c9b691;padding:5px 10px;text-align:left;font-family:Cinzel,serif;letter-spacing:1px">Identidad</th></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Vikinga</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Naranja-marrón</td><td style="border:1px solid #c9b691;padding:5px 10px">Vigor y combate directo: golpear primero y fuerte.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Griega</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Azul</td><td style="border:1px solid #c9b691;padding:5px 10px">Esquiva, agilidad y el favor de los dioses del abismo.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Egipcia</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Amarillo</td><td style="border:1px solid #c9b691;padding:5px 10px">Magia y resurrección: el cementerio es solo una pausa.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Hindú</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Morado</td><td style="border:1px solid #c9b691;padding:5px 10px">(Shiva, Garuda… — identidad por definir)</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Atlante</b></td><td style="border:1px solid #c9b691;padding:5px 10px">—</td><td style="border:1px solid #c9b691;padding:5px 10px"><i>Se añadirá más adelante a instrucción del usuario</i> (gigantes, hidras, monstruos del abismo).</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Mágicas</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Verde</td><td style="border:1px solid #c9b691;padding:5px 10px">Sin ataque ni esquiva; su efecto va en la descripción.</td></tr>
+<tr><td style="border:1px solid #c9b691;padding:5px 10px"><b>Trampas</b></td><td style="border:1px solid #c9b691;padding:5px 10px">Negro + estrellas</td><td style="border:1px solid #c9b691;padding:5px 10px">Sin ataque ni esquiva; se juegan boca abajo (portales).</td></tr>
+</table>
+<p style="margin:6px 0 0;font-size:13px">Mazos de 60 cartas por civilización. Las cartas salen aleatorias: <b>no se elige civilización</b> al empezar.</p>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">11 · Anatomía de la carta</h2>
+<ul style="margin:0;padding-left:22px">
+<li><b>Arriba izquierda:</b> runa de sacrificio (0–3 almas).</li>
+<li><b>Cabecera:</b> nombre y civilización · <b>Cuerpo:</b> ilustración (por URL de Cloudflare).</li>
+<li><b>Cinturón central:</b> ataque en <span style="color:#b32d2d;font-weight:700">rojo</span> (izquierda) · medallón sobresaliente con la magia en romanos en <span style="color:#2e7d54;font-weight:700">verde</span> (centro, por encima de la caja de texto sin taparla) · esquiva en <span style="color:#2d5fb3;font-weight:700">azul</span> (derecha).</li>
+<li><b>Cuadro inferior:</b> efecto (o «Sin efecto») · <b>elementos</b> como fichas en la esquina inferior derecha (1 o varios).</li>
+<li><b>Marco:</b> color de la civilización. El lore vive en la enciclopedia, no en la carta.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">12 · Presentación (cámaras y escena)</h2>
+<ul style="margin:0;padding-left:22px">
+<li><b>Vista cenital</b> = vista normal del juego. <b>Vista mano</b> = al empezar el turno del jugador la cámara baja: el puente se inclina en 3D al fondo y la mano crece; al confirmar acción o pasar turno vuelve a cenital con transición suave.</li>
+<li>El d12 siempre visible y explicado en pantalla (pendiente: hacer la pantalla del dado más espectacular).</li>
+<li>Adaptable a móvil y PC.</li>
+</ul>
+
+<h2 style="font-family:Cinzel,serif;font-size:17px;letter-spacing:1.5px;color:#20180e;border-bottom:1px solid #c9b691;padding-bottom:4px;margin:22px 0 10px">13 · Pendientes y recordatorios</h2>
+<ol style="margin:0;padding-left:22px">
+<li>Trampas de portal (a instrucción del usuario).</li>
+<li>Civilización Atlante (a instrucción del usuario).</li>
+<li>Rediseño futuro de la runa de almas.</li>
+<li>Pantalla del dado más chula.</li>
+<li>Profundizar la canalización de magia.</li>
+<li>Poderes activos de corazones: implementar YA (decidido).</li>
+<li>Cartas de Dioses y Lugares jugables · efectos de criatura · civilización Egipcia completa · equilibrado.</li>
+</ol>
+
+<div style="height:3px;background:linear-gradient(90deg,#8a5a20,#d4a941,#8a5a20);margin:24px 0 10px"></div>
+<p style="margin:0;font-style:italic;color:#6b5f4d;text-align:center">«El puente aguanta. La pregunta es si aguantarán tus corazones.»</p>
+
+</div>
+</x-import>
+</x-dc>
+</body>
+</html>

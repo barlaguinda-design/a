@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&amp;family=Marcellus&amp;family=Almendra:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0e1017;font-family:system-ui,sans-serif}
+a{color:#7fb59a}a:hover{color:#a8d8bd}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(255,255,255,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#e8e2d4;color:#141414;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#e8e2d4}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(255,255,255,.14);color:#e8e2d4;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(232,226,212,.6)}
+.dv-card{max-width:100%;background:#141824;border:1px solid rgba(255,255,255,.1);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.4);overflow:hidden}
+.dv-opt:target .dv-oid{background:#4caf7d;color:#08130c}
+.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(232,226,212,.5)}
+@keyframes om-girar{to{transform:rotate(360deg)}}
+@keyframes om-nube{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t4">
+<div class="dv-thd"><a class="dv-tid" href="#t4">4</a><span class="dv-tname">El campo REAL embellecido — estructura idéntica a tu código, estética de tu imagen</span></div>
+<p style="margin:0 0 20px;max-width:860px;font:12px/1.6 system-ui,sans-serif;color:rgba(232,226,212,.55)">
+Vista cenital (la normal del juego). Puente de losas de piedra 7×2 por frente con el arco hacia el portal, cadenas entre losas, corazones IA arriba y tuyos abajo, portales 🌀 en el borde exterior de la fila central. La columna central es la <b style="color:#c9b8f0">nube cósmica vertical</b> de tu imagen (roca + remolino + runas) con la carta de Dios en el centro. El <b style="color:#7ec9a3">césped solo sujeta las manos</b>: repisa superior (cartas de la IA boca abajo) e inferior (tu mano). Los 4 <b style="color:#4caf7d">Árboles Áureos</b> están entre las dos losas de invocación de cada jugador en cada frente, y brillarán al invocar. Al elegir carta en tu turno, todo esto se inclinará en 3D (vista mano).
+</p>
+<div class="dv-opts">
+<div class="dv-opt" id="4a">
+<div class="dv-olabel"><a class="dv-oid" href="#4a">4a</a>Campo cenital · Duelo de Corazones</div>
+<div class="dv-card" style="padding:0;background:#000">
+
+<div style="position:relative;width:740px;height:1000px;overflow:hidden;background:radial-gradient(1px 1px at 12% 22%,rgba(255,255,255,.6),transparent),radial-gradient(1px 1px at 78% 12%,rgba(255,255,255,.45),transparent),radial-gradient(1.5px 1.5px at 55% 35%,rgba(255,233,201,.65),transparent),radial-gradient(1px 1px at 30% 70%,rgba(255,255,255,.4),transparent),radial-gradient(1px 1px at 88% 62%,rgba(207,228,255,.5),transparent),radial-gradient(1.5px 1.5px at 65% 85%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 8% 90%,rgba(255,217,242,.6),transparent),radial-gradient(ellipse 60% 40% at 75% 15%,rgba(42,26,74,.35),transparent),radial-gradient(ellipse 50% 35% at 20% 80%,rgba(20,48,74,.28),transparent),radial-gradient(ellipse at 50% 45%,#131722 0%,#07080f 75%)">
+
+  <!-- ===== repisa de césped superior (mano IA) ===== -->
+  <div style="position:absolute;left:0;right:0;top:0;height:86px;z-index:6;background:linear-gradient(180deg,#233812 0%,#2f4a1a 30%,#3f6428 62%,#57843a 86%,#6a9c48 100%)">
+    <div style="position:absolute;left:0;right:0;bottom:-2px;height:4px;background:linear-gradient(90deg,transparent,#8ef0c8,#5ee8f0,#8ef0c8,transparent);filter:blur(1px);box-shadow:0 0 14px rgba(110,240,200,.8)"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:10px;background:repeating-linear-gradient(100deg,transparent 0 5px,rgba(20,40,12,.5) 5px 7px)"></div>
+    <div style="position:absolute;left:50%;top:10px;transform:translateX(-50%);display:flex;gap:8px;align-items:flex-end">
+      <div style="width:50px;height:66px;border-radius:7px;background:linear-gradient(170deg,#14213a,#0b1122);border:2px solid #3d7fb8;box-shadow:0 4px 10px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#6fb3e8;font-size:17px;transform:rotate(-7deg) translateY(4px)">Ω</div>
+      <div style="width:50px;height:66px;border-radius:7px;background:linear-gradient(170deg,#14213a,#0b1122);border:2px solid #3d7fb8;box-shadow:0 4px 10px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#6fb3e8;font-size:17px;transform:rotate(-3deg) translateY(1px)">Ω</div>
+      <div style="width:50px;height:66px;border-radius:7px;background:linear-gradient(170deg,#14213a,#0b1122);border:2px solid #3d7fb8;box-shadow:0 4px 10px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#6fb3e8;font-size:17px">Ω</div>
+      <div style="width:50px;height:66px;border-radius:7px;background:linear-gradient(170deg,#14213a,#0b1122);border:2px solid #3d7fb8;box-shadow:0 4px 10px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#6fb3e8;font-size:17px;transform:rotate(3deg) translateY(1px)">Ω</div>
+      <div style="width:50px;height:66px;border-radius:7px;background:linear-gradient(170deg,#14213a,#0b1122);border:2px solid #3d7fb8;box-shadow:0 4px 10px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#6fb3e8;font-size:17px;transform:rotate(7deg) translateY(4px)">Ω</div>
+    </div>
+    <div style="position:absolute;left:16px;top:14px;text-align:center">
+      <div style="width:34px;height:44px;border-radius:5px;background:rgba(10,13,20,.6);border:2px solid #3a4258;margin:0 auto"></div>
+      <div style="font-size:6.5px;color:#cfe4c0;letter-spacing:1px;font-weight:700;margin-top:3px">CEMENT. IA</div>
+    </div>
+    <div style="position:absolute;right:16px;top:14px;text-align:center">
+      <div style="width:34px;height:44px;border-radius:5px;background:repeating-linear-gradient(135deg,#1d2436 0 4px,#232c44 4px 8px);border:2px solid #d4a941;margin:0 auto;position:relative;box-shadow:3px 3px 0 #12161f"><div style="position:absolute;bottom:-6px;right:-6px;min-width:15px;height:15px;border-radius:50%;background:#d4a941;color:#141414;font-size:8.5px;font-weight:800;display:flex;align-items:center;justify-content:center">15</div></div>
+      <div style="font-size:6.5px;color:#cfe4c0;letter-spacing:1px;font-weight:700;margin-top:3px">MAZO IA</div>
+    </div>
+  </div>
+
+  <!-- nubes flotando bajo el puente -->
+  <div style="position:absolute;left:90px;bottom:150px;width:150px;height:44px;border-radius:50%;background:radial-gradient(ellipse,rgba(232,226,212,.16),transparent 70%);filter:blur(5px);animation:om-nube 8s ease-in-out infinite;z-index:1"></div>
+  <div style="position:absolute;right:80px;bottom:170px;width:190px;height:52px;border-radius:50%;background:radial-gradient(ellipse,rgba(232,226,212,.13),transparent 70%);filter:blur(6px);animation:om-nube 11s ease-in-out infinite reverse;z-index:1"></div>
+  <div style="position:absolute;left:300px;bottom:130px;width:120px;height:36px;border-radius:50%;background:radial-gradient(ellipse,rgba(232,226,212,.1),transparent 70%);filter:blur(5px);animation:om-nube 9s ease-in-out infinite;z-index:1"></div>
+
+  <!-- ===== EL PUENTE ===== -->
+  <div style="position:absolute;left:50%;top:118px;transform:translateX(-50%);display:flex;gap:10px;z-index:3">
+
+    <!-- FRENTE 0 (izquierda) -->
+    <div style="width:232px;display:flex;flex-direction:column;flex:none">
+      <!-- corazones IA -->
+      <div style="display:flex;justify-content:flex-end;gap:12px;height:40px">
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:drop-shadow(0 0 7px #d4a941)">💛</span><div style="font-size:6.5px;color:#a89f8c;letter-spacing:1px;font-weight:700;margin-top:-3px">SACRIF.</div></div>
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:drop-shadow(0 0 7px #e05c3a)">❤️</span><div style="font-size:6.5px;color:#a89f8c;letter-spacing:1px;font-weight:700;margin-top:-3px">VIGOR</div></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 6: invocación IA + árbol -->
+      <div style="display:flex;justify-content:flex-end">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;flex:none;position:relative;align-self:center;z-index:4"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;border:2px solid #4caf7d;background:rgba(8,20,14,.88);box-shadow:0 0 16px rgba(76,175,125,.7),inset 0 0 10px rgba(76,175,125,.4);display:flex;align-items:center;justify-content:center"><div style="position:relative;width:26px;height:28px"><div style="position:absolute;left:11px;bottom:2px;width:4px;height:13px;border-radius:2px;background:#2e7d54"></div><div style="position:absolute;left:7px;top:1px;width:12px;height:12px;border-radius:50%;background:#4caf7d;box-shadow:0 0 8px #4caf7d"></div><div style="position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div><div style="position:absolute;right:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div></div></div></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-4px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 5 -->
+      <div style="display:flex;justify-content:flex-end;transform:translateX(-7px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-10px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 4 -->
+      <div style="display:flex;justify-content:flex-end;transform:translateX(-13px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-16px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 3 con PORTAL exterior -->
+      <div style="display:flex;justify-content:flex-end;transform:translateX(-18px)">
+        <div style="width:66px;height:78px;flex:none;position:relative;align-self:center;margin-right:12px">
+          <div style="position:absolute;inset:-3px;border-radius:13px;background:conic-gradient(#9a5fe0,#3a1a5c,#d18aff,#3a1a5c,#9a5fe0);filter:blur(1.5px) drop-shadow(0 0 10px #9a5fe0);animation:om-girar 4s linear infinite"></div>
+          <div style="position:absolute;inset:3px;border-radius:9px;background:#170f24;display:flex;align-items:center;justify-content:center"><span style="font-size:20px;filter:drop-shadow(0 0 7px #b98aff)">🌀</span></div>
+        </div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-16px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 2 -->
+      <div style="display:flex;justify-content:flex-end;transform:translateX(-13px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-10px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 1 -->
+      <div style="display:flex;justify-content:flex-end;transform:translateX(-7px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px;transform:translateX(-4px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- fila 0: invocación jugador + árbol -->
+      <div style="display:flex;justify-content:flex-end">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;flex:none;position:relative;align-self:center;z-index:4"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;border:2px solid #4caf7d;background:rgba(8,20,14,.88);box-shadow:0 0 16px rgba(76,175,125,.7),inset 0 0 10px rgba(76,175,125,.4);display:flex;align-items:center;justify-content:center"><div style="position:relative;width:26px;height:28px"><div style="position:absolute;left:11px;bottom:2px;width:4px;height:13px;border-radius:2px;background:#2e7d54"></div><div style="position:absolute;left:7px;top:1px;width:12px;height:12px;border-radius:50%;background:#4caf7d;box-shadow:0 0 8px #4caf7d"></div><div style="position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div><div style="position:absolute;right:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div></div></div></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <!-- corazones jugador (huecos) -->
+      <div style="display:flex;justify-content:flex-end;gap:12px;height:40px">
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:grayscale(1) brightness(.6)">🤍</span></div>
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:grayscale(1) brightness(.6)">🤍</span></div>
+      </div>
+    </div>
+
+    <!-- COLUMNA CENTRAL: nube cósmica vertical + Dios -->
+    <div style="width:110px;flex:none;position:relative;border-radius:20px;background:linear-gradient(180deg,#2b2b33,#1a1a21 20%,#17171d 80%,#26262e);border:2px solid #3a3a46;box-shadow:inset 0 0 26px rgba(0,0,0,.85),0 0 34px rgba(150,130,230,.18);overflow:hidden">
+      <div style="position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:conic-gradient(#e8d8ff,#8aa8f0,#f5e6c8,#c09ae0,#7ec8e8,#f0d8e8,#e8d8ff);filter:blur(14px) saturate(1.2);opacity:.55;animation:om-girar 26s linear infinite"></div>
+      <div style="position:absolute;left:50%;top:50%;width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;background:conic-gradient(from 120deg,#fff,#b9a8f0,#f5e6c8,#8ec8e8,#fff);filter:blur(9px);opacity:.5;animation:om-girar 14s linear infinite reverse"></div>
+      <div style="position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);filter:blur(3px)"></div>
+      <div style="position:absolute;left:3px;top:0;bottom:0;display:flex;align-items:center"><span style="writing-mode:vertical-rl;font-size:11px;letter-spacing:9px;color:#7ec8e8;opacity:.8;text-shadow:0 0 7px #7ec8e8;font-family:ui-monospace,monospace">ᚠᚢᚦᚨᚱᚲᛃᛇᛈᛉ</span></div>
+      <div style="position:absolute;right:3px;top:0;bottom:0;display:flex;align-items:center"><span style="writing-mode:vertical-rl;font-size:11px;letter-spacing:9px;color:#9ab0f0;opacity:.7;text-shadow:0 0 7px #9ab0f0;font-family:ui-monospace,monospace">ᛋᛏᛒᛖᛗᛚᛜᛟᛞᚾ</span></div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:76px;border-radius:9px;box-sizing:border-box;border:2px solid #d4a941;background:linear-gradient(170deg,#2a2410,#171207);box-shadow:0 0 20px rgba(212,169,65,.65);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px;text-align:center;z-index:3">
+        <div style="font-size:20px;filter:drop-shadow(0 0 6px #f0d27a)">🌩️</div>
+        <div style="font-size:7.5px;font-weight:800;color:#f0d27a;line-height:1">Zeus</div>
+        <div style="font-size:5.5px;color:#a89f8c;line-height:1.15;margin-top:1px">+1 esquiva a las cartas griegas</div>
+      </div>
+      <div style="position:absolute;bottom:8px;left:0;width:100%;text-align:center;font-size:6px;color:#b9a8e0;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;z-index:3">Abismo de<br>los Dioses</div>
+    </div>
+
+    <!-- FRENTE 1 (derecha, espejo) -->
+    <div style="width:232px;display:flex;flex-direction:column;flex:none">
+      <div style="display:flex;justify-content:flex-start;gap:12px;height:40px">
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:drop-shadow(0 0 7px #4caf7d)">💚</span><div style="font-size:6.5px;color:#a89f8c;letter-spacing:1px;font-weight:700;margin-top:-3px">MAGIA</div></div>
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:drop-shadow(0 0 7px #4a9de0)">💙</span><div style="font-size:6.5px;color:#a89f8c;letter-spacing:1px;font-weight:700;margin-top:-3px">ELEM.</div></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;flex:none;position:relative;align-self:center;z-index:4"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;border:2px solid #4caf7d;background:rgba(8,20,14,.88);box-shadow:0 0 16px rgba(76,175,125,.7),inset 0 0 10px rgba(76,175,125,.4);display:flex;align-items:center;justify-content:center"><div style="position:relative;width:26px;height:28px"><div style="position:absolute;left:11px;bottom:2px;width:4px;height:13px;border-radius:2px;background:#2e7d54"></div><div style="position:absolute;left:7px;top:1px;width:12px;height:12px;border-radius:50%;background:#4caf7d;box-shadow:0 0 8px #4caf7d"></div><div style="position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div><div style="position:absolute;right:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div></div></div></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(4px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;transform:translateX(7px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(10px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;transform:translateX(13px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(16px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;transform:translateX(18px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:66px;height:78px;flex:none;position:relative;align-self:center;margin-left:12px">
+          <div style="position:absolute;inset:-3px;border-radius:13px;background:conic-gradient(#9a5fe0,#3a1a5c,#d18aff,#3a1a5c,#9a5fe0);filter:blur(1.5px) drop-shadow(0 0 10px #9a5fe0);animation:om-girar 4s linear infinite"></div>
+          <div style="position:absolute;inset:3px;border-radius:9px;background:#170f24;display:flex;align-items:center;justify-content:center"><span style="font-size:20px;filter:drop-shadow(0 0 7px #b98aff)">🌀</span></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(16px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;transform:translateX(13px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(10px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;transform:translateX(7px)">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;height:4px;flex:none;align-self:center;background:repeating-linear-gradient(90deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#3a3f4d,#22252f);border:2px solid #4a4f60;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;transform:translateX(4px)"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start">
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+        <div style="width:12px;flex:none;position:relative;align-self:center;z-index:4"><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;border:2px solid #4caf7d;background:rgba(8,20,14,.88);box-shadow:0 0 16px rgba(76,175,125,.7),inset 0 0 10px rgba(76,175,125,.4);display:flex;align-items:center;justify-content:center"><div style="position:relative;width:26px;height:28px"><div style="position:absolute;left:11px;bottom:2px;width:4px;height:13px;border-radius:2px;background:#2e7d54"></div><div style="position:absolute;left:7px;top:1px;width:12px;height:12px;border-radius:50%;background:#4caf7d;box-shadow:0 0 8px #4caf7d"></div><div style="position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div><div style="position:absolute;right:0;top:6px;width:9px;height:9px;border-radius:50%;background:#3f9e6c"></div></div></div></div>
+        <div style="width:62px;height:74px;border-radius:9px;flex:none;background:linear-gradient(160deg,#2a3d2c,#16241a);border:2px solid #4d7a56;box-shadow:0 7px 12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07)"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;gap:12px"><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div><div style="width:62px;flex:none"><div style="width:4px;height:12px;margin:0 auto;background:repeating-linear-gradient(180deg,#6b6252 0 3px,#3a3428 3px 5px);border-radius:2px"></div></div></div>
+      <div style="display:flex;justify-content:flex-start;gap:12px;height:40px">
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:grayscale(1) brightness(.6)">🤍</span></div>
+        <div style="width:62px;text-align:center;flex:none"><span style="font-size:24px;filter:grayscale(1) brightness(.6)">🤍</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== repisa de césped inferior (tu mano) ===== -->
+  <div style="position:absolute;left:0;right:0;bottom:0;height:112px;z-index:6;background:linear-gradient(0deg,#233812 0%,#2f4a1a 30%,#3f6428 62%,#57843a 86%,#6a9c48 100%)">
+    <div style="position:absolute;left:0;right:0;top:-2px;height:4px;background:linear-gradient(90deg,transparent,#8ef0c8,#5ee8f0,#8ef0c8,transparent);filter:blur(1px);box-shadow:0 0 14px rgba(110,240,200,.8)"></div>
+    <div style="position:absolute;left:0;right:0;top:0;height:10px;background:repeating-linear-gradient(80deg,transparent 0 5px,rgba(20,40,12,.5) 5px 7px)"></div>
+    <div style="position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:8px;align-items:flex-end">
+      <div style="width:88px;border-radius:10px;padding:5px 5px 4px;background:linear-gradient(170deg,#1c2230,#12161f);border:1.5px solid #b5432c;box-shadow:0 3px 10px rgba(0,0,0,.45);flex:none;transform:rotate(-7deg) translateY(6px);box-sizing:border-box">
+        <div style="font-size:8.5px;font-weight:700;color:#e8e2d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">Lobo de Fenrir</div>
+        <div style="height:36px;border-radius:6px;border:1px solid #252c3c;background:radial-gradient(ellipse at 50% 30%,#232c40,#0d1017 75%);display:flex;align-items:center;justify-content:center;font-size:23px">🐺</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:-7px 2px 0;position:relative;background:linear-gradient(180deg,#232a3a,#161c29);border:1px solid #d4a941;border-radius:7px;padding:2px 6px">
+          <span style="font-size:11px;font-weight:800;color:#e0705a">4⚔</span>
+          <span style="width:20px;height:20px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%);border:1px solid #3a4258;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#4a5266">✦</span>
+          <span style="font-size:11px;font-weight:800;color:#6fb3e8">5🌀</span>
+        </div>
+      </div>
+      <div style="width:88px;border-radius:10px;padding:5px 5px 4px;background:linear-gradient(170deg,#1c2230,#12161f);border:1.5px solid #b5432c;box-shadow:0 3px 10px rgba(0,0,0,.45);flex:none;transform:rotate(-3deg) translateY(2px);box-sizing:border-box">
+        <div style="font-size:8.5px;font-weight:700;color:#e8e2d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">Einherjar</div>
+        <div style="height:36px;border-radius:6px;border:1px solid #252c3c;background:radial-gradient(ellipse at 50% 30%,#232c40,#0d1017 75%);display:flex;align-items:center;justify-content:center;font-size:23px">⚔️</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:-7px 2px 0;position:relative;background:linear-gradient(180deg,#232a3a,#161c29);border:1px solid #d4a941;border-radius:7px;padding:2px 6px">
+          <span style="font-size:11px;font-weight:800;color:#e0705a">2⚔</span>
+          <span style="width:20px;height:20px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%);border:1px solid #3a4258;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#4a5266">✦</span>
+          <span style="font-size:11px;font-weight:800;color:#6fb3e8">4🌀</span>
+        </div>
+      </div>
+      <div style="width:88px;border-radius:10px;padding:5px 5px 4px;background:linear-gradient(170deg,#1c2230,#12161f);border:1.5px solid #b5432c;box-shadow:0 3px 10px rgba(0,0,0,.45);flex:none;box-sizing:border-box">
+        <div style="font-size:8.5px;font-weight:700;color:#e8e2d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">Berserker</div>
+        <div style="height:36px;border-radius:6px;border:1px solid #252c3c;background:radial-gradient(ellipse at 50% 30%,#232c40,#0d1017 75%);display:flex;align-items:center;justify-content:center;font-size:23px">😤</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:-7px 2px 0;position:relative;background:linear-gradient(180deg,#232a3a,#161c29);border:1px solid #d4a941;border-radius:7px;padding:2px 6px">
+          <span style="font-size:11px;font-weight:800;color:#e0705a">5⚔</span>
+          <span style="width:20px;height:20px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%);border:1px solid #3a4258;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#4a5266">✦</span>
+          <span style="font-size:11px;font-weight:800;color:#6fb3e8">1🌀</span>
+        </div>
+      </div>
+      <div style="width:88px;border-radius:10px;padding:5px 5px 4px;background:linear-gradient(170deg,#1c2230,#12161f);border:1.5px solid #b5432c;box-shadow:0 3px 10px rgba(0,0,0,.45);flex:none;transform:rotate(3deg) translateY(2px);box-sizing:border-box">
+        <div style="font-size:8.5px;font-weight:700;color:#e8e2d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">Jarl</div>
+        <div style="height:36px;border-radius:6px;border:1px solid #252c3c;background:radial-gradient(ellipse at 50% 30%,#232c40,#0d1017 75%);display:flex;align-items:center;justify-content:center;font-size:23px">👑</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:-7px 2px 0;position:relative;background:linear-gradient(180deg,#232a3a,#161c29);border:1px solid #d4a941;border-radius:7px;padding:2px 6px">
+          <span style="font-size:11px;font-weight:800;color:#e0705a">4⚔</span>
+          <span style="width:20px;height:20px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%);border:1px solid #4caf7d;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#4caf7d;box-shadow:0 0 8px rgba(76,175,125,.4)">I</span>
+          <span style="font-size:11px;font-weight:800;color:#6fb3e8">3🌀</span>
+        </div>
+      </div>
+      <div style="width:88px;border-radius:10px;padding:5px 5px 4px;background:linear-gradient(170deg,#1c2230,#12161f);border:1.5px solid #b5432c;box-shadow:0 3px 10px rgba(0,0,0,.45);flex:none;transform:rotate(7deg) translateY(6px);box-sizing:border-box">
+        <div style="font-size:8.5px;font-weight:700;color:#e8e2d4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px">Gigante de Hielo</div>
+        <div style="height:36px;border-radius:6px;border:1px solid #252c3c;background:radial-gradient(ellipse at 50% 30%,#232c40,#0d1017 75%);display:flex;align-items:center;justify-content:center;font-size:23px">❄️</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:-7px 2px 0;position:relative;background:linear-gradient(180deg,#232a3a,#161c29);border:1px solid #d4a941;border-radius:7px;padding:2px 6px">
+          <span style="font-size:11px;font-weight:800;color:#e0705a">6⚔</span>
+          <span style="width:20px;height:20px;margin-top:-9px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a3348,#12161f 80%);border:1px solid #3a4258;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#4a5266">✦</span>
+          <span style="font-size:11px;font-weight:800;color:#6fb3e8">0🌀</span>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;left:16px;bottom:34px;text-align:center">
+      <div style="width:34px;height:44px;border-radius:5px;background:rgba(10,13,20,.6);border:2px solid #3a4258;margin:0 auto"></div>
+      <div style="font-size:6.5px;color:#cfe4c0;letter-spacing:1px;font-weight:700;margin-top:3px">CEMENT.</div>
+    </div>
+    <div style="position:absolute;right:16px;bottom:34px;text-align:center">
+      <div style="width:34px;height:44px;border-radius:5px;background:repeating-linear-gradient(135deg,#1d2436 0 4px,#232c44 4px 8px);border:2px solid #d4a941;margin:0 auto;position:relative;box-shadow:3px 3px 0 #12161f"><div style="position:absolute;bottom:-6px;right:-6px;min-width:15px;height:15px;border-radius:50%;background:#d4a941;color:#141414;font-size:8.5px;font-weight:800;display:flex;align-items:center;justify-content:center">15</div></div>
+      <div style="font-size:6.5px;color:#cfe4c0;letter-spacing:1px;font-weight:700;margin-top:3px">MAZO</div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:50%;top:94px;transform:translateX(-50%);font:600 9px Marcellus,serif;letter-spacing:2px;color:#e8e2d4;background:rgba(10,12,18,.75);border:1px solid #3a4258;border-radius:6px;padding:4px 10px;z-index:7;white-space:nowrap">VISTA CENITAL · al elegir carta se inclina en 3D</div>
+</div>
+
+</div>
+</div>
+</div>
+<p class="dv-next">Si te vale: "aprueba el campo <a class="dv-oid" href="#4a">4a</a>, construye el juego completo" · o pide ajustes: "losas más grandes" · "la nube cósmica más ancha" · "árboles en otro sitio"</p>
+</section>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Runa de sacrificio original (0–3 almas) + carta <a class="dv-oid" href="#2b">2b</a> corregida + los 3 fondos de campo para elegir</span></div>
+<p style="margin:0 0 20px;max-width:860px;font:12px/1.6 system-ui,sans-serif;color:rgba(232,226,212,.55)">
+La runa es un diseño original (no la marca de Berserk): con 1 alma aparece el <b style="color:#c96a5a">clavo central</b>, con 2 se añaden los <b style="color:#c96a5a">zigzags laterales</b> y con 3 se <b style="color:#c96a5a">cierra por abajo</b>. Con coste 0 queda el hueco grabado vacío. En <a class="dv-oid" href="#3d">3d</a> está la carta con el cinturón ya corregido: el medallón queda POR ENCIMA de la caja de texto, solapándola sin tapar el texto. Abajo, los tres campos (<a class="dv-oid" href="#3a">3a</a>/<a class="dv-oid" href="#3b">3b</a>/<a class="dv-oid" href="#3c">3c</a>) — elige uno para el juego.
+</p>
+<div class="dv-opts">
+
+<!-- 3d runa + carta corregida -->
+<div class="dv-opt" id="3d">
+<div class="dv-olabel"><a class="dv-oid" href="#3d">3d</a>Runa de sacrificio (progresión) + carta 2b corregida</div>
+<div class="dv-card" style="padding:18px;background:#12121c;display:flex;flex-direction:column;gap:16px">
+  <!-- progresión de la runa -->
+  <div style="display:flex;gap:14px;align-items:flex-end">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:10px;background:#141018;border:1.5px solid #3a2430;box-shadow:inset 0 3px 10px rgba(0,0,0,.9)"></div>
+      <span style="font:9px ui-monospace,monospace;color:#8b93a7">0 · hueco</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:10px;background:#141018;border:1.5px solid #3a2430;box-shadow:inset 0 3px 10px rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center">
+        <div style="position:relative;width:36px;height:42px;filter:drop-shadow(0 0 4px rgba(190,40,40,.55))">
+          <div style="position:absolute;left:16px;top:6px;width:4px;height:36px;border-radius:2px;background:linear-gradient(180deg,#a83232,#4a0d0d);transform:rotate(3deg)"></div>
+          <div style="position:absolute;left:11px;top:0;width:3px;height:11px;border-radius:2px;background:#8b2020;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;left:21px;top:0;width:3px;height:11px;border-radius:2px;background:#8b2020;transform:rotate(30deg)"></div>
+        </div>
+      </div>
+      <span style="font:9px ui-monospace,monospace;color:#8b93a7">1 alma</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:10px;background:#141018;border:1.5px solid #3a2430;box-shadow:inset 0 3px 10px rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center">
+        <div style="position:relative;width:36px;height:42px;filter:drop-shadow(0 0 4px rgba(190,40,40,.55))">
+          <div style="position:absolute;left:16px;top:6px;width:4px;height:36px;border-radius:2px;background:linear-gradient(180deg,#a83232,#4a0d0d);transform:rotate(3deg)"></div>
+          <div style="position:absolute;left:11px;top:0;width:3px;height:11px;border-radius:2px;background:#8b2020;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;left:21px;top:0;width:3px;height:11px;border-radius:2px;background:#8b2020;transform:rotate(30deg)"></div>
+          <div style="position:absolute;left:2px;top:7px;width:3px;height:16px;border-radius:2px;background:#8b2020;transform:rotate(34deg)"></div>
+          <div style="position:absolute;left:5px;top:19px;width:3px;height:16px;border-radius:2px;background:#7a1c1c;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;right:2px;top:7px;width:3px;height:16px;border-radius:2px;background:#8b2020;transform:rotate(-34deg)"></div>
+          <div style="position:absolute;right:5px;top:19px;width:3px;height:16px;border-radius:2px;background:#7a1c1c;transform:rotate(30deg)"></div>
+        </div>
+      </div>
+      <span style="font:9px ui-monospace,monospace;color:#8b93a7">2 almas</span>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="width:56px;height:56px;border-radius:10px;background:#141018;border:1.5px solid #52222e;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),0 0 12px rgba(170,35,35,.35);display:flex;align-items:center;justify-content:center">
+        <div style="position:relative;width:36px;height:42px;filter:drop-shadow(0 0 5px rgba(210,45,45,.7))">
+          <div style="position:absolute;left:16px;top:6px;width:4px;height:36px;border-radius:2px;background:linear-gradient(180deg,#c03a3a,#4a0d0d);transform:rotate(3deg)"></div>
+          <div style="position:absolute;left:11px;top:0;width:3px;height:11px;border-radius:2px;background:#a32626;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;left:21px;top:0;width:3px;height:11px;border-radius:2px;background:#a32626;transform:rotate(30deg)"></div>
+          <div style="position:absolute;left:2px;top:7px;width:3px;height:16px;border-radius:2px;background:#a32626;transform:rotate(34deg)"></div>
+          <div style="position:absolute;left:5px;top:19px;width:3px;height:16px;border-radius:2px;background:#8b2020;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;right:2px;top:7px;width:3px;height:16px;border-radius:2px;background:#a32626;transform:rotate(-34deg)"></div>
+          <div style="position:absolute;right:5px;top:19px;width:3px;height:16px;border-radius:2px;background:#8b2020;transform:rotate(30deg)"></div>
+          <div style="position:absolute;left:6px;bottom:-1px;width:3px;height:14px;border-radius:2px;background:#a32626;transform:rotate(-38deg)"></div>
+          <div style="position:absolute;right:6px;bottom:-1px;width:3px;height:14px;border-radius:2px;background:#a32626;transform:rotate(38deg)"></div>
+        </div>
+      </div>
+      <span style="font:9px ui-monospace,monospace;color:#c96a5a">3 almas · completa</span>
+    </div>
+  </div>
+
+  <!-- carta 2b corregida -->
+  <div style="width:266px;height:452px;border-radius:16px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Marcellus,serif;color:#e8e2d4;background:linear-gradient(170deg,#101a2e,#0b0e1a 65%);border:2.5px solid #3b82f6;box-shadow:0 0 26px rgba(59,130,246,.45),0 10px 30px rgba(0,0,0,.7),inset 0 0 30px rgba(0,0,0,.55)">
+    <div style="position:absolute;left:14px;top:-1px;right:14px;height:2px;background:linear-gradient(90deg,transparent,#d4a941,transparent)"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:44px;height:44px;border-radius:10px;background:#141018;border:1.5px solid #52222e;box-shadow:inset 0 3px 10px rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;flex:none">
+        <div style="position:relative;width:28px;height:34px;filter:drop-shadow(0 0 4px rgba(190,40,40,.6))">
+          <div style="position:absolute;left:12px;top:5px;width:3px;height:29px;border-radius:2px;background:linear-gradient(180deg,#a83232,#4a0d0d);transform:rotate(3deg)"></div>
+          <div style="position:absolute;left:8px;top:0;width:2.5px;height:9px;border-radius:2px;background:#8b2020;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;left:16px;top:0;width:2.5px;height:9px;border-radius:2px;background:#8b2020;transform:rotate(30deg)"></div>
+          <div style="position:absolute;left:1px;top:6px;width:2.5px;height:13px;border-radius:2px;background:#8b2020;transform:rotate(34deg)"></div>
+          <div style="position:absolute;left:3px;top:15px;width:2.5px;height:13px;border-radius:2px;background:#7a1c1c;transform:rotate(-30deg)"></div>
+          <div style="position:absolute;right:1px;top:6px;width:2.5px;height:13px;border-radius:2px;background:#8b2020;transform:rotate(-34deg)"></div>
+          <div style="position:absolute;right:3px;top:15px;width:2.5px;height:13px;border-radius:2px;background:#7a1c1c;transform:rotate(30deg)"></div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:15px;letter-spacing:1.5px;text-shadow:0 0 10px rgba(59,130,246,.6)">JÖRMUNDGANDER</h1>
+        <small style="font-size:9px;letter-spacing:3px;color:#3b82f6">⚱ VIKINGOS · SERPIENTE</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:10px;border:1.5px solid #1e3a8a;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0a0d18;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b93a7;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <!-- cinturón: el medallón sobresale y queda POR ENCIMA de la caja de efecto -->
+    <div style="position:relative;height:46px;flex:none;z-index:3;margin-top:6px">
+      <div style="position:absolute;left:-6px;right:-6px;top:4px;height:38px;background:#0d1220;border:2px solid #d4a941;border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;box-shadow:0 3px 10px rgba(0,0,0,.5)">
+        <div style="display:flex;align-items:baseline;gap:5px"><b style="font-size:21px;color:#ef4444">7</b><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">ATQ</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">EVA</span><b style="font-size:21px;color:#60a5fa">2</b></div>
+      </div>
+      <div style="position:absolute;left:50%;top:-7px;width:60px;height:60px;margin-left:-30px;z-index:4;border-radius:50%;background:#0d1220;border:2px solid #d4a941;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 14px rgba(212,169,65,.35)">
+        <b style="font-size:20px;color:#4caf7d;text-shadow:0 0 8px rgba(76,175,125,.7)">II</b>
+        <span style="font-size:6.5px;letter-spacing:1.5px;color:#8b93a7;margin-top:3px">MAGIA</span>
+      </div>
+    </div>
+    <!-- caja de efecto: el texto esquiva el medallón dejando hueco arriba en el centro -->
+    <div style="position:relative;background:#0d1220;border:1.5px solid #26365c;border-radius:10px;padding:8px 40px 8px 10px;font-size:10.5px;line-height:1.45;color:#d8d2c0;min-height:60px;margin-top:2px">
+      <span style="font-size:8px;letter-spacing:2px;color:#d4a941;border:1px solid #d4a941;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      Puede trasladarse una vez al otro frente cruzando el portal.
+    </div>
+    <div style="position:absolute;right:8px;bottom:8px;display:flex;gap:5px">
+      <div style="width:28px;height:28px;border-radius:50%;background:#0d1220;border:1.5px solid #38bdf8;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(56,189,248,.5)">💧</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#0d1220;border:1.5px solid #facc15;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(250,204,21,.5)">⚡</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 3a campo Losa Rúnica -->
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Campo · Losa Rúnica (losas con borde de piedra, cadenas grises)</div>
+<div class="dv-card" style="padding:14px;background:#181410">
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#241435 0%,#0b0716 45%,#040308 80%),#040308">
+  <div style="position:absolute;inset:0;background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 78% 8%,#cbd5ff,transparent),radial-gradient(1.5px 1.5px at 88% 30%,#fff,transparent),radial-gradient(1px 1px at 34% 10%,#a5b4fc,transparent);opacity:.7"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:30px">🛡️</div>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(235,240,250,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(215,225,245,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(235,240,250,.85),transparent 70%)"></div>
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-size:30px">🐺</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-size:30px">⚔️</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:118px;top:238px;width:5px;height:120px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.55;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:5px;height:110px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.5;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:5px;height:96px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.4"></div>
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 24px rgba(76,175,125,.65),inset 0 0 16px rgba(76,175,125,.4);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 10px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO</div>
+  <div style="position:absolute;right:12px;top:10px;font:600 9px Cinzel,serif;letter-spacing:2px;color:#e8e2d4;background:rgba(20,16,10,.75);border:1px solid #c1692f;border-radius:6px;padding:5px 9px">VISTA MANO (cenital en el juego real)</div>
+</div>
+</div>
+</div>
+
+<!-- 3b campo Reliquia Dorada -->
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Campo · Reliquia Dorada (losas con ribete de oro, a juego con tus cartas <a class="dv-oid" href="#2b">2b</a>)</div>
+<div class="dv-card" style="padding:14px;background:#12121c">
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 130%,#3a2508 0%,#120b04 45%,#050308 80%),#050308">
+  <div style="position:absolute;inset:0;background:radial-gradient(1px 1px at 16% 14%,#ffe9b0,transparent),radial-gradient(1px 1px at 80% 10%,#fff,transparent),radial-gradient(1.5px 1.5px at 90% 34%,#ffd97a,transparent),radial-gradient(1px 1px at 38% 8%,#fff,transparent);opacity:.6"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">👁️</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(250,242,225,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(245,235,215,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(250,242,225,.85),transparent 70%)"></div>
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🐺</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🪓</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:118px;top:238px;width:5px;height:120px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.45;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:5px;height:110px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.4;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:5px;height:96px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.35"></div>
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 24px rgba(76,175,125,.65),inset 0 0 16px rgba(76,175,125,.4);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 10px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO</div>
+  <div style="position:absolute;right:12px;top:10px;font:9px Marcellus,serif;letter-spacing:2px;color:#e8e2d4;background:rgba(18,14,6,.75);border:1px solid #d4a941;border-radius:6px;padding:5px 9px">VISTA MANO (cenital en el juego real)</div>
+</div>
+</div>
+</div>
+
+<!-- 3c campo Éter -->
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Campo · Éter de los Dioses (bordes luminosos, abismo violeta)</div>
+<div class="dv-card" style="padding:14px;background:#0c0f1c">
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 130%,#2a1745 0%,#120b26 40%,#04030c 80%),#04030c">
+  <div style="position:absolute;inset:0;background:radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 78% 8%,#cbd5ff,transparent),radial-gradient(1.5px 1.5px at 88% 30%,#f0abfc,transparent),radial-gradient(1px 1px at 34% 10%,#a5b4fc,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1px 1px at 22% 44%,#e9d5ff,transparent)"></div>
+  <div style="position:absolute;left:50%;top:55%;width:340px;height:120px;margin-left:-170px;border-radius:50%;background:radial-gradient(ellipse,rgba(147,51,234,.35),transparent 70%);filter:blur(14px)"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🐘</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🦅</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(230,220,255,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(240,230,255,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(230,220,255,.85),transparent 70%)"></div>
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🔥</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:118px;top:238px;width:4px;height:120px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.5;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:4px;height:110px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.45;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:4px;height:96px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.4"></div>
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 30px rgba(76,175,125,.8),inset 0 0 18px rgba(76,175,125,.5);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 12px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO</div>
+  <div style="position:absolute;right:12px;top:10px;font:9px Almendra,serif;letter-spacing:2px;color:#efe9f8;background:rgba(20,12,35,.75);border:1px solid #c084fc;border-radius:6px;padding:5px 9px">VISTA MANO (cenital en el juego real)</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Elige campo: "<a class="dv-oid" href="#3a">3a</a>", "<a class="dv-oid" href="#3b">3b</a>" o "<a class="dv-oid" href="#3c">3c</a>" · "la runa más grande/más fina" · y confirma: con el dado, ¿sacar EXACTAMENTE la evasión ahora cuenta como esquiva o como impacto normal?</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Rediseño de carta según tu boceto: cinturón central con medallón (ATQ · magia en romanos · evasión) y elementos abajo a la derecha</span></div>
+<p style="margin:0 0 20px;max-width:820px;font:12px/1.6 system-ui,sans-serif;color:rgba(232,226,212,.55)">
+El cinturón cruza la carta entre la ilustración y el efecto; el medallón central sobresale por arriba y por abajo y lleva la <b style="color:#4caf7d">magia en números romanos</b> (✦ = sin magia). ATQ a la izquierda (rojo), evasión a la derecha (azul). Los elementos son fichas en la esquina inferior derecha — <a class="dv-oid" href="#2b">2b</a> muestra una carta con dos elementos. Mismo cinturón en los tres estilos de <a class="dv-oid" href="#1a">1a</a>/<a class="dv-oid" href="#1b">1b</a>/<a class="dv-oid" href="#1c">1c</a>, y en <a class="dv-oid" href="#2d">2d</a> cómo queda en una carta mágica (sin ATQ ni evasión).
+</p>
+<div class="dv-opts">
+
+<!-- 2a cinturón · Losa Rúnica -->
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Cinturón · estilo Losa Rúnica</div>
+<div class="dv-card" style="padding:18px;background:#181410">
+  <div style="width:266px;height:444px;border-radius:14px;position:relative;box-sizing:border-box;padding:10px;display:flex;flex-direction:column;font-family:Cinzel,serif;color:#e8e2d4;background:linear-gradient(170deg,#3a2a1c,#1c1712 60%);border:3px solid #c1692f;box-shadow:0 0 22px rgba(193,105,47,.35),0 8px 24px rgba(0,0,0,.65),inset 0 0 30px rgba(0,0,0,.6)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:8px;background:#241a10;border:1.5px solid #c1692f;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1"><b style="font-size:17px;color:#e8a56a">1</b><span style="font-size:7px;letter-spacing:1px;color:#9c8a74">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:17px;letter-spacing:1.5px;text-shadow:0 0 8px rgba(193,105,47,.6)">LOBO DE FENRIR</h1>
+        <small style="font-size:9px;letter-spacing:2.5px;color:#c1692f">ᚠ VIKINGOS · BESTIA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:9px 9px 14px 14px;border:1.5px solid #6b3413;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0d1017;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b93a7;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <!-- cinturón -->
+    <div style="position:relative;height:60px;flex:none">
+      <div style="position:absolute;left:-5px;right:-5px;top:11px;height:38px;background:#241a10;border:2px solid #c1692f;border-radius:11px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;box-shadow:0 3px 10px rgba(0,0,0,.5)">
+        <div style="display:flex;align-items:baseline;gap:5px"><b style="font-size:21px;color:#ef4444">4</b><span style="font-size:8px;letter-spacing:2px;color:#9c8a74">ATQ</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-size:8px;letter-spacing:2px;color:#9c8a74">EVA</span><b style="font-size:21px;color:#60a5fa">5</b></div>
+      </div>
+      <div style="position:absolute;left:50%;top:0;width:60px;height:60px;margin-left:-30px;z-index:2;border-radius:50%;background:#241a10;border:2px solid #c1692f;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 3px 10px rgba(0,0,0,.5)">
+        <b style="font-size:20px;color:#4caf7d;text-shadow:0 0 8px rgba(76,175,125,.7)">II</b>
+        <span style="font-size:6.5px;letter-spacing:1.5px;color:#9c8a74;margin-top:3px">MAGIA</span>
+      </div>
+    </div>
+    <div style="position:relative;background:#241a10;border:1.5px solid #6b3413;border-radius:14px 14px 9px 9px;padding:8px 42px 8px 10px;font-size:10.5px;line-height:1.45;font-family:Georgia,serif;color:#d8cfc0;min-height:58px;margin-top:2px">
+      <span style="font-size:8px;letter-spacing:2px;color:#c1692f;border:1px solid #c1692f;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#e8a56a">Aullido:</b> al invocarse, las bestias aliadas ganan +1 de evasión este turno.
+    </div>
+    <!-- elementos abajo derecha -->
+    <div style="position:absolute;right:8px;bottom:8px;display:flex;gap:5px">
+      <div style="width:28px;height:28px;border-radius:50%;background:#241a10;border:1.5px solid #a16207;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(161,98,7,.5)">🪨</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 2b cinturón · Reliquia Dorada, DOS elementos -->
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Cinturón · estilo Reliquia Dorada · carta con 2 elementos</div>
+<div class="dv-card" style="padding:18px;background:#12121c">
+  <div style="width:266px;height:444px;border-radius:16px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Marcellus,serif;color:#e8e2d4;background:linear-gradient(170deg,#101a2e,#0b0e1a 65%);border:2.5px solid #3b82f6;box-shadow:0 0 26px rgba(59,130,246,.45),0 10px 30px rgba(0,0,0,.7),inset 0 0 30px rgba(0,0,0,.55)">
+    <div style="position:absolute;left:14px;top:-1px;right:14px;height:2px;background:linear-gradient(90deg,transparent,#d4a941,transparent)"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:#0d1220;border:1.5px solid #d4a941;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1"><b style="font-size:17px;color:#93c5fd">2</b><span style="font-size:7px;letter-spacing:1px;color:#8b93a7">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:15px;letter-spacing:1.5px;text-shadow:0 0 10px rgba(59,130,246,.6)">JÖRMUNDGANDER</h1>
+        <small style="font-size:9px;letter-spacing:3px;color:#3b82f6">⚱ VIKINGOS · SERPIENTE</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:10px 10px 16px 16px;border:1.5px solid #1e3a8a;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0a0d18;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b93a7;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="position:relative;height:60px;flex:none">
+      <div style="position:absolute;left:-6px;right:-6px;top:11px;height:38px;background:#0d1220;border:2px solid #d4a941;border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;box-shadow:0 3px 10px rgba(0,0,0,.5)">
+        <div style="display:flex;align-items:baseline;gap:5px"><b style="font-size:21px;color:#ef4444">7</b><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">ATQ</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">EVA</span><b style="font-size:21px;color:#60a5fa">2</b></div>
+      </div>
+      <div style="position:absolute;left:50%;top:0;width:60px;height:60px;margin-left:-30px;z-index:2;border-radius:50%;background:#0d1220;border:2px solid #d4a941;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 3px 10px rgba(0,0,0,.5),0 0 14px rgba(212,169,65,.35)">
+        <b style="font-size:20px;color:#4caf7d;text-shadow:0 0 8px rgba(76,175,125,.7)">II</b>
+        <span style="font-size:6.5px;letter-spacing:1.5px;color:#8b93a7;margin-top:3px">MAGIA</span>
+      </div>
+    </div>
+    <div style="position:relative;background:#0d1220;border:1.5px solid #26365c;border-radius:16px 16px 10px 10px;padding:8px 42px 8px 10px;font-size:10.5px;line-height:1.45;color:#d8d2c0;min-height:58px;margin-top:2px">
+      <span style="font-size:8px;letter-spacing:2px;color:#d4a941;border:1px solid #d4a941;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      Puede trasladarse una vez al otro frente.
+    </div>
+    <div style="position:absolute;right:8px;bottom:8px;display:flex;gap:5px">
+      <div style="width:28px;height:28px;border-radius:50%;background:#0d1220;border:1.5px solid #38bdf8;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(56,189,248,.5)">💧</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#0d1220;border:1.5px solid #facc15;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(250,204,21,.5)">⚡</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 2c cinturón · Éter -->
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Cinturón · estilo Éter de los Dioses</div>
+<div class="dv-card" style="padding:18px;background:#0c0f1c">
+  <div style="width:266px;height:444px;border-radius:18px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Almendra,serif;color:#efe9f8;background:linear-gradient(170deg,rgba(60,30,100,.55),rgba(15,10,30,.9) 65%),linear-gradient(#12101f,#12101f);border:2px solid rgba(216,180,254,.8);box-shadow:0 0 30px rgba(147,51,234,.5),0 10px 30px rgba(0,0,0,.7)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(76,29,149,.5);border:1.5px solid #d8b4fe;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1"><b style="font-size:17px;color:#d8b4fe">2</b><span style="font-size:7px;letter-spacing:1px;color:#a78bda">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:20px;letter-spacing:2px;text-shadow:0 0 12px rgba(216,180,254,.8)">GARUDA</h1>
+        <small style="font-size:9.5px;letter-spacing:3px;color:#c084fc">🕉 HINDÚES · AVE REAL</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:12px 12px 18px 18px;border:1px solid rgba(216,180,254,.4);background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0d0a1a;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b7fb0;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="position:relative;height:60px;flex:none">
+      <div style="position:absolute;left:-5px;right:-5px;top:11px;height:38px;background:rgba(30,18,55,.9);border:1.5px solid #c084fc;border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box;box-shadow:0 3px 10px rgba(0,0,0,.5),0 0 12px rgba(192,132,252,.3)">
+        <div style="display:flex;align-items:baseline;gap:5px"><b style="font-size:21px;color:#fb7185">6</b><span style="font-size:8px;letter-spacing:2px;color:#a78bda">ATQ</span></div>
+        <div style="display:flex;align-items:baseline;gap:5px"><span style="font-size:8px;letter-spacing:2px;color:#a78bda">EVA</span><b style="font-size:21px;color:#7dd3fc">3</b></div>
+      </div>
+      <div style="position:absolute;left:50%;top:0;width:60px;height:60px;margin-left:-30px;z-index:2;border-radius:50%;background:rgba(30,18,55,.95);border:1.5px solid #c084fc;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 3px 10px rgba(0,0,0,.5),0 0 16px rgba(192,132,252,.45)">
+        <b style="font-size:20px;color:#4caf7d;text-shadow:0 0 10px rgba(76,175,125,.8)">I</b>
+        <span style="font-size:6.5px;letter-spacing:1.5px;color:#a78bda;margin-top:3px">MAGIA</span>
+      </div>
+    </div>
+    <div style="position:relative;background:rgba(20,14,40,.7);border:1px solid rgba(192,132,252,.5);border-radius:18px 18px 12px 12px;padding:8px 42px 8px 10px;font-size:11px;line-height:1.45;color:#ddd2f0;min-height:58px;margin-top:2px">
+      <span style="font-size:8px;letter-spacing:2px;color:#d8b4fe;border:1px solid #c084fc;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#d8b4fe">Enemigo de las serpientes:</b> +2 ATQ contra criaturas de Agua.
+    </div>
+    <div style="position:absolute;right:8px;bottom:8px;display:flex;gap:5px">
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(30,18,55,.95);border:1.5px solid #facc15;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 8px rgba(250,204,21,.5)">⚡</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 2d carta mágica con cinturón -->
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Carta mágica con el cinturón (sin ATQ ni evasión)</div>
+<div class="dv-card" style="padding:18px;background:#0c0f1c">
+  <div style="width:266px;height:444px;border-radius:16px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Marcellus,serif;color:#e8e2d4;background:linear-gradient(170deg,#0c2416,#08120c 65%);border:2.5px solid #22c55e;box-shadow:0 0 26px rgba(34,197,94,.4),0 10px 30px rgba(0,0,0,.7)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:#081a10;border:1.5px solid #22c55e;display:flex;align-items:center;justify-content:center;font-size:19px">🌿</div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:17px;letter-spacing:1.5px;color:#d9f5e2;text-shadow:0 0 10px rgba(34,197,94,.6)">SAVIA DEL ÁRBOL</h1>
+        <small style="font-size:9px;letter-spacing:3px;color:#22c55e">✦ CARTA MÁGICA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:10px 10px 16px 16px;border:1.5px solid #14532d;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#07120b;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#7ba18b;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="position:relative;height:60px;flex:none">
+      <div style="position:absolute;left:-6px;right:-6px;top:11px;height:38px;background:#081a10;border:2px solid #22c55e;border-radius:12px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-sizing:border-box">
+        <span style="font-size:14px;color:#2e5c42">—</span>
+        <span style="font-size:14px;color:#2e5c42">—</span>
+      </div>
+      <div style="position:absolute;left:50%;top:0;width:60px;height:60px;margin-left:-30px;z-index:2;border-radius:50%;background:#081a10;border:2px solid #22c55e;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 14px rgba(34,197,94,.4)">
+        <b style="font-size:18px;color:#4caf7d;text-shadow:0 0 10px rgba(76,175,125,.8)">✦</b>
+        <span style="font-size:6.5px;letter-spacing:1.5px;color:#7ba18b;margin-top:3px">MAGIA</span>
+      </div>
+    </div>
+    <div style="position:relative;background:#081a10;border:1.5px solid #22c55e;border-radius:16px 16px 10px 10px;padding:8px 12px;font-size:10.5px;line-height:1.5;color:#cde8d6;min-height:58px;margin-top:2px">
+      <span style="font-size:8px;letter-spacing:2px;color:#86efac;border:1px solid #22c55e;border-radius:4px;padding:1px 5px">✦ MÁGICA</span><br>
+      El Árbol Áureo brilla y devuelve a tu mano una criatura de tu cementerio. Se juega y se descarta.
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Dime: "el cinturón de <a class="dv-oid" href="#2a">2a</a> con más relieve" · "construye el juego con las cartas <a class="dv-oid" href="#2b">2b</a> y el campo de <a class="dv-oid" href="#1c">1c</a>" · "cambia EVA por otro nombre"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">MitoLogos · 3 direcciones visuales (carta + campo con las dos cámaras en mente)</span></div>
+<p style="margin:0 0 20px;max-width:820px;font:12px/1.6 system-ui,sans-serif;color:rgba(232,226,212,.55)">
+Supuestos: elementos Agua→Fuego→Tierra→Rayo (ciclo Rayo→Agua→Fuego→Tierra→Rayo) · colores por civilización: vikingos naranja-marrón, griegos azul, egipcios amarillo, hindúes morado, mágicas verde, trampas negro estrellado · el hueco rayado de cada carta es donde irá tu imagen por URL de Cloudflare · el campo muestra la vista MANO (cámara baja, tablero inclinado en 3D); la vista cenital y la transición se construyen en el juego real. El Árbol Áureo verde es un elemento fijo junto a la nube central y brilla al invocar.
+</p>
+<div class="dv-opts">
+
+<!-- ============ 1a LOSA RÚNICA ============ -->
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Losa Rúnica — piedra tallada, tipografía imperial (Cinzel)</div>
+<div class="dv-card" style="padding:20px;display:flex;flex-direction:column;gap:18px;background:#181410">
+
+<div style="display:flex;gap:16px">
+  <!-- carta criatura vikinga -->
+  <div style="width:262px;height:420px;border-radius:14px;position:relative;box-sizing:border-box;padding:10px;display:flex;flex-direction:column;font-family:Cinzel,serif;color:#e8e2d4;background:linear-gradient(170deg,#3a2a1c,#1c1712 60%);border:3px solid #c1692f;outline:1px solid rgba(232,165,106,.35);outline-offset:-7px;box-shadow:0 0 22px rgba(193,105,47,.35),0 8px 24px rgba(0,0,0,.65),inset 0 0 30px rgba(0,0,0,.6)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:8px;background:#241a10;border:1.5px solid #c1692f;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1"><b style="font-size:17px;color:#e8a56a">1</b><span style="font-size:7px;letter-spacing:1px;color:#9c8a74">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:17px;letter-spacing:1.5px;text-shadow:0 0 8px rgba(193,105,47,.6)">LOBO DE FENRIR</h1>
+        <small style="font-size:9px;letter-spacing:2.5px;color:#c1692f">ᚠ VIKINGOS · BESTIA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:9px;border:1.5px solid #6b3413;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0d1017;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b93a7;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="display:flex;gap:7px;margin:9px 0 8px">
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#241a10;border-radius:8px;border:1.5px solid #4a3320"><b style="display:block;font-size:18px;color:#ef4444">4 ⚔</b><span style="font-size:8px;letter-spacing:2px;color:#9c8a74">ATAQUE</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#241a10;border-radius:8px;border:1.5px solid #4a3320"><b style="display:block;font-size:18px;color:#60a5fa">5 🌀</b><span style="font-size:8px;letter-spacing:2px;color:#9c8a74">EVASIÓN</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#241a10;border-radius:8px;border:1.5px solid #4a3320"><b style="display:block;font-size:18px">🪨</b><span style="font-size:8px;letter-spacing:2px;color:#9c8a74">TIERRA</span></div>
+    </div>
+    <div style="background:#241a10;border:1.5px solid #c1692f;border-radius:8px;padding:7px 10px;font-size:10.5px;line-height:1.45;font-family:Georgia,serif;color:#d8cfc0">
+      <span style="font-size:8px;letter-spacing:2px;color:#c1692f;border:1px solid #c1692f;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#e8a56a">Aullido:</b> al invocarse, las bestias aliadas ganan +1 evasión este turno.
+    </div>
+  </div>
+  <!-- carta trampa -->
+  <div style="width:262px;height:420px;border-radius:14px;position:relative;box-sizing:border-box;padding:10px;display:flex;flex-direction:column;font-family:Cinzel,serif;color:#e8e2d4;background:radial-gradient(1.5px 1.5px at 18% 22%,#fff,transparent),radial-gradient(1px 1px at 72% 12%,#cbd5ff,transparent),radial-gradient(1.5px 1.5px at 84% 44%,#fff,transparent),radial-gradient(1px 1px at 30% 62%,#a5b4fc,transparent),radial-gradient(1.5px 1.5px at 56% 82%,#fff,transparent),radial-gradient(1px 1px at 12% 88%,#cbd5ff,transparent),radial-gradient(1px 1px at 44% 34%,#fff,transparent),radial-gradient(1px 1px at 90% 74%,#e0e7ff,transparent),linear-gradient(170deg,#101020,#050510 70%);border:3px solid #3a3a4e;outline:1px solid rgba(200,210,255,.25);outline-offset:-7px;box-shadow:0 0 22px rgba(120,130,200,.25),0 8px 24px rgba(0,0,0,.7),inset 0 0 34px rgba(0,0,0,.7)">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:8px;background:#0b0b18;border:1.5px solid #3a3a4e;display:flex;align-items:center;justify-content:center;font-size:19px">🕸️</div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:16px;letter-spacing:1.5px;color:#d6d9ea;text-shadow:0 0 10px rgba(160,170,255,.5)">RED DE LAS NORNAS</h1>
+        <small style="font-size:9px;letter-spacing:2.5px;color:#8b93b7">✧ TRAMPA · OCULTA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:9px;border:1.5px solid #23233a;background:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 10px,transparent 10px 20px),#07070f;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#6f7893;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="margin-top:9px;background:#0b0b18;border:1.5px solid #4a4a66;border-radius:8px;padding:8px 10px;font-size:10.5px;line-height:1.5;font-family:Georgia,serif;color:#c9cde0;min-height:72px">
+      <span style="font-size:8px;letter-spacing:2px;color:#a5b4fc;border:1px solid #4a4a66;border-radius:4px;padding:1px 5px">✧ TRAMPA</span><br>
+      Se coloca boca abajo. Cuando un enemigo entra en tu mitad del campo, queda <b style="color:#d6d9ea">inmovilizado</b> y no puede moverse ni atacar durante 1 turno.
+    </div>
+  </div>
+</div>
+
+<!-- campo 1a -->
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,#241435 0%,#0b0716 45%,#040308 80%),#040308">
+  <div style="position:absolute;inset:0;background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 78% 8%,#cbd5ff,transparent),radial-gradient(1.5px 1.5px at 88% 30%,#fff,transparent),radial-gradient(1px 1px at 34% 10%,#a5b4fc,transparent);opacity:.7"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <!-- mitad enemiga -->
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 14px 18px rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:30px">🛡️</div>
+      </div>
+      <!-- nube central -->
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(235,240,250,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(215,225,245,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(235,240,250,.85),transparent 70%)"></div>
+      <!-- mitad jugador -->
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-size:30px">🐺</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;font-size:30px">⚔️</div>
+        <div style="border-radius:10px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #1c1208;box-shadow:0 16px 20px rgba(0,0,0,.75)"></div>
+      </div>
+    </div>
+  </div>
+  <!-- cadenas colgando al abismo -->
+  <div style="position:absolute;left:118px;top:238px;width:5px;height:120px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.55;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:5px;height:110px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.5;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:5px;height:96px;background:repeating-linear-gradient(180deg,#6f7893 0 7px,transparent 7px 12px);opacity:.4"></div>
+  <!-- Árbol Áureo -->
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 24px rgba(76,175,125,.65),inset 0 0 16px rgba(76,175,125,.4);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 10px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO<br>brilla al invocar</div>
+  <!-- mano en abanico -->
+  <div style="position:absolute;left:50%;bottom:-34px;width:0">
+    <div style="position:absolute;left:-146px;bottom:0;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#3a2a1c,#1c1712);border:2px solid #c1692f;transform:rotate(-14deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:-82px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#101020,#050510);border:2px solid #3a3a4e;transform:rotate(-6deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:-18px;bottom:12px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#3a2a1c,#1c1712);border:2px solid #c1692f;transform:rotate(2deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:46px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#0d2417,#0a130d);border:2px solid #22c55e;transform:rotate(10deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:106px;bottom:-2px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#3a2a1c,#1c1712);border:2px solid #c1692f;transform:rotate(17deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+  </div>
+  <div style="position:absolute;right:12px;top:10px;font:600 9px Cinzel,serif;letter-spacing:2px;color:#e8e2d4;background:rgba(20,16,10,.75);border:1px solid #c1692f;border-radius:6px;padding:5px 9px">VISTA MANO · cámara baja</div>
+</div>
+</div>
+</div>
+
+<!-- ============ 1b RELIQUIA DORADA ============ -->
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Reliquia Dorada — marco de oro ornamentado, tipografía clásica (Marcellus)</div>
+<div class="dv-card" style="padding:20px;display:flex;flex-direction:column;gap:18px;background:#12121c">
+
+<div style="display:flex;gap:16px">
+  <!-- carta criatura griega -->
+  <div style="width:262px;height:420px;border-radius:16px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Marcellus,serif;color:#e8e2d4;background:linear-gradient(170deg,#101a2e,#0b0e1a 65%);border:2.5px solid #3b82f6;box-shadow:0 0 26px rgba(59,130,246,.45),0 10px 30px rgba(0,0,0,.7),inset 0 0 30px rgba(0,0,0,.55)">
+    <div style="position:absolute;inset:5px;border:1px solid #d4a941;border-radius:11px;pointer-events:none;opacity:.7"></div>
+    <div style="position:absolute;left:14px;top:-1px;right:14px;height:2px;background:linear-gradient(90deg,transparent,#d4a941,transparent)"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;position:relative">
+      <div style="width:42px;height:42px;border-radius:50%;background:#0d1220;border:1.5px solid #d4a941;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1"><b style="font-size:17px;color:#93c5fd">1</b><span style="font-size:7px;letter-spacing:1px;color:#8b93a7">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:19px;letter-spacing:2px;text-shadow:0 0 10px rgba(59,130,246,.6)">MEDUSA</h1>
+        <small style="font-size:9px;letter-spacing:3px;color:#3b82f6">⚱ GRIEGOS · GORGONA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:10px;border:1.5px solid #1e3a8a;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0a0d18;display:flex;align-items:center;justify-content:center;position:relative">
+      <span style="font:10px ui-monospace,monospace;color:#8b93a7;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="display:flex;gap:7px;margin:9px 0 8px">
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#0d1220;border-radius:9px;border:1.5px solid #26365c"><b style="display:block;font-size:18px;color:#ef4444">4 ⚔</b><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">ATAQUE</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#0d1220;border-radius:9px;border:1.5px solid #26365c"><b style="display:block;font-size:18px;color:#60a5fa">4 🌀</b><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">EVASIÓN</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:#0d1220;border-radius:9px;border:1.5px solid #26365c"><b style="display:block;font-size:18px">💧</b><span style="font-size:8px;letter-spacing:2px;color:#8b93a7">AGUA</span></div>
+    </div>
+    <div style="background:#0d1220;border:1.5px solid #d4a941;border-radius:9px;padding:7px 10px;font-size:10.5px;line-height:1.45;color:#d8d2c0">
+      <span style="font-size:8px;letter-spacing:2px;color:#d4a941;border:1px solid #d4a941;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#93c5fd">Mirada pétrea:</b> si sale un 12 en el dado del rival, este muere al instante.
+    </div>
+  </div>
+  <!-- carta mágica verde -->
+  <div style="width:262px;height:420px;border-radius:16px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Marcellus,serif;color:#e8e2d4;background:linear-gradient(170deg,#0c2416,#08120c 65%);border:2.5px solid #22c55e;box-shadow:0 0 26px rgba(34,197,94,.4),0 10px 30px rgba(0,0,0,.7),inset 0 0 30px rgba(0,0,0,.55)">
+    <div style="position:absolute;inset:5px;border:1px solid rgba(134,239,172,.5);border-radius:11px;pointer-events:none"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:#081a10;border:1.5px solid #22c55e;display:flex;align-items:center;justify-content:center;font-size:19px">🌿</div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:17px;letter-spacing:1.5px;color:#d9f5e2;text-shadow:0 0 10px rgba(34,197,94,.6)">SAVIA DEL ÁRBOL</h1>
+        <small style="font-size:9px;letter-spacing:3px;color:#22c55e">✦ CARTA MÁGICA</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:10px;border:1.5px solid #14532d;background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#07120b;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#7ba18b;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="margin-top:9px;background:#081a10;border:1.5px solid #22c55e;border-radius:9px;padding:8px 10px;font-size:10.5px;line-height:1.5;color:#cde8d6;min-height:72px">
+      <span style="font-size:8px;letter-spacing:2px;color:#86efac;border:1px solid #22c55e;border-radius:4px;padding:1px 5px">✦ MÁGICA</span><br>
+      El Árbol Áureo brilla y devuelve a tu mano una criatura de tu cementerio. Sin ataque ni evasión: se juega y se descarta.
+    </div>
+  </div>
+</div>
+
+<!-- campo 1b -->
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 130%,#3a2508 0%,#120b04 45%,#050308 80%),#050308">
+  <div style="position:absolute;inset:0;background:radial-gradient(1px 1px at 16% 14%,#ffe9b0,transparent),radial-gradient(1px 1px at 80% 10%,#fff,transparent),radial-gradient(1.5px 1.5px at 90% 34%,#ffd97a,transparent),radial-gradient(1px 1px at 38% 8%,#fff,transparent);opacity:.6"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">👁️</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 10px rgba(212,169,65,.25)"></div>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(250,242,225,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(245,235,215,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(250,242,225,.85),transparent 70%)"></div>
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🐺</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25);display:flex;align-items:center;justify-content:center;font-size:30px">🪓</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:2px solid #d4a941;box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 10px rgba(212,169,65,.25)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:118px;top:238px;width:5px;height:120px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.45;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:5px;height:110px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.4;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:5px;height:96px;background:repeating-linear-gradient(180deg,#d4a941 0 7px,transparent 7px 12px);opacity:.35"></div>
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 24px rgba(76,175,125,.65),inset 0 0 16px rgba(76,175,125,.4);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 10px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO</div>
+  <div style="position:absolute;left:50%;bottom:-34px;width:0">
+    <div style="position:absolute;left:-146px;bottom:0;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#101a2e,#0b0e1a);border:2px solid #3b82f6;transform:rotate(-14deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:-82px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#2e1a08,#170e05);border:2px solid #c1692f;transform:rotate(-6deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:-18px;bottom:12px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#0d2417,#0a130d);border:2px solid #22c55e;transform:rotate(2deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:46px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#2a1a3e,#150d20);border:2px solid #9333ea;transform:rotate(10deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+    <div style="position:absolute;left:106px;bottom:-2px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#2e2408,#171205);border:2px solid #eab308;transform:rotate(17deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+  </div>
+  <div style="position:absolute;right:12px;top:10px;font:9px Marcellus,serif;letter-spacing:2px;color:#e8e2d4;background:rgba(18,14,6,.75);border:1px solid #d4a941;border-radius:6px;padding:5px 9px">VISTA MANO · cámara baja</div>
+</div>
+</div>
+</div>
+
+<!-- ============ 1c ÉTER DE LOS DIOSES ============ -->
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Éter de los Dioses — etéreo y cósmico como el portal, tipografía mística (Almendra)</div>
+<div class="dv-card" style="padding:20px;display:flex;flex-direction:column;gap:18px;background:#0c0f1c">
+
+<div style="display:flex;gap:16px">
+  <!-- carta criatura hindú -->
+  <div style="width:262px;height:420px;border-radius:18px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Almendra,serif;color:#efe9f8;background:linear-gradient(170deg,rgba(60,30,100,.55),rgba(15,10,30,.9) 65%),linear-gradient(#12101f,#12101f);border:2px solid rgba(216,180,254,.8);box-shadow:0 0 30px rgba(147,51,234,.5),0 10px 30px rgba(0,0,0,.7);backdrop-filter:blur(4px)">
+    <div style="position:absolute;left:20px;right:20px;top:0;height:1px;background:linear-gradient(90deg,transparent,#d8b4fe,transparent)"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(76,29,149,.5);border:1.5px solid #d8b4fe;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 12px rgba(216,180,254,.4)"><b style="font-size:17px;color:#d8b4fe">2</b><span style="font-size:7px;letter-spacing:1px;color:#a78bda">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:20px;letter-spacing:2px;text-shadow:0 0 12px rgba(216,180,254,.8)">GARUDA</h1>
+        <small style="font-size:9.5px;letter-spacing:3px;color:#c084fc">🕉 HINDÚES · AVE REAL</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:12px;border:1px solid rgba(216,180,254,.4);background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#0d0a1a;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#8b7fb0;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="display:flex;gap:7px;margin:9px 0 8px">
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(76,29,149,.35);border-radius:10px;border:1px solid rgba(216,180,254,.35)"><b style="display:block;font-size:18px;color:#fb7185">6 ⚔</b><span style="font-size:8px;letter-spacing:2px;color:#a78bda">ATAQUE</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(76,29,149,.35);border-radius:10px;border:1px solid rgba(216,180,254,.35)"><b style="display:block;font-size:18px;color:#7dd3fc">3 🌀</b><span style="font-size:8px;letter-spacing:2px;color:#a78bda">EVASIÓN</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(76,29,149,.35);border-radius:10px;border:1px solid rgba(216,180,254,.35)"><b style="display:block;font-size:18px">⚡</b><span style="font-size:8px;letter-spacing:2px;color:#a78bda">RAYO</span></div>
+    </div>
+    <div style="background:rgba(20,14,40,.7);border:1px solid #c084fc;border-radius:10px;padding:7px 10px;font-size:11px;line-height:1.45;color:#ddd2f0">
+      <span style="font-size:8px;letter-spacing:2px;color:#d8b4fe;border:1px solid #c084fc;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#d8b4fe">Enemigo de las serpientes:</b> +2 de ataque contra Nagas y criaturas de Agua.
+    </div>
+  </div>
+  <!-- carta criatura egipcia -->
+  <div style="width:262px;height:420px;border-radius:18px;position:relative;box-sizing:border-box;padding:11px;display:flex;flex-direction:column;font-family:Almendra,serif;color:#f5efdd;background:linear-gradient(170deg,rgba(110,80,10,.5),rgba(25,18,5,.92) 65%),linear-gradient(#171205,#171205);border:2px solid rgba(253,224,71,.8);box-shadow:0 0 30px rgba(234,179,8,.45),0 10px 30px rgba(0,0,0,.7)">
+    <div style="position:absolute;left:20px;right:20px;top:0;height:1px;background:linear-gradient(90deg,transparent,#fde047,transparent)"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(133,77,14,.45);border:1.5px solid #fde047;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 12px rgba(253,224,71,.4)"><b style="font-size:17px;color:#fde047">1</b><span style="font-size:7px;letter-spacing:1px;color:#c9ab53">ALMAS</span></div>
+      <div style="flex:1">
+        <h1 style="margin:0;font-size:20px;letter-spacing:2px;text-shadow:0 0 12px rgba(253,224,71,.8)">BENNU</h1>
+        <small style="font-size:9.5px;letter-spacing:3px;color:#eab308">𓂀 EGIPCIOS · FÉNIX</small>
+      </div>
+    </div>
+    <div style="flex:1;border-radius:12px;border:1px solid rgba(253,224,71,.4);background:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px),#141005;display:flex;align-items:center;justify-content:center">
+      <span style="font:10px ui-monospace,monospace;color:#a08f5e;text-align:center">⬚ imagen por URL<br>(Cloudflare)</span>
+    </div>
+    <div style="display:flex;gap:7px;margin:9px 0 8px">
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(133,77,14,.3);border-radius:10px;border:1px solid rgba(253,224,71,.35)"><b style="display:block;font-size:18px;color:#fb7185">3 ⚔</b><span style="font-size:8px;letter-spacing:2px;color:#c9ab53">ATAQUE</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(133,77,14,.3);border-radius:10px;border:1px solid rgba(253,224,71,.35)"><b style="display:block;font-size:18px;color:#7dd3fc">7 🌀</b><span style="font-size:8px;letter-spacing:2px;color:#c9ab53">EVASIÓN</span></div>
+      <div style="flex:1;text-align:center;padding:6px 0 4px;background:rgba(133,77,14,.3);border-radius:10px;border:1px solid rgba(253,224,71,.35)"><b style="display:block;font-size:18px">⚡</b><span style="font-size:8px;letter-spacing:2px;color:#c9ab53">RAYO</span></div>
+    </div>
+    <div style="background:rgba(35,25,8,.75);border:1px solid #eab308;border-radius:10px;padding:7px 10px;font-size:11px;line-height:1.45;color:#ead9b0">
+      <span style="font-size:8px;letter-spacing:2px;color:#fde047;border:1px solid #eab308;border-radius:4px;padding:1px 5px">✦ EFECTO</span><br>
+      <b style="color:#fde047">Renacer:</b> la primera vez que muere, vuelve a tu mano en vez de ir al cementerio.
+    </div>
+  </div>
+</div>
+
+<!-- campo 1c -->
+<div style="position:relative;width:664px;height:400px;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 130%,#2a1745 0%,#120b26 40%,#04030c 80%),#04030c">
+  <div style="position:absolute;inset:0;background:radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 78% 8%,#cbd5ff,transparent),radial-gradient(1.5px 1.5px at 88% 30%,#f0abfc,transparent),radial-gradient(1px 1px at 34% 10%,#a5b4fc,transparent),radial-gradient(1px 1px at 60% 20%,#fff,transparent),radial-gradient(1px 1px at 22% 44%,#e9d5ff,transparent)"></div>
+  <div style="position:absolute;left:50%;top:55%;width:340px;height:120px;margin-left:-170px;border-radius:50%;background:radial-gradient(ellipse,rgba(147,51,234,.35),transparent 70%);filter:blur(14px)"></div>
+  <div style="position:absolute;inset:0;perspective:900px">
+    <div style="position:absolute;left:50%;top:47%;width:520px;height:520px;margin-left:-260px;margin-top:-260px;transform:rotateX(54deg)">
+      <div style="position:absolute;left:20px;right:20px;top:6px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🐘</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🦅</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#4d7a34,#39592a 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(165,180,252,.7);box-shadow:0 14px 18px rgba(0,0,0,.7),0 0 14px rgba(165,180,252,.3)"></div>
+      </div>
+      <div style="position:absolute;left:0;right:0;top:222px;height:64px;filter:blur(10px);background:radial-gradient(ellipse 44% 90% at 18% 50%,rgba(230,220,255,.85),transparent 70%),radial-gradient(ellipse 40% 100% at 50% 40%,rgba(240,230,255,.9),transparent 70%),radial-gradient(ellipse 44% 90% at 82% 55%,rgba(230,220,255,.85),transparent 70%)"></div>
+      <div style="position:absolute;left:20px;right:20px;top:300px;height:206px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:12px">
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🐍</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3);display:flex;align-items:center;justify-content:center;font-size:30px">🔥</div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+        <div style="border-radius:12px;background:linear-gradient(180deg,#5a8c3c,#426831 55%,#3d2b18 58%,#241708);border:1.5px solid rgba(216,180,254,.7);box-shadow:0 16px 20px rgba(0,0,0,.75),0 0 14px rgba(216,180,254,.3)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:118px;top:238px;width:4px;height:120px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.5;transform:rotate(6deg)"></div>
+  <div style="position:absolute;left:540px;top:242px;width:4px;height:110px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.45;transform:rotate(-7deg)"></div>
+  <div style="position:absolute;left:330px;top:262px;width:4px;height:96px;background:repeating-linear-gradient(180deg,#c4b5fd 0 7px,transparent 7px 12px);opacity:.4"></div>
+  <div style="position:absolute;left:24px;top:150px;width:74px;height:74px;border-radius:50%;border:3px solid #4caf7d;box-shadow:0 0 30px rgba(76,175,125,.8),inset 0 0 18px rgba(76,175,125,.5);background:rgba(8,20,14,.8);display:flex;align-items:center;justify-content:center">
+    <div style="position:relative;width:44px;height:48px">
+      <div style="position:absolute;left:19px;bottom:4px;width:7px;height:22px;border-radius:3px;background:#2e7d54"></div>
+      <div style="position:absolute;left:12px;top:2px;width:20px;height:20px;border-radius:50%;background:#4caf7d;box-shadow:0 0 12px #4caf7d"></div>
+      <div style="position:absolute;left:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+      <div style="position:absolute;right:0;top:10px;width:15px;height:15px;border-radius:50%;background:#3f9e6c"></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:24px;top:230px;font:8px ui-monospace,monospace;color:#4caf7d;letter-spacing:1px;width:78px;text-align:center">ÁRBOL ÁUREO</div>
+  <div style="position:absolute;left:50%;bottom:-34px;width:0">
+    <div style="position:absolute;left:-146px;bottom:0;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#2a1a3e,#150d20);border:2px solid #9333ea;transform:rotate(-14deg);box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 10px rgba(147,51,234,.4)"></div>
+    <div style="position:absolute;left:-82px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#2e2408,#171205);border:2px solid #eab308;transform:rotate(-6deg);box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 10px rgba(234,179,8,.35)"></div>
+    <div style="position:absolute;left:-18px;bottom:12px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#101a2e,#0b0e1a);border:2px solid #3b82f6;transform:rotate(2deg);box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 10px rgba(59,130,246,.35)"></div>
+    <div style="position:absolute;left:46px;bottom:8px;width:64px;height:96px;border-radius:7px;background:linear-gradient(170deg,#0d2417,#0a130d);border:2px solid #22c55e;transform:rotate(10deg);box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 10px rgba(34,197,94,.35)"></div>
+    <div style="position:absolute;left:106px;bottom:-2px;width:64px;height:96px;border-radius:7px;background:radial-gradient(1px 1px at 30% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 60%,#fff,transparent),linear-gradient(170deg,#101020,#050510);border:2px solid #3a3a4e;transform:rotate(17deg);box-shadow:0 4px 12px rgba(0,0,0,.6)"></div>
+  </div>
+  <div style="position:absolute;right:12px;top:10px;font:9px Almendra,serif;letter-spacing:2px;color:#efe9f8;background:rgba(20,12,35,.75);border:1px solid #c084fc;border-radius:6px;padding:5px 9px">VISTA MANO · cámara baja</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Prueba a decirme: "quiero <a class="dv-oid" href="#1a">1a</a> pero con el marco dorado de <a class="dv-oid" href="#1b">1b</a>" · "construye el juego con <a class="dv-oid" href="#1c">1c</a>" · "otras direcciones distintas"</p>
+</section>
+
+</x-dc>
+</body>
+</html>
