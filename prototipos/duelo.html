@@ -1,0 +1,823 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Duelo de Mythos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: campo de batalla horizontal arriba, controles y fichas debajo, pentágono y reglas al final. Un solo look nocturno (azul y bronce). */
+:root{
+  color-scheme: dark;
+  --night:#0d1424;
+  --panel:#151f35;
+  --panel2:#1c2844;
+  --line:#2b3a5e;
+  --line-strong:#4a5b82;
+  --ink:#ece3cc;
+  --muted:#a6aec0;
+  --gold:#d6ae58;
+  --hurt:#e0573f;
+  --f-display:'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+  --f-body:'Alegreya Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+html,body{background:var(--night); color:var(--ink)}
+body{font-family:var(--f-body); font-size:16px; line-height:1.5}
+.wrap{max-width:860px; margin:0 auto; padding-inline:16px; padding-block:20px 48px; display:grid; gap:18px}
+
+.head{display:grid; gap:4px}
+.eyebrow{margin:0; font-family:var(--f-display); font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold)}
+h1{margin:0; font-family:var(--f-display); font-weight:700; font-size:clamp(26px,6vw,40px); line-height:1.1; text-wrap:balance}
+.lede{margin:4px 0 0; color:var(--muted); max-width:62ch}
+
+/* ---------- Arena ---------- */
+.arena{position:relative; width:100%; max-width:100%; aspect-ratio:16/10; border-radius:14px; overflow:hidden; border:1px solid var(--line); background:#14213d}
+.stage{position:absolute; inset:0}
+.backdrop{position:absolute; inset:0; width:100%; height:100%; display:block}
+#fx{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5}
+.arena.quake .stage{animation:quake .38s linear}
+@keyframes quake{20%{transform:translate(-4px,2px)}40%{transform:translate(4px,-2px)}60%{transform:translate(-3px,1px)}80%{transform:translate(2px,-1px)}}
+
+.banner{position:absolute; z-index:6; top:10px; left:50%; transform:translateX(-50%); width:max-content; max-width:calc(100% - 24px); text-align:center;
+  font-family:var(--f-display); font-size:clamp(11px,2.6vw,14px); letter-spacing:.05em; padding:4px 12px; border-radius:999px;
+  background:rgba(13,20,36,.78); border:1px solid var(--line); color:var(--ink)}
+
+.fighter{position:absolute; bottom:4%; width:33%; --dir:1; --el:#fff; z-index:2}
+.fighter.l{left:7%}
+.fighter.r{right:7%; --dir:-1}
+.fighter svg{display:block; width:100%; height:auto; overflow:visible; position:relative}
+.fighter.r svg{transform:scaleX(-1)}
+.aura{position:absolute; left:8%; right:8%; bottom:-3%; height:14%; border-radius:50%;
+  background:radial-gradient(closest-side, var(--el), transparent); opacity:.55; animation:aura 2.6s ease-in-out infinite}
+@keyframes aura{50%{opacity:.85; transform:scaleX(1.06)}}
+
+/* Piezas del personaje (SVG): cada una se anima por separado */
+.upper{transform-box:view-box; transform-origin:100px 175px; animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateY(1.6px) scaleY(.992)}}
+.armF{transform-box:view-box; transform-origin:117px 97px; animation:armIdle 2.6s ease-in-out infinite}
+@keyframes armIdle{50%{transform:rotate(2.5deg)}}
+.shieldArm{transform-box:view-box; transform-origin:86px 99px}
+
+/* Ataque: el cuerpo se echa atrás, embiste y vuelve; el brazo del arma empuja */
+.fighter.atk{animation:lunge .85s ease-in-out}
+@keyframes lunge{
+  0%{transform:none}
+  30%{transform:translateX(calc(var(--dir) * -10px))}
+  55%,72%{transform:translateX(calc(var(--dir) * 46px))}
+  100%{transform:none}}
+.fighter.atk .armF{animation:thrust .85s ease-in-out}
+@keyframes thrust{30%{transform:rotate(-28deg)}55%,72%{transform:rotate(12deg)}100%{transform:none}}
+.fighter.atk .shieldArm{animation:tuck .85s ease-in-out}
+@keyframes tuck{55%,72%{transform:rotate(-8deg)}}
+
+/* Recibe daño: retrocede y destella */
+.fighter.hit{animation:hit .55s ease-out}
+@keyframes hit{15%{transform:translateX(calc(var(--dir) * -16px))}35%{transform:translateX(calc(var(--dir) * -6px))}55%{transform:translateX(calc(var(--dir) * -11px))}100%{transform:none}}
+.fighter.hit svg{animation:flash .55s ease-out}
+@keyframes flash{0%,35%{filter:brightness(1.9) saturate(.4)}100%{filter:none}}
+
+/* Esquiva: salto hacia atrás */
+.fighter.dodge{animation:dodge .7s cubic-bezier(.3,.7,.4,1)}
+@keyframes dodge{40%{transform:translate(calc(var(--dir) * -40px),-28px)}100%{transform:none}}
+
+/* Derrota: cae de espaldas */
+.fighter.down{transform-origin:50% 96%; transform:rotate(calc(var(--dir) * -72deg)); opacity:.55; transition:transform .9s cubic-bezier(.55,0,.8,1.3), opacity .9s}
+.fighter.down .upper,.fighter.down .armF,.fighter.down .aura{animation:none}
+
+.float{position:absolute; z-index:7; pointer-events:none; font-family:var(--f-display); font-weight:700; font-size:clamp(18px,4.4vw,28px);
+  text-shadow:0 2px 0 rgba(0,0,0,.6), 0 0 12px rgba(0,0,0,.6); transform:translate(-50%,-50%); animation:rise 1.2s ease-out forwards; white-space:nowrap}
+@keyframes rise{0%{opacity:0; transform:translate(-50%,-30%) scale(.7)}15%{opacity:1; transform:translate(-50%,-60%) scale(1.12)}100%{opacity:0; transform:translate(-50%,-190%) scale(1)}}
+
+.result{position:absolute; inset:0; z-index:8; display:grid; place-content:center; justify-items:center; gap:12px; background:rgba(9,13,24,.6); text-align:center; padding-inline:16px}
+.result[hidden]{display:none}
+.result-title{margin:0; font-family:var(--f-display); font-weight:700; font-size:clamp(22px,6vw,38px); color:var(--gold); text-shadow:0 2px 10px rgba(0,0,0,.6)}
+
+/* ---------- Controles ---------- */
+.controls{display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:center}
+.btn{font-family:var(--f-display); font-weight:700; font-size:clamp(12px,3.4vw,15px); letter-spacing:.04em; min-height:48px; padding:10px 10px;
+  border-radius:10px; border:1px solid var(--gold); background:linear-gradient(180deg,#26345a,#19233f); color:var(--ink); cursor:pointer}
+.btn:hover:not(:disabled){background:linear-gradient(180deg,#30416d,#1e2a4b)}
+.btn:focus-visible,select:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.btn:disabled{opacity:.4; cursor:default}
+.die-wrap{display:grid; justify-items:center; gap:3px}
+.die{width:60px; height:58px; display:grid; place-items:center; padding-top:6px; box-sizing:border-box;
+  clip-path:polygon(50% 0, 100% 38%, 81% 100%, 19% 100%, 0 38%);
+  background:linear-gradient(160deg,#f1d48a,#b8873a 70%,#8a5f22); color:var(--night);
+  font-family:var(--f-display); font-weight:700; font-size:24px; font-variant-numeric:tabular-nums}
+.die.spin{animation:spin .6s ease-out}
+@keyframes spin{0%{transform:rotate(-200deg) scale(.7)}100%{transform:none}}
+.die-cap{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+.roll-note{margin:-6px 0 0; text-align:center; color:var(--muted); min-height:1.5em}
+
+/* ---------- Fichas ---------- */
+.cards{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.card{min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; display:grid; gap:10px; border-top:3px solid var(--el)}
+.card-top{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.card h2{margin:0; font-family:var(--f-display); font-size:clamp(15px,3.8vw,19px); font-weight:700}
+.chip{width:20px; height:20px; color:var(--el); flex:none}
+.civ{font-size:13px; color:var(--muted)}
+.sel{display:grid; gap:4px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+select{font:inherit; font-size:15px; letter-spacing:0; text-transform:none; color:var(--ink); background:var(--panel2); border:1px solid var(--el); border-radius:8px; padding:7px 8px; min-height:40px; width:100%}
+.hp{display:grid; gap:4px}
+.hp-bar{height:9px; background:var(--panel2); border-radius:5px; overflow:hidden}
+.hp-bar i{display:block; height:100%; width:100%; background:var(--gold); transition:width .5s ease, background .3s}
+.hp.low .hp-bar i{background:var(--hurt)}
+.num{font-variant-numeric:tabular-nums}
+.hp span{font-size:14px; color:var(--muted)}
+.stats{margin:0; display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.stats div{background:var(--panel2); border-radius:8px; padding:6px 8px}
+.stats dt{font-size:11px; letter-spacing:.12em; color:var(--muted)}
+.stats dd{margin:0; font-family:var(--f-display); font-weight:700; font-size:18px}
+
+/* ---------- Pentágono y reglas ---------- */
+.lower{display:grid; grid-template-columns:1fr; gap:12px}
+@media (min-width:720px){.lower{grid-template-columns:1.05fr 1fr}}
+.panel{min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px; display:grid; gap:10px; align-content:start}
+.panel h3{margin:0; font-family:var(--f-display); font-size:17px; font-weight:700; letter-spacing:.03em}
+#penta{width:100%; max-width:380px; height:auto; justify-self:center; display:block}
+.ar line{stroke:var(--line-strong); stroke-width:1.6}
+.ar path{fill:var(--line-strong)}
+.ar.eter-ar line{stroke-dasharray:3 4; opacity:.55}
+.ar.eter-ar path{opacity:.55}
+.ar.on line{stroke:var(--gold); stroke-width:3.2; opacity:1}
+.ar.on path{fill:var(--gold); opacity:1}
+.node circle{fill:var(--panel2); stroke:var(--c); stroke-width:2.2}
+.node use{color:var(--c)}
+.node text{fill:var(--ink); font-family:var(--f-display); font-size:13px; font-weight:700; text-anchor:middle}
+.node text.in{font-size:7.5px; letter-spacing:.08em; fill:var(--c)}
+.node.pick circle{fill:var(--c)}
+.node.pick use{color:var(--night)}
+.node.pick text.in{fill:var(--night)}
+.match{margin:0; font-size:15px}
+.match b{color:var(--gold); font-weight:700}
+.rules{margin:0; padding-left:18px; display:grid; gap:6px; color:var(--ink)}
+.rules li::marker{color:var(--gold)}
+.note{margin:0; font-size:14px; color:var(--muted)}
+.log{margin:0; padding:0; list-style:none; display:grid; gap:6px; font-size:14px}
+.log li{padding:6px 10px; background:var(--panel2); border-radius:8px; border-left:3px solid var(--c, var(--line))}
+.log li.empty{color:var(--muted); border-left-color:var(--line)}
+
+@media (max-width:460px){
+  .cards{gap:8px}
+  .card{padding:10px}
+  .stats dd{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .upper,.armF,.aura{animation:none}
+  .arena.quake .stage{animation:none}
+}
+</style>
+
+<!-- Iconos de los elementos -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-agua" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5C12 2.5 5 10.6 5 15a7 7 0 0 0 14 0c0-4.4-7-12.5-7-12.5Z"/></symbol>
+  <symbol id="i-fuego" viewBox="0 0 24 24"><path fill="currentColor" d="M12.5 2c1 4.2 6 6.3 6 12.2A6.5 6.5 0 0 1 5.5 14.5c0-3 1.7-5 3-6.5.3 2 1 3.3 2.5 4.2.2-4-.4-6.8 1.5-10.2Z"/></symbol>
+  <symbol id="i-tierra" viewBox="0 0 24 24"><path fill="currentColor" d="M1.5 20 9 7.5l3.8 6.2 2.6-3.7L22.5 20Z"/></symbol>
+  <symbol id="i-trueno" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 1.5 4.5 13.5h6.2L9 22.5l10.5-12.8h-6.4l2.2-8.2Z"/></symbol>
+  <symbol id="i-viento" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M2.5 8.5h11.5a3 3 0 1 0-3-3M2.5 13h16a3 3 0 1 1-3 3M2.5 17.5h7"/></symbol>
+  <symbol id="i-eter" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5l2.7 7.8 7.8 2.7-7.8 2.7L12 22.5l-2.7-7.8L1.5 12l7.8-2.7Z"/></symbol>
+</svg>
+
+<main class="wrap">
+  <header class="head">
+    <p class="eyebrow">Mythos · Guerra de dioses</p>
+    <h1>Duelo elemental</h1>
+    <p class="lede">El Hoplita contra Ulises. Pulsa un ataque: el defensor tira un d12 para esquivar y el pentágono de elementos decide quién tiene ventaja.</p>
+  </header>
+
+  <section class="arena" id="arena" aria-label="Campo de batalla">
+    <div class="stage">
+      <svg class="backdrop" viewBox="0 0 160 100" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="bgSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#121d36"/><stop offset=".5" stop-color="#2b2b4a"/><stop offset="1" stop-color="#7b4a34"/>
+          </linearGradient>
+          <linearGradient id="bgGnd" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#43321f"/><stop offset="1" stop-color="#1c1510"/>
+          </linearGradient>
+        </defs>
+        <rect width="160" height="72" fill="url(#bgSky)"/>
+        <circle cx="124" cy="66" r="12" fill="#e08d4c" opacity=".28"/>
+        <path d="M0 66 Q20 58 40 64 T80 62 T120 65 T160 60 V72 H0Z" fill="#231e30"/>
+        <g fill="#1a1626">
+          <path d="M57 47.5 78 40 99 47.5Z"/>
+          <rect x="59" y="47" width="38" height="3"/>
+          <rect x="61" y="50" width="2.4" height="12"/><rect x="67" y="50" width="2.4" height="12"/>
+          <rect x="73" y="50" width="2.4" height="12"/><rect x="79" y="50" width="2.4" height="12"/>
+          <rect x="85" y="50" width="2.4" height="12"/><rect x="91" y="50" width="2.4" height="12"/>
+          <rect x="58" y="62" width="40" height="3"/>
+          <rect x="18" y="55" width="2.6" height="10"/><rect x="17" y="54" width="4.6" height="1.6"/>
+        </g>
+        <rect y="70" width="160" height="30" fill="url(#bgGnd)"/>
+        <path d="M8 80h18M48 88h26M108 78h20M126 93h22M28 95h14M86 84h10" stroke="#54402a" stroke-width=".6"/>
+      </svg>
+
+      <!-- EL HOPLITA (mira a la derecha) -->
+      <div class="fighter l" id="f-hop">
+        <div class="aura"></div>
+        <svg viewBox="0 0 200 260" role="img" aria-label="El Hoplita">
+          <defs>
+            <linearGradient id="hBronze" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f0cf7a"/><stop offset=".5" stop-color="#c08a35"/><stop offset="1" stop-color="#7a4f1c"/>
+            </linearGradient>
+            <radialGradient id="hShield" cx=".38" cy=".34" r=".78">
+              <stop offset="0" stop-color="#f6dc92"/><stop offset=".6" stop-color="#c48d3a"/><stop offset="1" stop-color="#6e4518"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="250" rx="58" ry="6" fill="rgba(0,0,0,.4)"/>
+          <g class="legs">
+            <path d="M93 170 L76 208 L68 244" fill="none" stroke="#a97250" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M75 213 L68 242" stroke="url(#hBronze)" stroke-width="15" stroke-linecap="round"/>
+            <path d="M58 248 H80" stroke="#4a2f1c" stroke-width="5" stroke-linecap="round"/>
+            <path d="M108 170 L128 206 L136 244" fill="none" stroke="#c4895f" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M129 211 L136 242" stroke="url(#hBronze)" stroke-width="15" stroke-linecap="round"/>
+            <path d="M128 248 H152" stroke="#4a2f1c" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <g class="upper">
+            <path d="M86 90 C66 112 46 160 34 220 C52 210 66 214 84 204 C88 170 92 130 98 98Z" fill="#26447f"/>
+            <path d="M86 94 C72 120 58 170 50 212" stroke="#1b3361" stroke-width="3" fill="none"/>
+            <path d="M80 150 H122 L128 180 H74Z" fill="#2f5aa6"/>
+            <path d="M86 152 V180 M96 152 V181 M106 152 V181 M116 152 V180" stroke="#1d3c78" stroke-width="2"/>
+            <g fill="#e2b862"><circle cx="81" cy="176" r="1.6"/><circle cx="91" cy="177" r="1.6"/><circle cx="101" cy="177" r="1.6"/><circle cx="111" cy="177" r="1.6"/><circle cx="121" cy="176" r="1.6"/></g>
+            <path d="M80 94 Q100 84 122 94 L124 122 Q120 138 121 150 H81 Q82 138 78 122Z" fill="url(#hBronze)" stroke="#6e4518" stroke-width="1.5"/>
+            <path d="M100 100 V146 M88 118 Q94 121 100 118 Q106 121 113 118 M88 132 Q94 135 100 132 Q106 135 113 132" stroke="#8a5a22" stroke-width="1.6" fill="none"/>
+            <rect x="79" y="146" width="44" height="8" rx="2" fill="#4a2f1c"/>
+            <rect x="96" y="145" width="10" height="10" rx="1.5" fill="none" stroke="#d6ae58" stroke-width="2"/>
+            <rect x="97" y="78" width="12" height="13" fill="#b47c55"/>
+            <g class="head">
+              <circle cx="104" cy="66" r="15" fill="#c4895f"/>
+              <path d="M89 68 C86 50 100 44 114 49 C121 52 121 58 117 58 C110 55 101 58 98 66 C97 70 96 76 92 78 C89 76 89 72 89 68Z" fill="#17120f"/>
+              <circle cx="99" cy="68" r="3" fill="#b47c55"/>
+              <path d="M108 60 L117 62" stroke="#17120f" stroke-width="2.4" stroke-linecap="round"/>
+              <circle cx="113" cy="65.5" r="1.8" fill="#17120f"/>
+              <path d="M118 64 L121 70 L117 71" fill="none" stroke="#8f5c3c" stroke-width="1.4"/>
+              <path d="M112 75 Q116 74 118.5 76 Q115.5 80.5 112 78Z" fill="#4a1d14"/>
+            </g>
+            <ellipse cx="86" cy="96" rx="11" ry="8" fill="url(#hBronze)" stroke="#6e4518"/>
+            <g class="shieldArm">
+              <path d="M86 100 L104 124 L124 126" fill="none" stroke="#b47c55" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="134" cy="134" r="31" fill="url(#hShield)" stroke="#5e3a14" stroke-width="2"/>
+              <circle cx="134" cy="134" r="25.5" fill="none" stroke="#7a4f1c" stroke-width="3.2" stroke-dasharray="4 2.2"/>
+              <circle cx="134" cy="134" r="20" fill="none" stroke="#f0d184" stroke-width="1"/>
+              <circle cx="134" cy="134" r="6" fill="#efcf7e" stroke="#7a4f1c" stroke-width="1.4"/>
+            </g>
+            <ellipse cx="118" cy="96" rx="11" ry="8" fill="url(#hBronze)" stroke="#6e4518"/>
+            <g class="armF">
+              <path d="M118 98 L134 112 L150 96" fill="none" stroke="#c4895f" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M139.5 106.5 L145.5 100.5" stroke="#3a5ea8" stroke-width="11" stroke-linecap="round"/>
+              <line x1="58" y1="108" x2="186" y2="89" stroke="#6b4423" stroke-width="3.6" stroke-linecap="round"/>
+              <path d="M185.4 85 L199 87 L186.6 93Z" fill="#d9dee3" stroke="#7d8790" stroke-width="1"/>
+              <path d="M58 108 L50 109.4" stroke="#9aa3ab" stroke-width="3.4" stroke-linecap="round"/>
+              <circle cx="150" cy="95" r="6" fill="#c4895f"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <!-- ULISES (dibujado mirando a la derecha; el CSS lo voltea) -->
+      <div class="fighter r" id="f-uli">
+        <div class="aura"></div>
+        <svg viewBox="0 0 200 260" role="img" aria-label="Ulises">
+          <defs>
+            <radialGradient id="uShield" cx=".4" cy=".35" r=".8">
+              <stop offset="0" stop-color="#8a5a33"/><stop offset="1" stop-color="#4a2c17"/>
+            </radialGradient>
+          </defs>
+          <ellipse cx="100" cy="250" rx="58" ry="6" fill="rgba(0,0,0,.4)"/>
+          <g class="legs">
+            <path d="M93 172 L78 210 L70 244" fill="none" stroke="#a5704c" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M72 226 L80 232 M71 234 L79 239" stroke="#5a3a22" stroke-width="2"/>
+            <path d="M60 248 H82" stroke="#5a3a22" stroke-width="5" stroke-linecap="round"/>
+            <path d="M108 172 L126 208 L132 244" fill="none" stroke="#b98157" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M127 226 L135 231 M128 234 L136 239" stroke="#5a3a22" stroke-width="2"/>
+            <path d="M124 248 H148" stroke="#5a3a22" stroke-width="5" stroke-linecap="round"/>
+          </g>
+          <g class="upper">
+            <path d="M88 90 C70 120 60 170 56 214 C70 208 82 210 92 202 L100 98Z" fill="#5b3a26"/>
+            <path d="M80 140 H122 L132 192 Q104 198 72 192Z" fill="#9c3b2a"/>
+            <path d="M73 191 Q104 197 131 191" stroke="#d6ae58" stroke-width="3" fill="none" stroke-dasharray="5 3"/>
+            <path d="M81 96 Q100 89 121 96 L122 142 H80Z" fill="#e3d6b8" stroke="#8a7a5a" stroke-width="1.4"/>
+            <path d="M82 118 H121 M84 130 H121" stroke="#b9a67e" stroke-width="1.4"/>
+            <path d="M80 142 H122 L124 158 H78Z" fill="#e3d6b8"/>
+            <path d="M86 143 V158 M95 143 V158 M104 143 V158 M113 143 V158" stroke="#b9a67e" stroke-width="1.6"/>
+            <rect x="79" y="138" width="44" height="7" rx="2" fill="#3b2618"/>
+            <path d="M88 94 L120 138" stroke="#5b3a26" stroke-width="7" stroke-linecap="round"/>
+            <rect x="97" y="78" width="12" height="13" fill="#a5704c"/>
+            <g class="head">
+              <circle cx="104" cy="66" r="15" fill="#b98157"/>
+              <circle cx="91" cy="70" r="5" fill="#3b2618"/><circle cx="92" cy="77" r="4.5" fill="#3b2618"/>
+              <path d="M96 70 Q98 90 111 87 Q121 83 120 71 Q115 76 110 74 Q104 78 98 69Z" fill="#3b2618"/>
+              <path d="M108 79 Q113 77.5 117 79" stroke="#7a2d20" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <circle cx="99" cy="67" r="3" fill="#a5704c"/>
+              <path d="M108 60.5 L117 61.5" stroke="#3b2618" stroke-width="2.4" stroke-linecap="round"/>
+              <circle cx="113" cy="65.5" r="1.8" fill="#17120f"/>
+              <path d="M118 64 L121 70 L117 71" fill="none" stroke="#7d4f33" stroke-width="1.4"/>
+              <path d="M88 60 L102 31 Q105 28 108 31 L121 58 Q104 64 88 60Z" fill="#a37a42" stroke="#6b4e28" stroke-width="1.4"/>
+              <path d="M86 60 Q104 66 123 57.5" stroke="#6b4e28" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+            </g>
+            <g class="shieldArm">
+              <path d="M86 100 L102 122 L120 126" fill="none" stroke="#a5704c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="128" cy="130" r="23" fill="url(#uShield)" stroke="#d6ae58" stroke-width="3"/>
+              <path d="M114 132 q7 -7 14 0 t14 0" stroke="#d6ae58" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+              <path d="M117 124 q5.5 -5 11 0 t11 0" stroke="#d6ae58" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+            </g>
+            <g class="armF">
+              <path d="M118 98 L134 114 L148 104" fill="none" stroke="#b98157" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M148 104 L139 107.5" stroke="#5a3a22" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M151 103 Q172 94 193 91.5 Q175 104 153 109.5Z" fill="#cfd6dc" stroke="#7d8790" stroke-width="1"/>
+              <path d="M146.5 96.5 L151.5 112" stroke="#d6ae58" stroke-width="3.6" stroke-linecap="round"/>
+              <circle cx="147" cy="104.5" r="6" fill="#b98157"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <p class="banner" id="banner">Trueno contra Tierra</p>
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="result" id="result" hidden>
+      <p class="result-title" id="resultTitle"></p>
+      <button class="btn" id="again" type="button">Otro duelo</button>
+    </div>
+  </section>
+
+  <div class="controls">
+    <button class="btn" id="atk-hop" type="button">Ataca el Hoplita</button>
+    <div class="die-wrap"><div class="die" id="die">12</div><span class="die-cap">d12</span></div>
+    <button class="btn" id="atk-uli" type="button">Ataca Ulises</button>
+  </div>
+  <p class="roll-note" id="rollNote">El defensor tira el d12 para esquivar.</p>
+
+  <section class="cards" id="cards" aria-label="Fichas de los personajes"></section>
+
+  <section class="lower">
+    <div class="panel">
+      <h3>Pentágono de elementos</h3>
+      <svg id="penta" viewBox="0 0 320 300" role="img" aria-label="Pentágono: cada flecha va del elemento que gana al que pierde"></svg>
+      <p class="match" id="match"></p>
+    </div>
+    <div class="panel">
+      <h3>Reglas del duelo</h3>
+      <ol class="rules">
+        <li>El defensor tira un d12. Si saca su valor de esquiva (ESQ) o más, esquiva y no recibe daño.</li>
+        <li>Si no esquiva, recibe el ataque (ATQ) del atacante: +2 si el elemento del atacante vence al suyo, −2 si pierde. Siempre al menos 1.</li>
+        <li>Cada elemento vence a dos y pierde contra dos. El éter vence a todos.</li>
+        <li>Gana quien deja al otro a 0 puntos de vida (PV).</li>
+      </ol>
+      <p class="note">Valores provisionales. En Mythos el éter es de la civilización védica; aquí puedes elegirlo para ver su animación.</p>
+      <h3>Turnos</h3>
+      <ol class="log" id="log"><li class="empty">Aún no hay turnos. Pulsa un ataque.</li></ol>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================= CONFIGURACIÓN (cambia aquí las reglas) ================= */
+const CONFIG = { ventaja: 2, desventaja: 2, caras: 12 };
+
+const ELEM = {
+  agua:   { n: 'Agua',   c: '#4fb3e0' },
+  fuego:  { n: 'Fuego',  c: '#ef6a33' },
+  tierra: { n: 'Tierra', c: '#b8905a' },
+  trueno: { n: 'Trueno', c: '#f2d24b' },
+  viento: { n: 'Viento', c: '#94dcbb' },
+  eter:   { n: 'Éter',   c: '#b892f5' },
+};
+/* Quién vence a quién: borde del pentágono + diagonales (estrella) */
+const BEATS = {
+  agua:   ['fuego', 'trueno'],
+  fuego:  ['tierra', 'viento'],
+  tierra: ['trueno', 'agua'],
+  trueno: ['viento', 'fuego'],
+  viento: ['agua', 'tierra'],
+  eter:   ['agua', 'fuego', 'tierra', 'trueno', 'viento'],
+};
+function rel(a, b) {
+  if (a === b) return 'neutral';
+  if (BEATS[a].includes(b)) return 'ventaja';
+  if (BEATS[b].includes(a)) return 'desventaja';
+  return 'neutral';
+}
+
+/* Personajes */
+const $ = s => document.querySelector(s);
+const F = [
+  { key: 'hop', name: 'El Hoplita', mid: 'el Hoplita', obj: 'al Hoplita', civ: 'Griego', el: 'trueno', hpMax: 20, atq: 5, esq: 11, dir: 1 },
+  { key: 'uli', name: 'Ulises',     mid: 'Ulises',     obj: 'a Ulises',     civ: 'Griego', el: 'tierra', hpMax: 20, atq: 5, esq: 10, dir: -1 },
+];
+F.forEach(f => { f.hp = f.hpMax; f.wrap = $('#f-' + f.key); f.svg = f.wrap.querySelector('svg'); });
+
+/* ---------- Fichas ---------- */
+$('#cards').innerHTML = F.map(f => `
+  <article class="card" id="card-${f.key}">
+    <div class="card-top"><svg class="chip" id="chip-${f.key}"><use href="#i-${f.el}"/></svg><h2>${f.name}</h2><span class="civ">${f.civ}</span></div>
+    <label class="sel" for="sel-${f.key}"><span>Elemento</span>
+      <select id="sel-${f.key}">${Object.entries(ELEM).map(([k, v]) => `<option value="${k}"${k === f.el ? ' selected' : ''}>${v.n}</option>`).join('')}</select>
+    </label>
+    <div class="hp" id="hp-${f.key}"><div class="hp-bar"><i id="hpbar-${f.key}"></i></div><span class="num" id="hptxt-${f.key}"></span></div>
+    <dl class="stats"><div><dt>ATQ</dt><dd class="num">${f.atq}</dd></div><div><dt>ESQ</dt><dd class="num">${f.esq}–12</dd></div></dl>
+  </article>`).join('');
+
+function updateHP(f) {
+  const k = f.hp / f.hpMax;
+  $('#hpbar-' + f.key).style.width = (k * 100) + '%';
+  $('#hptxt-' + f.key).textContent = `${f.hp} / ${f.hpMax} PV`;
+  $('#hp-' + f.key).classList.toggle('low', k <= 0.3);
+}
+function applyEl(f) {
+  const c = ELEM[f.el].c;
+  f.wrap.style.setProperty('--el', c);
+  $('#card-' + f.key).style.setProperty('--el', c);
+  $('#chip-' + f.key).innerHTML = `<use href="#i-${f.el}"/>`;
+}
+
+/* ---------- Pentágono ---------- */
+const OUT = ['agua', 'fuego', 'tierra', 'trueno', 'viento'];
+const ANG = { agua: 306, fuego: 18, tierra: 90, trueno: 162, viento: 234 }; // agua arriba a la derecha, sentido horario
+const PC = { x: 160, y: 148 }, PR = 102;
+const pt = el => el === 'eter' ? PC : { x: PC.x + PR * Math.cos(ANG[el] * Math.PI / 180), y: PC.y + PR * Math.sin(ANG[el] * Math.PI / 180) };
+const f1 = n => n.toFixed(1);
+function arrowSVG(a, b, cls) {
+  const p = pt(a), q = pt(b), dx = q.x - p.x, dy = q.y - p.y, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L;
+  const ra = a === 'eter' ? 30 : 24, rb = 25;
+  const sx = p.x + ux * ra, sy = p.y + uy * ra, ex = q.x - ux * rb, ey = q.y - uy * rb;
+  const bx = ex - ux * 10, by = ey - uy * 10, nx = -uy, ny = ux;
+  return `<g class="ar ${cls}" data-k="${a}-${b}"><line x1="${f1(sx)}" y1="${f1(sy)}" x2="${f1(bx)}" y2="${f1(by)}"/>` +
+    `<path d="M${f1(ex)} ${f1(ey)}L${f1(bx + nx * 5)} ${f1(by + ny * 5)}L${f1(bx - nx * 5)} ${f1(by - ny * 5)}Z"/></g>`;
+}
+function buildPenta() {
+  let s = '<g id="arrows">';
+  OUT.forEach(b => s += arrowSVG('eter', b, 'eter-ar'));
+  OUT.forEach(a => BEATS[a].forEach(b => s += arrowSVG(a, b, '')));
+  s += '</g>';
+  Object.keys(ELEM).forEach(el => {
+    const p = pt(el), c = ELEM[el].c;
+    if (el === 'eter') {
+      s += `<g class="node" data-el="eter" style="--c:${c}"><circle cx="${p.x}" cy="${p.y}" r="27"/>` +
+        `<use href="#i-eter" x="${p.x - 9}" y="${p.y - 15}" width="18" height="18"/>` +
+        `<text class="in" x="${p.x}" y="${p.y + 14}">ÉTER</text></g>`;
+    } else {
+      const a = ANG[el] * Math.PI / 180, side = el === 'fuego' || el === 'trueno';
+      const lx = side ? p.x : PC.x + (PR + 34) * Math.cos(a), ly = side ? p.y + 36 : PC.y + (PR + 34) * Math.sin(a);
+      s += `<g class="node" data-el="${el}" style="--c:${c}"><circle cx="${f1(p.x)}" cy="${f1(p.y)}" r="21"/>` +
+        `<use href="#i-${el}" x="${f1(p.x - 10)}" y="${f1(p.y - 10)}" width="20" height="20"/>` +
+        `<text x="${f1(lx)}" y="${f1(ly + 4.5)}">${ELEM[el].n}</text></g>`;
+    }
+  });
+  $('#penta').innerHTML = s;
+}
+function updateMatch() {
+  const [a, b] = F, r = rel(a.el, b.el);
+  document.querySelectorAll('#penta .ar.on').forEach(e => e.classList.remove('on'));
+  document.querySelectorAll('#penta .node').forEach(n => n.classList.toggle('pick', n.dataset.el === a.el || n.dataset.el === b.el));
+  let txt;
+  if (r === 'neutral') {
+    txt = `${a.name} y ${b.mid} son de ${ELEM[a.el].n.toLowerCase()}: nadie tiene ventaja.`;
+  } else {
+    const w = r === 'ventaja' ? a : b, l = r === 'ventaja' ? b : a;
+    const arrow = document.querySelector(`#penta [data-k="${w.el}-${l.el}"]`);
+    if (arrow) { arrow.classList.add('on'); arrow.parentNode.appendChild(arrow); }
+    txt = `<b>${ELEM[w.el].n} vence a ${ELEM[l.el].n}.</b> ${w.name} ataca con +${CONFIG.ventaja}; ${l.mid}, con −${CONFIG.desventaja}.`;
+  }
+  $('#match').innerHTML = txt;
+  banner.textContent = `${ELEM[a.el].n} contra ${ELEM[b.el].n}`;
+}
+
+/* ---------- Motor de efectos (canvas) ---------- */
+const arena = $('#arena'), cv = $('#fx'), ctx = cv.getContext('2d'), banner = $('#banner');
+let W = 1, H = 1;
+function resize() {
+  const r = cv.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+new ResizeObserver(resize).observe(arena); resize();
+
+const fx = [], P = [];
+let running = false, last = 0;
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = arr => arr[(Math.random() * arr.length) | 0];
+const sc = () => Math.max(.55, Math.min(1.4, W / 640));
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function kick() { if (!running) { running = true; last = performance.now(); requestAnimationFrame(loop); } }
+function addFx(fn) { fx.push(fn); kick(); }
+function part(o) {
+  const p = Object.assign({ vx: 0, vy: 0, g: 0, drag: 1, r: 3, life: .6, add: false, shape: 'dot', rot: 0, vr: 0, shrink: false }, o);
+  p.max = p.life; P.push(p); kick();
+}
+function loop(t) {
+  const dt = Math.min(.05, (t - last) / 1000); last = t;
+  ctx.clearRect(0, 0, W, H);
+  for (let i = fx.length - 1; i >= 0; i--) {
+    ctx.save(); const keep = fx[i](dt); ctx.restore();
+    if (keep === false) fx.splice(i, 1);
+  }
+  for (let i = P.length - 1; i >= 0; i--) {
+    const p = P[i]; p.life -= dt;
+    if (p.life <= 0) { P.splice(i, 1); continue; }
+    p.vy += p.g * dt; p.vx *= p.drag; p.vy *= p.drag; p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+    const a = p.life / p.max;
+    ctx.globalAlpha = Math.min(1, a * 1.4);
+    ctx.globalCompositeOperation = p.add ? 'lighter' : 'source-over';
+    ctx.fillStyle = p.col;
+    if (p.shape === 'rock') { ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillRect(-p.r, -p.r * .8, p.r * 2, p.r * 1.6); ctx.restore(); }
+    else { ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(.3, p.r * (p.shrink ? a : 1)), 0, 6.283); ctx.fill(); }
+  }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  if (fx.length || P.length) requestAnimationFrame(loop); else { running = false; ctx.clearRect(0, 0, W, H); }
+}
+/* Ayudas de dibujo */
+function glow(x, y, r, c0, c1) { const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c0); g.addColorStop(1, c1); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); }
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+function ring(x, y, col, r0, r1, ms, w) {
+  let t = 0;
+  addFx(dt => { t += dt * 1000; const k = Math.min(1, t / ms); ctx.globalAlpha = 1 - k; ctx.strokeStyle = col; ctx.lineWidth = w * (1 - k * .6); ctx.beginPath(); ctx.arc(x, y, r0 + (r1 - r0) * easeOut(k), 0, 6.283); ctx.stroke(); return k < 1; });
+}
+function flash(col, a0, ms) {
+  let t = 0;
+  addFx(dt => { t += dt * 1000; const k = Math.min(1, t / ms); ctx.globalAlpha = a0 * (1 - k); ctx.fillStyle = col; ctx.fillRect(0, 0, W, H); return k < 1; });
+}
+function star(x, y, r, rot, col) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = col; ctx.beginPath();
+  for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? r * .26 : r; ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr); }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function boltPts(a, b, n, amp) {
+  const pts = [a], dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
+  for (let i = 1; i < n; i++) { const k = i / n, o = rnd(-amp, amp) * Math.sin(k * Math.PI) * 1.2; pts.push({ x: a.x + dx * k + nx * o, y: a.y + dy * k + ny * o }); }
+  pts.push(b); return pts;
+}
+function strokePts(pts, col, w) {
+  ctx.strokeStyle = col; ctx.lineWidth = w; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.beginPath();
+  pts.forEach((q, i) => i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y)); ctx.stroke();
+}
+/* Proyectil: viaja de a hasta b y se resuelve al impactar */
+function travel(a, b, ms, o) {
+  return new Promise(res => {
+    let t = 0;
+    addFx(dt => {
+      t += dt * 1000; const k = Math.min(1, t / ms);
+      const x = a.x + (b.x - a.x) * k, y = a.y + (b.y - a.y) * k - Math.sin(k * Math.PI) * (o.arc || 0) + Math.sin(k * Math.PI * 3) * (o.wob || 0);
+      o.draw(x, y, k);
+      if (k >= 1) { res(); return false; }
+    });
+  });
+}
+function quake() { arena.classList.remove('quake'); void arena.offsetWidth; arena.classList.add('quake'); }
+
+/* ---------- Los 6 efectos elementales (módulos) ----------
+   Cada uno: ms = cuánto tarda en impactar; run(p, dir) = lo dibuja y se resuelve en el impacto.
+   p.from = punta del arma del atacante, p.to = pecho del defensor, p.ground = suelo. */
+const EFFECTS = {
+  agua: { ms: 520, async run(p, dir) {
+    const s = sc();
+    await travel(p.from, p.to, 520, { arc: 24 * s, wob: 5 * s, draw: (x, y) => {
+      ctx.globalCompositeOperation = 'lighter';
+      glow(x, y, 14 * s, 'rgba(230,248,255,.95)', 'rgba(79,179,224,0)');
+      for (let i = 0; i < 3; i++) part({ x: x + rnd(-5, 5) * s, y: y + rnd(-5, 5) * s, vx: rnd(-30, 30), vy: rnd(-20, 40), r: rnd(2, 4.5) * s, life: rnd(.3, .5), col: pick(['#4fb3e0', '#8fd3f2', '#d8f3ff']), shrink: true });
+    }});
+    const { x, y } = p.to;
+    for (let i = 0; i < 46; i++) part({ x, y, vx: rnd(-170, 170) * s, vy: rnd(-330, -40) * s, g: 900 * s, r: rnd(2, 5) * s, life: rnd(.5, .9), col: pick(['#4fb3e0', '#8fd3f2', '#e8f8ff']), shrink: true });
+    ring(x, y, '#9fdcf5', 6 * s, 60 * s, 500, 4 * s);
+    ring(x, y + 10 * s, '#4fb3e0', 4 * s, 42 * s, 650, 3 * s);
+  }},
+
+  fuego: { ms: 480, async run(p, dir) {
+    const s = sc();
+    await travel(p.from, p.to, 480, { arc: 34 * s, draw: (x, y) => {
+      ctx.globalCompositeOperation = 'lighter';
+      glow(x, y, 19 * s, 'rgba(255,236,180,1)', 'rgba(239,106,51,0)');
+      glow(x, y, 8 * s, '#fff6d8', 'rgba(255,180,80,0)');
+      for (let i = 0; i < 4; i++) part({ x: x + rnd(-4, 4) * s, y: y + rnd(-4, 4) * s, vx: -dir * rnd(20, 80) * s, vy: rnd(-70, -10) * s, r: rnd(3, 6) * s, life: rnd(.25, .45), col: pick(['#ffb347', '#ef6a33', '#ffd27a']), add: true, shrink: true });
+    }});
+    const { x, y } = p.to;
+    let t = 0;
+    addFx(dt => { t += dt * 1000; const k = Math.min(1, t / 380); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 1 - k; glow(x, y, (20 + 60 * easeOut(k)) * s, 'rgba(255,230,160,1)', 'rgba(239,106,51,0)'); return k < 1; });
+    for (let i = 0; i < 56; i++) { const a = rnd(0, 6.283), v = rnd(60, 280) * s; part({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 40 * s, drag: .96, g: -60 * s, r: rnd(2.5, 6) * s, life: rnd(.4, .85), col: pick(['#fff1b8', '#ffb347', '#ef6a33', '#c23a1c']), add: true, shrink: true }); }
+    for (let i = 0; i < 10; i++) part({ x: x + rnd(-14, 14) * s, y: y + rnd(-10, 10) * s, vx: rnd(-20, 20), vy: rnd(-50, -20) * s, r: rnd(7, 12) * s, life: rnd(.8, 1.2), col: 'rgba(60,48,46,.55)' });
+  }},
+
+  tierra: { ms: 380, async run(p, dir) {
+    const s = sc(), g = p.ground, x0 = p.fromGround, x1 = p.toGround, n = 14;
+    const crack = Array.from({ length: n + 1 }, (_, i) => ({ x: x0 + (x1 - x0) * i / n, y: g + (i && i < n ? rnd(-3, 3) * s : 0) }));
+    await new Promise(res => {
+      let t = 0, done = false;
+      addFx(dt => {
+        t += dt * 1000;
+        const k = Math.min(1, t / 380), fade = t > 380 ? Math.max(0, 1 - (t - 380) / 600) : 1, m = k * n, full = Math.floor(m);
+        const pts = crack.slice(0, full + 1);
+        if (full < n) { const a = crack[full], b = crack[full + 1], f = m - full; pts.push({ x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f }); }
+        ctx.globalAlpha = fade;
+        strokePts(pts, '#3a2a18', 4 * s);
+        strokePts(pts, '#e0b36a', 1.6 * s);
+        const tip = pts[pts.length - 1];
+        if (k < 1 && Math.random() < .7) part({ x: tip.x, y: g, vx: rnd(-30, 30), vy: rnd(-90, -20) * s, g: 260, r: rnd(2, 4) * s, life: .5, col: '#8a6a42' });
+        if (!done && k >= 1) { done = true; res(); }
+        return fade > 0;
+      });
+    });
+    quake();
+    const spikes = [-1, -.5, 0, .5, 1].map(o => ({ x: x1 + o * 30 * s, h: (o === 0 ? 66 : rnd(30, 50)) * s, w: rnd(10, 15) * s, d: Math.abs(o) * 90 }));
+    let t = 0;
+    addFx(dt => {
+      t += dt * 1000;
+      spikes.forEach(sp => {
+        const lt = t - sp.d; if (lt <= 0) return;
+        let k = Math.min(1, lt / 130);
+        if (lt > 620) k = Math.max(0, 1 - (lt - 620) / 300);
+        const h = sp.h * easeOut(k), x = sp.x;
+        ctx.fillStyle = '#8a6a42'; ctx.strokeStyle = '#3d2b19'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x - sp.w, g + 3); ctx.lineTo(x - sp.w * .2, g - h); ctx.lineTo(x + sp.w * .2, g - h * .84); ctx.lineTo(x + sp.w, g + 3); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#ad8653'; ctx.beginPath(); ctx.moveTo(x - sp.w, g + 3); ctx.lineTo(x - sp.w * .2, g - h); ctx.lineTo(x - sp.w * .05, g + 3); ctx.closePath(); ctx.fill();
+      });
+      return t < 1100;
+    });
+    for (let i = 0; i < 30; i++) part({ x: x1 + rnd(-30, 30) * s, y: g, vx: rnd(-140, 140) * s, vy: rnd(-380, -140) * s, g: 1100 * s, shape: 'rock', vr: rnd(-8, 8), r: rnd(2, 4.5) * s, life: rnd(.6, 1), col: pick(['#8a6a42', '#6d5232', '#ad8653']) });
+  }},
+
+  trueno: { ms: 220, async run(p, dir) {
+    const s = sc();
+    await new Promise(res => {
+      let t = 0;
+      addFx(dt => {
+        t += dt * 1000; ctx.globalCompositeOperation = 'lighter';
+        glow(p.from.x, p.from.y, (10 + Math.random() * 9) * s, 'rgba(255,250,210,.95)', 'rgba(242,210,75,0)');
+        if (Math.random() < .7) strokePts(boltPts(p.from, { x: p.from.x + rnd(-24, 24) * s, y: p.from.y + rnd(-24, 24) * s }, 4, 5 * s), '#fff6b0', 1.4 * s);
+        if (t >= 220) { res(); return false; }
+      });
+    });
+    let t = 0, seed = -999, b1, b2;
+    addFx(dt => {
+      t += dt * 1000;
+      if (t - seed > 55) { seed = t; b1 = boltPts({ x: p.to.x + rnd(-40, 40) * s, y: -10 }, p.to, 9, 22 * s); b2 = boltPts(p.from, p.to, 7, 14 * s); }
+      const a = t < 120 ? 1 : Math.max(0, 1 - (t - 120) / 330);
+      ctx.globalCompositeOperation = 'lighter';
+      strokePts(b1, `rgba(242,210,75,${.45 * a})`, 9 * s); strokePts(b1, `rgba(255,255,240,${a})`, 2.6 * s);
+      strokePts(b2, `rgba(242,210,75,${.35 * a})`, 7 * s); strokePts(b2, `rgba(255,255,240,${.9 * a})`, 2 * s);
+      return t < 450;
+    });
+    flash('#fff8d7', .5, 380);
+    ring(p.to.x, p.to.y, '#f2d24b', 4 * s, 52 * s, 360, 3 * s);
+    for (let i = 0; i < 30; i++) { const a = rnd(0, 6.283), v = rnd(80, 300) * s; part({ x: p.to.x, y: p.to.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, g: 500 * s, r: rnd(1.2, 2.6) * s, life: rnd(.3, .6), col: pick(['#fff', '#fff6b0', '#f2d24b']), add: true }); }
+  }},
+
+  viento: { ms: 500, async run(p, dir) {
+    const s = sc();
+    const gust = (delay, off) => wait(delay).then(() => travel({ x: p.from.x, y: p.from.y + off }, { x: p.to.x, y: p.to.y + off }, 500, { wob: 6 * s, draw: (x, y, k) => {
+      ctx.globalAlpha = Math.min(1, .3 + (1 - k) * 1.2);
+      const cx = x - dir * 14 * s, st = dir > 0 ? -.95 : Math.PI - .95;
+      ctx.strokeStyle = '#d4f6e5'; ctx.lineWidth = 3 * s; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.arc(cx, y, 18 * s, st, st + 1.9); ctx.stroke();
+      ctx.globalAlpha *= .6; ctx.strokeStyle = '#94dcbb'; ctx.lineWidth = 1.5 * s;
+      ctx.beginPath(); ctx.moveTo(x - dir * 30 * s, y - 6 * s); ctx.lineTo(x - dir * 62 * s, y - 6 * s); ctx.moveTo(x - dir * 26 * s, y + 7 * s); ctx.lineTo(x - dir * 48 * s, y + 7 * s); ctx.stroke();
+    }}));
+    const first = gust(0, -10 * s); gust(110, 9 * s); gust(220, -1 * s);
+    await first;
+    const motes = Array.from({ length: 28 }, () => ({ a: rnd(0, 6.283), r: rnd(18, 42) * s, y0: rnd(-34, 30) * s }));
+    let t = 0;
+    addFx(dt => {
+      t += dt;
+      ctx.fillStyle = '#c9f2de';
+      motes.forEach(m => {
+        const ang = m.a + t * 9, rad = m.r * (1 - t * .5);
+        ctx.globalAlpha = Math.max(0, 1 - t / .85);
+        ctx.beginPath(); ctx.arc(p.to.x + Math.cos(ang) * rad, p.to.y + m.y0 - t * 44 * s + Math.sin(ang) * rad * .35, 2 * s, 0, 6.283); ctx.fill();
+      });
+      return t < .85;
+    });
+    ring(p.to.x, p.to.y, '#94dcbb', 10 * s, 46 * s, 420, 2 * s);
+  }},
+
+  eter: { ms: 560, async run(p, dir) {
+    const s = sc();
+    ring(p.from.x, p.from.y, '#b892f5', 4 * s, 40 * s, 450, 3 * s);
+    await travel(p.from, p.to, 560, { arc: 10 * s, draw: (x, y, k) => {
+      ctx.globalCompositeOperation = 'lighter';
+      glow(x, y, 17 * s, 'rgba(245,235,255,1)', 'rgba(184,146,245,0)');
+      star(x, y, 14 * s, k * 6, '#f3eaff');
+      for (let i = 0; i < 2; i++) part({ x, y, vx: rnd(-40, 40), vy: rnd(-40, 40), r: rnd(1.5, 3) * s, life: .5, col: pick(['#b892f5', '#e6d7ff', '#ffffff']), add: true, shrink: true });
+    }});
+    const { x, y } = p.to;
+    [0, 120, 240].forEach((d, i) => setTimeout(() => ring(x, y, i === 1 ? '#e6d7ff' : '#b892f5', 6 * s, (60 + i * 14) * s, 560, 3 * s), d));
+    let t = 0;
+    addFx(dt => { t += dt * 1000; const k = Math.min(1, t / 420); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 1 - k; star(x, y, (16 + 40 * easeOut(k)) * s, k * 2, '#efe4ff'); return k < 1; });
+    for (let i = 0; i < 40; i++) { const a = rnd(0, 6.283), v = rnd(50, 220) * s; part({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, drag: .95, r: rnd(1.5, 3.2) * s, life: rnd(.5, .9), col: pick(['#b892f5', '#e6d7ff', '#ffffff']), add: true, shrink: true }); }
+    flash('#c8aaff', .22, 300);
+  }},
+};
+
+/* ---------- Combate ---------- */
+let busy = false;
+const die = $('#die'), rollNote = $('#rollNote'), logEl = $('#log');
+const btns = [$('#atk-hop'), $('#atk-uli')];
+function setControls(on) {
+  btns.forEach(b => b.disabled = !on);
+  F.forEach(f => $('#sel-' + f.key).disabled = !on);
+}
+function play(el, cls) {
+  el.classList.remove('atk', 'hit', 'dodge'); void el.offsetWidth; el.classList.add(cls);
+  el.addEventListener('animationend', function h(e) { if (e.target === el) { el.classList.remove(cls); el.removeEventListener('animationend', h); } });
+}
+function anchors(A, D) {
+  const c = cv.getBoundingClientRect(), ra = A.svg.getBoundingClientRect(), rd = D.svg.getBoundingClientRect();
+  return {
+    from: { x: ra.left - c.left + ra.width * (A.dir > 0 ? .9 : .1), y: ra.top - c.top + ra.height * .36 },
+    to: { x: rd.left - c.left + rd.width * .5, y: rd.top - c.top + rd.height * .42 },
+    ground: rd.bottom - c.top - rd.height * .04,
+    fromGround: ra.left - c.left + ra.width * .5,
+    toGround: rd.left - c.left + rd.width * .5,
+  };
+}
+function floatText(pt, txt, col) {
+  const d = document.createElement('div');
+  d.className = 'float'; d.textContent = txt; d.style.color = col;
+  d.style.left = pt.x + 'px'; d.style.top = (pt.y - 24) + 'px';
+  arena.appendChild(d); setTimeout(() => d.remove(), 1300);
+}
+function rollDice(final) {
+  return new Promise(res => {
+    die.classList.remove('spin'); void die.offsetWidth; die.classList.add('spin');
+    let n = 0;
+    const iv = setInterval(() => {
+      die.textContent = 1 + Math.floor(Math.random() * CONFIG.caras);
+      if (++n >= 10) { clearInterval(iv); die.textContent = final; res(); }
+    }, 55);
+  });
+}
+function log(txt, col) {
+  const empty = logEl.querySelector('.empty'); if (empty) empty.remove();
+  const li = document.createElement('li'); li.textContent = txt; li.style.setProperty('--c', col);
+  logEl.prepend(li);
+  while (logEl.children.length > 6) logEl.lastElementChild.remove();
+}
+
+async function attack(i) {
+  if (busy) return;
+  const A = F[i], D = F[1 - i];
+  if (A.hp <= 0 || D.hp <= 0) return;
+  busy = true; setControls(false);
+  const r = rel(A.el, D.el);
+  const mod = r === 'ventaja' ? CONFIG.ventaja : r === 'desventaja' ? -CONFIG.desventaja : 0;
+  banner.textContent = `${A.name} ataca con ${ELEM[A.el].n.toLowerCase()} · ` + (r === 'ventaja' ? `ventaja +${CONFIG.ventaja}` : r === 'desventaja' ? `desventaja −${CONFIG.desventaja}` : 'sin ventaja');
+
+  const roll = 1 + Math.floor(Math.random() * CONFIG.caras);
+  rollNote.textContent = `${D.name} tira el d12 para esquivar: necesita ${D.esq} o más.`;
+  await rollDice(roll);
+  const dodged = roll >= D.esq;
+  rollNote.textContent = dodged ? `${D.name} saca ${roll}: ¡esquiva!` : `${D.name} saca ${roll}: no esquiva.`;
+  await wait(380);
+
+  play(A.wrap, 'atk');
+  await wait(380);
+  const pts = anchors(A, D), eff = EFFECTS[A.el];
+  if (dodged) setTimeout(() => play(D.wrap, 'dodge'), Math.max(0, eff.ms - 200));
+  await eff.run(pts, A.dir);
+
+  const col = ELEM[A.el].c;
+  if (dodged) {
+    floatText(pts.to, '¡Esquiva!', '#ece3cc');
+    log(`${A.name} ataca con ${ELEM[A.el].n.toLowerCase()}; ${D.mid} esquiva (d12: ${roll}).`, col);
+  } else {
+    const dmg = Math.max(1, A.atq + mod);
+    D.hp = Math.max(0, D.hp - dmg);
+    play(D.wrap, 'hit');
+    floatText(pts.to, '−' + dmg, col);
+    updateHP(D);
+    const calc = mod ? ` (${A.atq} ${mod > 0 ? '+' : '−'} ${Math.abs(mod)})` : '';
+    log(`${A.name} golpea ${D.obj} con ${ELEM[A.el].n.toLowerCase()}: ${dmg} de daño${calc}. d12: ${roll}.`, col);
+  }
+  await wait(800);
+
+  if (D.hp <= 0) {
+    D.wrap.classList.remove('atk', 'hit', 'dodge');
+    D.wrap.classList.add('down');
+    await wait(900);
+    $('#resultTitle').textContent = `${A.name} gana el duelo`;
+    $('#result').hidden = false;
+    rollNote.textContent = '';
+    $('#again').focus({ preventScroll: true });
+  } else {
+    busy = false; setControls(true);
+    updateMatch();
+  }
+}
+
+function reset() {
+  F.forEach(f => { f.hp = f.hpMax; updateHP(f); f.wrap.classList.remove('down', 'atk', 'hit', 'dodge'); });
+  $('#result').hidden = true;
+  logEl.innerHTML = '<li class="empty">Aún no hay turnos. Pulsa un ataque.</li>';
+  rollNote.textContent = 'El defensor tira el d12 para esquivar.';
+  busy = false; setControls(true); updateMatch();
+}
+
+btns[0].addEventListener('click', () => attack(0));
+btns[1].addEventListener('click', () => attack(1));
+$('#again').addEventListener('click', reset);
+F.forEach(f => {
+  $('#sel-' + f.key).addEventListener('change', e => { f.el = e.target.value; applyEl(f); updateMatch(); });
+});
+
+buildPenta();
+F.forEach(f => { applyEl(f); updateHP(f); });
+updateMatch();
+</script>
+
+</body></html>

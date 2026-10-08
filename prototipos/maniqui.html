@@ -1,0 +1,322 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Maniquí de Mythos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: escenario con el maniquí arriba; posturas, articulaciones y opciones debajo. Mismo look nocturno azul y bronce que el duelo. */
+:root{
+  color-scheme: dark;
+  --night:#0d1424;
+  --panel:#151f35;
+  --panel2:#1c2844;
+  --line:#2b3a5e;
+  --ink:#ece3cc;
+  --muted:#a6aec0;
+  --gold:#d6ae58;
+  --f-display:'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+  --f-body:'Alegreya Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+html,body{background:var(--night); color:var(--ink)}
+body{font-family:var(--f-body); font-size:16px; line-height:1.5}
+.wrap{max-width:820px; margin:0 auto; padding-inline:16px; padding-block:20px 48px; display:grid; gap:16px}
+.eyebrow{margin:0; font-family:var(--f-display); font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--gold)}
+h1{margin:2px 0 0; font-family:var(--f-display); font-weight:700; font-size:clamp(26px,6vw,38px); line-height:1.1; text-wrap:balance}
+.lede{margin:6px 0 0; color:var(--muted); max-width:62ch}
+
+.stage{position:relative; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  background:linear-gradient(180deg,#14213d 0%,#2a2b4a 60%,#3b2d24 86%,#2a2019 100%)}
+#cv{display:block; width:100%; height:auto; aspect-ratio:360/280; touch-action:none; cursor:grab}
+#cv.dragging{cursor:grabbing}
+.readout{position:absolute; left:12px; top:10px; font-size:14px; padding:4px 10px; border-radius:8px; background:rgba(13,20,36,.78); border:1px solid var(--line); max-width:calc(100% - 24px)}
+.readout b{font-family:var(--f-display); color:var(--gold); font-weight:700}
+.num{font-variant-numeric:tabular-nums}
+
+h2{margin:0; font-family:var(--f-display); font-size:16px; font-weight:700; letter-spacing:.03em}
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; display:grid; gap:10px; min-width:0}
+.row{display:flex; flex-wrap:wrap; gap:8px}
+.btn{font-family:var(--f-display); font-weight:700; font-size:14px; letter-spacing:.03em; min-height:44px; padding:8px 14px; border-radius:10px;
+  border:1px solid var(--gold); background:linear-gradient(180deg,#26345a,#19233f); color:var(--ink); cursor:pointer}
+.btn:hover{background:linear-gradient(180deg,#30416d,#1e2a4b)}
+.btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.chips{display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin}
+.chip{flex:none; font:inherit; font-size:14px; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--panel2); color:var(--ink); cursor:pointer; white-space:nowrap}
+.chip[aria-pressed="true"]{border-color:var(--gold); color:var(--night); background:var(--gold); font-weight:700}
+.slider{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center}
+.slider label{font-size:14px; color:var(--muted)}
+input[type=range]{width:100%; accent-color:var(--gold); min-height:32px}
+.toggles{display:flex; flex-wrap:wrap; gap:8px 18px}
+.toggles label{display:flex; align-items:center; gap:8px; font-size:15px; cursor:pointer}
+.toggles input{width:20px; height:20px; accent-color:var(--gold)}
+.check{margin:0; padding-left:20px; display:grid; gap:4px}
+.check li::marker{color:var(--gold)}
+.note{margin:0; color:var(--muted); font-size:14px}
+@media (min-width:720px){ .two{display:grid; grid-template-columns:1fr 1fr; gap:16px} }
+.two{display:grid; gap:16px}
+</style>
+
+<main class="wrap">
+  <header>
+    <p class="eyebrow">Mythos · Paso 1 de 25</p>
+    <h1>El maniquí</h1>
+    <p class="lede">El esqueleto que moverá a todos los personajes. Arrastra con el dedo una mano, un pie, un codo, una rodilla o la cabeza para doblarlo. Cada articulación tiene sus límites, como un cuerpo real.</p>
+  </header>
+
+  <section class="stage" aria-label="Maniquí articulado">
+    <canvas id="cv" width="720" height="560" aria-label="Maniquí: arrastra sus articulaciones para moverlo"></canvas>
+    <div class="readout" id="readout">Toca y arrastra un punto dorado</div>
+  </section>
+
+  <section class="panel">
+    <h2>Posturas de prueba</h2>
+    <div class="row" id="poses"></div>
+    <p class="note">Pasan de una a otra en un instante. El movimiento suave de verdad llega en el paso 2.</p>
+  </section>
+
+  <div class="two">
+    <section class="panel">
+      <h2>Articulación</h2>
+      <div class="chips" id="chips" role="group" aria-label="Elige articulación"></div>
+      <div class="slider">
+        <label for="ang" id="angName">Tronco</label>
+        <input type="range" id="ang" min="-40" max="40" step="1" value="0">
+        <span class="num" id="angVal">0°</span>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Opciones</h2>
+      <div class="toggles">
+        <label><input type="checkbox" id="optSpear" checked> Con lanza</label>
+        <label><input type="checkbox" id="optMirror"> Mirar a la izquierda</label>
+        <label><input type="checkbox" id="optBones"> Ver huesos</label>
+      </div>
+      <h2>Qué comprobar</h2>
+      <ul class="check">
+        <li>Rodillas y codos solo se doblan hacia su lado.</li>
+        <li>Los pies se quedan en el suelo al agacharse.</li>
+        <li>Al mirar a la izquierda, todo se voltea bien.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ---------- Esqueleto: cada hueso cuelga de su padre ----------
+   base = ángulo de reposo respecto al padre; min/max = límites de la articulación (grados). */
+const B = [
+  { id:'torso',      name:'Tronco',            parent:'root',       len:62, base:-90, min:-40,  max:40,  w:24 },
+  { id:'cuello',     name:'Cuello',            parent:'torso',      len:13, base:0,   min:-35,  max:35,  w:9 },
+  { id:'brazoT',     name:'Hombro (atrás)',    parent:'torso', at:.9, len:34, base:180, min:-190, max:70, w:10, back:true },
+  { id:'antebrazoT', name:'Codo (atrás)',      parent:'brazoT',     len:30, base:0,   min:-150, max:0,   w:8,  back:true },
+  { id:'manoT',      name:'Muñeca (atrás)',    parent:'antebrazoT', len:10, base:0,   min:-60,  max:60,  w:8,  back:true },
+  { id:'musloT',     name:'Cadera (atrás)',    parent:'root',       len:46, base:90,  min:-110, max:45,  w:14, back:true },
+  { id:'piernaT',    name:'Rodilla (atrás)',   parent:'musloT',     len:44, base:0,   min:0,    max:150, w:11, back:true },
+  { id:'pieT',       name:'Tobillo (atrás)',   parent:'piernaT',    len:16, base:-90, min:-35,  max:35,  w:7,  back:true },
+  { id:'musloF',     name:'Cadera (delante)',  parent:'root',       len:46, base:90,  min:-110, max:45,  w:14 },
+  { id:'piernaF',    name:'Rodilla (delante)', parent:'musloF',     len:44, base:0,   min:0,    max:150, w:11 },
+  { id:'pieF',       name:'Tobillo (delante)', parent:'piernaF',    len:16, base:-90, min:-35,  max:35,  w:7 },
+  { id:'brazoF',     name:'Hombro (delante)',  parent:'torso', at:.9, len:34, base:180, min:-190, max:70, w:10 },
+  { id:'antebrazoF', name:'Codo (delante)',    parent:'brazoF',     len:30, base:0,   min:-150, max:0,   w:8 },
+  { id:'manoF',      name:'Muñeca (delante)',  parent:'antebrazoF', len:10, base:0,   min:-60,  max:60,  w:8 },
+  { id:'arma',       name:'Lanza',             parent:'manoF',      len:92, base:-90, min:-180, max:130, w:3.5, weapon:true },
+];
+const BY = Object.fromEntries(B.map(b => [b.id, b]));
+const D = Math.PI / 180;
+
+/* Posturas de prueba (ángulos de cada articulación). lift = altura del salto. */
+const POSES = {
+  'Reposo':  { torso:0,  cuello:0,   brazoT:8,   antebrazoT:-15,  manoT:0,  brazoF:-6,  antebrazoF:-25, manoF:0, arma:-55,
+               musloT:4, piernaT:4,  pieT:0,     musloF:-4,  piernaF:4,  pieF:0 },
+  'Guardia': { torso:12, cuello:-10, brazoT:-40, antebrazoT:-95,  manoT:0,  brazoF:-60, antebrazoF:-70, manoF:-10, arma:108,
+               musloT:30, piernaT:45, pieT:-10,  musloF:-40, piernaF:55, pieF:5 },
+  'Ataque':  { torso:26, cuello:-22, brazoT:40,  antebrazoT:-30,  manoT:0,  brazoF:-98, antebrazoF:-4,  manoF:0, arma:86,
+               musloT:42, piernaT:10, pieT:22,   musloF:-66, piernaF:72, pieF:10 },
+  'Esquiva': { torso:-18, cuello:10, brazoT:55,  antebrazoT:-60,  manoT:0,  brazoF:30,  antebrazoF:-85, manoF:0,
+               musloT:12, piernaT:100, pieT:20,  musloF:-55, piernaF:95, pieF:10, lift:26 },
+  'Agachado':{ torso:36, cuello:16,  brazoT:-45, antebrazoT:-125, manoT:0,  brazoF:-72, antebrazoF:-112, manoF:0, arma:118,
+               musloT:-72, piernaT:142, pieT:0,  musloF:-84, piernaF:146, pieF:0 },
+};
+
+/* ---------- Estado ---------- */
+const VW = 360, VH = 280, GROUND = 258;
+const st = { x: 165, y: 150, lift: 0, ang: {}, sel: 'torso', spear: true, mirror: false, bones: false };
+B.forEach(b => st.ang[b.id] = 0);
+Object.assign(st.ang, POSES['Reposo']);
+delete st.ang.lift;
+
+/* ---------- Cálculo de posiciones ---------- */
+let W = {};
+function solve() {
+  const out = {};
+  for (const b of B) {
+    let sx, sy, pa;
+    if (b.parent === 'root') { sx = st.x; sy = st.y; pa = 0; }
+    else { const p = out[b.parent], f = b.at ?? 1; sx = p.x0 + (p.x1 - p.x0) * f; sy = p.y0 + (p.y1 - p.y0) * f; pa = p.a; }
+    const a = pa + b.base + st.ang[b.id];
+    out[b.id] = { x0: sx, y0: sy, x1: sx + Math.cos(a * D) * b.len, y1: sy + Math.sin(a * D) * b.len, a };
+  }
+  // Pies en el suelo: baja o sube todo el cuerpo hasta que el pie más bajo toque el suelo
+  let maxY = -Infinity;
+  ['pieT', 'pieF', 'piernaT', 'piernaF'].forEach(k => { maxY = Math.max(maxY, out[k].y0, out[k].y1); });
+  const dy = GROUND - 4 - maxY - st.lift;
+  for (const k in out) { out[k].y0 += dy; out[k].y1 += dy; }
+  W = out;
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+/* ---------- Dibujo ---------- */
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let scale = 1, dpr = 1;
+function resize() {
+  const r = cv.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1);
+  scale = r.width / VW; cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.width * VH / VW * dpr); draw();
+}
+new ResizeObserver(resize).observe(cv);
+
+const COL = { front:'#cfa66b', back:'#8a6a40', joint:'#5a4227', jointF:'#6e5230', sel:'#ffd27a', spear:'#7a5230', tip:'#d9dee3' };
+function limb(id) {
+  const b = BY[id], s = W[id];
+  ctx.lineCap = 'round';
+  if (st.sel === id) { ctx.strokeStyle = COL.sel; ctx.lineWidth = b.w + 5; line(s); }
+  ctx.strokeStyle = b.back ? COL.back : COL.front; ctx.lineWidth = b.w; line(s);
+  ctx.fillStyle = b.back ? COL.joint : COL.jointF;
+  ctx.beginPath(); ctx.arc(s.x0, s.y0, b.w * .42, 0, 7); ctx.fill();
+}
+function line(s) { ctx.beginPath(); ctx.moveTo(s.x0, s.y0); ctx.lineTo(s.x1, s.y1); ctx.stroke(); }
+function torso() {
+  const s = W.torso, ux = Math.cos(s.a * D), uy = Math.sin(s.a * D), nx = -uy, ny = ux;
+  const hw0 = 12, hw1 = 15;
+  if (st.sel === 'torso') { ctx.strokeStyle = COL.sel; ctx.lineWidth = 5; }
+  ctx.fillStyle = COL.front;
+  ctx.beginPath();
+  ctx.moveTo(s.x0 + nx * hw0, s.y0 + ny * hw0); ctx.lineTo(s.x1 + nx * hw1, s.y1 + ny * hw1);
+  ctx.quadraticCurveTo(s.x1 + ux * 8, s.y1 + uy * 8, s.x1 - nx * hw1, s.y1 - ny * hw1);
+  ctx.lineTo(s.x0 - nx * hw0, s.y0 - ny * hw0); ctx.closePath();
+  if (st.sel === 'torso') ctx.stroke();
+  ctx.fill();
+  ctx.fillStyle = COL.jointF; ctx.beginPath(); ctx.ellipse(s.x0, s.y0, 14, 10, s.a * D + Math.PI / 2, 0, 7); ctx.fill();
+}
+function head() {
+  const s = W.cuello, ux = Math.cos(s.a * D), uy = Math.sin(s.a * D);
+  const cx = s.x1 + ux * 12, cy = s.y1 + uy * 12, fx = -uy, fy = ux; // fx,fy = hacia donde mira
+  if (st.sel === 'cuello') { ctx.fillStyle = COL.sel; ctx.beginPath(); ctx.arc(cx, cy, 18, 0, 7); ctx.fill(); }
+  ctx.fillStyle = COL.front; ctx.beginPath(); ctx.arc(cx, cy, 15, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(cx + fx * 13 + ux * 2, cy + fy * 13 + uy * 2); ctx.lineTo(cx + fx * 19 - ux * 2, cy + fy * 19 - uy * 2); ctx.lineTo(cx + fx * 13 - ux * 5, cy + fy * 13 - uy * 5); ctx.fill();
+  ctx.fillStyle = '#2a1d10'; ctx.beginPath(); ctx.arc(cx + fx * 8 + ux * 3, cy + fy * 8 + uy * 3, 2, 0, 7); ctx.fill();
+  return { cx, cy };
+}
+function spear() {
+  const s = W.arma, a = s.a * D, ux = Math.cos(a), uy = Math.sin(a);
+  if (st.sel === 'arma') { ctx.strokeStyle = COL.sel; ctx.lineWidth = 8; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(s.x0 - ux * 34, s.y0 - uy * 34); ctx.lineTo(s.x1, s.y1); ctx.stroke(); }
+  const x0 = s.x0 - ux * 34, y0 = s.y0 - uy * 34, x1 = s.x1, y1 = s.y1;
+  ctx.strokeStyle = COL.spear; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+  const nx = -uy, ny = ux; ctx.fillStyle = COL.tip;
+  ctx.beginPath(); ctx.moveTo(x1 + ux * 16, y1 + uy * 16); ctx.lineTo(x1 + nx * 5, y1 + ny * 5); ctx.lineTo(x1 - nx * 5, y1 - ny * 5); ctx.closePath(); ctx.fill();
+}
+const ALL = ['torso', 'cuello', 'brazoT', 'antebrazoT', 'manoT', 'musloT', 'piernaT', 'pieT', 'musloF', 'piernaF', 'pieF', 'brazoF', 'antebrazoF', 'manoF', 'arma'];
+const handles = () => st.spear ? ALL : ALL.filter(id => id !== 'arma');
+function handlePoint(id) {
+  if (id === 'cuello') { const s = W.cuello, ux = Math.cos(s.a * D), uy = Math.sin(s.a * D); return { x: s.x1 + ux * 12, y: s.y1 + uy * 12 }; }
+  return { x: W[id].x1, y: W[id].y1 };
+}
+function draw() {
+  solve();
+  ctx.setTransform(dpr * scale, 0, 0, dpr * scale, 0, 0);
+  ctx.clearRect(0, 0, VW, VH);
+  if (st.mirror) { ctx.translate(VW, 0); ctx.scale(-1, 1); }
+  // suelo
+  ctx.strokeStyle = 'rgba(214,174,88,.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(20, GROUND); ctx.lineTo(VW - 20, GROUND); ctx.stroke();
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse((W.pieT.x1 + W.pieF.x1) / 2, GROUND + 3, 60, 5, 0, 0, 7); ctx.fill();
+  // de atrás hacia delante
+  ['brazoT', 'antebrazoT', 'manoT', 'musloT', 'piernaT', 'pieT'].forEach(limb);
+  torso(); head();
+  ['musloF', 'piernaF', 'pieF', 'brazoF', 'antebrazoF', 'manoF'].forEach(limb);
+  if (st.spear) spear();
+  // puntos de agarre
+  handles().forEach(id => {
+    const p = handlePoint(id), on = st.sel === id;
+    ctx.lineWidth = on ? 2.5 : 1.5; ctx.strokeStyle = on ? COL.sel : 'rgba(214,174,88,.75)';
+    ctx.fillStyle = on ? 'rgba(255,210,122,.35)' : 'rgba(13,20,36,.35)';
+    ctx.beginPath(); ctx.arc(p.x, p.y, on ? 7 : 5, 0, 7); ctx.fill(); ctx.stroke();
+  });
+  if (st.bones) {
+    ctx.strokeStyle = '#7fd0ff'; ctx.lineWidth = 1.2;
+    B.filter(b => !b.weapon || st.spear).forEach(b => { line(W[b.id]); ctx.fillStyle = '#7fd0ff'; ctx.beginPath(); ctx.arc(W[b.id].x0, W[b.id].y0, 2.4, 0, 7); ctx.fill(); });
+  }
+}
+
+/* ---------- Arrastrar ---------- */
+function toModel(e) {
+  const r = cv.getBoundingClientRect(); let x = (e.clientX - r.left) / scale; const y = (e.clientY - r.top) / scale;
+  if (st.mirror) x = VW - x; return { x, y };
+}
+function pick(p) {
+  let best = null, bd = 26 / scale + 6;
+  handles().forEach(id => { const h = handlePoint(id), d = Math.hypot(h.x - p.x, h.y - p.y); if (d < bd) { bd = d; best = id; } });
+  return best;
+}
+function aim(id, p) {
+  const b = BY[id], s = W[id];
+  const parentA = b.parent === 'root' ? 0 : W[b.parent].a;
+  let local = Math.atan2(p.y - s.y0, p.x - s.x0) / D - parentA - b.base;
+  local = ((local + 180) % 360 + 360) % 360 - 180;
+  // elegir la vuelta (±360) que cae dentro o más cerca de los límites
+  let bestV = local, bestErr = Infinity;
+  [local - 360, local, local + 360].forEach(v => { const err = v < b.min ? b.min - v : v > b.max ? v - b.max : 0; if (err < bestErr) { bestErr = err; bestV = v; } });
+  st.ang[id] = Math.round(clamp(bestV, b.min, b.max));
+}
+let dragging = null;
+cv.addEventListener('pointerdown', e => {
+  const p = toModel(e), id = pick(p); if (!id) return;
+  dragging = id; select(id); cv.setPointerCapture(e.pointerId); cv.classList.add('dragging'); e.preventDefault();
+});
+cv.addEventListener('pointermove', e => { if (!dragging) return; aim(dragging, toModel(e)); syncSlider(); draw(); });
+const end = () => { dragging = null; cv.classList.remove('dragging'); };
+cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+
+/* ---------- Controles ---------- */
+const chipsEl = document.getElementById('chips'), ang = document.getElementById('ang'), angVal = document.getElementById('angVal'), angName = document.getElementById('angName'), readout = document.getElementById('readout');
+chipsEl.innerHTML = B.map(b => `<button class="chip" type="button" data-id="${b.id}" aria-pressed="false">${b.name}</button>`).join('');
+chipsEl.addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) { select(c.dataset.id); draw(); } });
+function select(id) {
+  st.sel = id; const b = BY[id];
+  chipsEl.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c.dataset.id === id));
+  const chip = chipsEl.querySelector(`[data-id="${id}"]`); chip && chip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  ang.min = b.min; ang.max = b.max; angName.textContent = b.name; syncSlider();
+}
+function syncSlider() {
+  const b = BY[st.sel], v = st.ang[st.sel];
+  ang.value = v; angVal.textContent = v + '°';
+  readout.innerHTML = `<b>${b.name}</b> <span class="num">${v}°</span> · límites ${b.min}° a ${b.max}°`;
+}
+ang.addEventListener('input', () => { st.ang[st.sel] = +ang.value; syncSlider(); draw(); });
+
+let tween = null;
+function goTo(name) {
+  const target = POSES[name], from = { ...st.ang }, fromLift = st.lift, toLift = target.lift || 0;
+  const t0 = performance.now(), ms = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 260;
+  cancelAnimationFrame(tween);
+  const step = t => {
+    const k = Math.min(1, (t - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    B.forEach(b => { const to = target[b.id] ?? 0; st.ang[b.id] = Math.round(from[b.id] + (to - from[b.id]) * e); });
+    st.lift = fromLift + (toLift - fromLift) * e;
+    syncSlider(); draw();
+    if (k < 1) tween = requestAnimationFrame(step);
+  };
+  tween = requestAnimationFrame(step);
+}
+const posesEl = document.getElementById('poses');
+posesEl.innerHTML = Object.keys(POSES).map(n => `<button class="btn" type="button" data-pose="${n}">${n}</button>`).join('');
+posesEl.addEventListener('click', e => { const b = e.target.closest('[data-pose]'); if (b) goTo(b.dataset.pose); });
+
+document.getElementById('optSpear').addEventListener('change', e => { st.spear = e.target.checked; if (!st.spear && st.sel === 'arma') select('manoF'); chipsEl.querySelector('[data-id="arma"]').hidden = !st.spear; draw(); });
+document.getElementById('optMirror').addEventListener('change', e => { st.mirror = e.target.checked; draw(); });
+document.getElementById('optBones').addEventListener('change', e => { st.bones = e.target.checked; draw(); });
+
+select('torso');
+resize();
+readout.textContent = 'Toca y arrastra un punto dorado';
+</script>
+
+</body></html>
